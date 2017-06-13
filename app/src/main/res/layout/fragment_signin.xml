@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+
+    <vadevelopment.ideation360.design.HelviticaBold
+        android:id="@+id/hiText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/smalltext"
+        android:text="@string/registerText"
+        android:textColor="#000000"
+        android:textSize="@dimen/largetext" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/screenpadding"
+        android:paddingRight="@dimen/screenpadding"
+        android:paddingBottom="@dimen/screenpadding"
+        android:layout_marginLeft="@dimen/screenpadding"
+        android:layout_marginRight="@dimen/screenpadding"
+        android:layout_below="@+id/hiText"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+
+        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+            android:id="@+id/et_fname"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_height"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:hint="@string/first"
+            android:textColor="#868686"
+            android:textColorHint="#868686"
+            android:textSize="@dimen/mediumtext" />
+
+        <View
+            android:id="@+id/viewone"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"></View>
+
+
+        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+            android:id="@+id/et_lname"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_height"
+            android:layout_marginTop="@dimen/smalltext"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:hint="@string/last"
+            android:textColor="#868686"
+            android:textColorHint="#868686"
+            android:textSize="@dimen/mediumtext" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"></View>
+
+        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+            android:id="@+id/et_companyname"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_height"
+            android:layout_marginTop="@dimen/smalltext"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:hint="@string/compName"
+            android:textColor="#868686"
+            android:textColorHint="#868686"
+            android:textSize="@dimen/mediumtext" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"></View>
+
+        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_height"
+            android:layout_marginTop="@dimen/smalltext"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:hint="@string/email"
+            android:textColor="#868686"
+            android:textColorHint="#868686"
+            android:textSize="@dimen/mediumtext" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"></View>
+
+
+        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+            android:id="@+id/passwordAppCompat"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_height"
+            android:layout_marginTop="@dimen/smalltext"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:hint="@string/passwordText"
+            android:textColor="#868686"
+            android:textColorHint="#868686"
+            android:textSize="@dimen/mediumtext" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"></View>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margintop_signupbtn"
+            android:textSize="@dimen/smalltext"
+            android:button="@drawable/checkbox_drawable"
+            android:paddingLeft="@dimen/smalltext"
+            android:text="@string/termsText"/>
+
+        <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+            android:id="@+id/loginApp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/buttonheight"
+            android:layout_marginTop="@dimen/margintop_signupbtn"
+            android:background="@drawable/dr_rounded_black"
+            android:gravity="center"
+            android:text="@string/signUp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/textbutton" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

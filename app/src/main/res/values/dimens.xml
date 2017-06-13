@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="bottomHeight">70dp</dimen>
+
+    <dimen name="minHeight">120dp</dimen>
+
+</resources>

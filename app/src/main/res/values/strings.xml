@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Ideation360</string>
+
+    <string name="hiText">Hi</string>
+
+
+    <string name="signUp">SIGN UP</string>
+    <string name="login">LOG IN</string>
+    <string name="loginSmall">Log in</string>
+    <string name="forgotText"><u>forgot password</u></string>
+
+    <string name="resetPassword">RESET PASSWORD</string>
+    <string name="noWorry">No\n Worries</string>
+
+    <string name="forgetPassword">Forgetting a password happens to \n the best of us.Shoot us an email \n and we will help you reset it.</string>
+
+    <string name="registerText">Sign in</string>
+
+    <string name="termsText">  I agree to the terms and condition</string>
+    <!--emailText-->
+
+    <string name="emailText">email</string>
+    <string name="passwordText">Password</string>
+
+    <!--registerText-->
+
+    <string name="first">First Name</string>
+    <string name="last">Last Name</string>
+    <string name="compName">My Company\'s Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    
+    
+    
+    <string name="ideationString">ideation360</string>
+    
+    
+    <!--addFragment-->
+    
+    <string name="ideaTitle">Idea Title</string>
+    <string name="descText">Description</string>
+    
+    <string name="addPhoto">Add photo</string>
+    <string name="addVoice">Add voice</string>
+    
+    <string name="postText">POST IDEA</string>
+
+    <string name="saveText">SAVE DRAFT</string>
+</resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <vadevelopment.ideation360.design.HelviticaBold
+        android:id="@+id/hiText"
+        style="@style/veryLargeText"
+        android:layout_below="@+id/viewOne"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/noWorry" />
+
+
+    <View
+        android:id="@+id/viewTwo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom"
+        android:orientation="vertical"
+        android:padding="30dp"
+        android:layout_below="@+id/hiText"
+        android:layout_alignParentStart="true">
+
+
+        <vadevelopment.ideation360.design.HelviticaRegular
+            android:id="@+id/titleText"
+            style="@style/largeText"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:text="@string/forgetPassword" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/resetPassword"
+            android:layout_below="@+id/titleText"
+            android:gravity="center">
+
+            <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+                android:id="@+id/emailAppCompat"
+                style="@style/editTextStyle"
+                android:text="@string/email" />
+
+
+        </RelativeLayout>
+
+        <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+            android:id="@+id/resetPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/dr_rounded_black"
+            android:text="@string/resetPassword"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

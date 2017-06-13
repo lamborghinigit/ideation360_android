@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/screenpadding"
+    android:paddingRight="@dimen/screenpadding"
+    android:paddingTop="@dimen/screenpadding">
+
+    <vadevelopment.ideation360.design.HelviticaBold
+        android:id="@+id/hiText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".3"
+        android:gravity="center"
+        android:text="@string/hiText"
+        android:textColor="#000000"
+        android:textSize="@dimen/largetext" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/viewTwo"
+        android:layout_below="@+id/hiText"
+        android:layout_weight=".5"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+
+        <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/buttonheight"
+            android:background="@drawable/dr_rounded_black"
+            android:gravity="center"
+            android:text="@string/login"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/textbutton" />
+
+        <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+            android:id="@+id/signup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/buttonheight"
+            android:layout_marginTop="@dimen/margintop"
+            android:background="@drawable/dr_rounded_yellow"
+            android:gravity="center"
+            android:text="@string/signUp"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textbutton" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="bottom"
+        android:layout_weight=".2">
+
+        <vadevelopment.ideation360.design.HelviticaRegular
+            android:id="@+id/bottomForgot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center_horizontal"
+            android:padding="@dimen/screenpadding"
+            android:text="@string/forgotText"
+            android:textAllCaps="false"
+            android:textSize="@dimen/mediumtext" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

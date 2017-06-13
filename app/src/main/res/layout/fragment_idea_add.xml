@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        android:paddingTop="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <Spinner
+               android:id="@+id/firstSpinner"
+               android:visibility="invisible"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+           </Spinner>
+
+
+           <vadevelopment.ideation360.design.HelviticaRegular
+               android:layout_width="match_parent"
+               style="@style/largeText"
+               android:drawableRight="@drawable/ic_down_arrow"
+               android:padding="10dp"
+               android:gravity="center_vertical"
+
+               />
+
+
+       </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@android:color/black"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            />
+
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/secondSpinner"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Spinner>
+
+
+            <vadevelopment.ideation360.design.HelviticaRegular
+                android:layout_width="match_parent"
+                style="@style/largeText"
+                android:drawableRight="@drawable/ic_down_arrow"
+                android:padding="10dp"
+                android:gravity="center_vertical"
+                />
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@android:color/black"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            />
+
+
+        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+            style="@style/editTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ideaTitle"
+            android:layout_marginTop="15dp"
+            android:gravity="left"
+            />
+
+
+        <vadevelopment.ideation360.design.HelviticaRegular
+            style="@style/largeText"
+            android:text="@string/descText"
+            android:layout_marginTop="30dp"
+            />
+
+
+
+        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/minHeight"
+            android:background="@drawable/drawable_square_box"
+            />
+
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            >
+
+            <LinearLayout
+
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <vadevelopment.ideation360.design.HelviticaRegular
+                    style="@style/largeText"
+                    android:text="@string/addPhoto"
+                    />
+
+
+                <ImageButton
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/drawable_yellow_circle"
+                   android:src="@mipmap/ic_camera"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <vadevelopment.ideation360.design.HelviticaRegular
+                    style="@style/largeText"
+                    android:text="@string/addVoice"
+
+                    />
+
+                <ImageButton
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/drawable_yellow_circle"
+                    android:src="@mipmap/ic_myc"
+                    />
+
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+            android:id="@+id/loginApp"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dr_rounded_black"
+            android:text="@string/postText"
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
+            />
+
+
+        <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dr_rounded_yellow"
+            android:text="@string/saveText"
+            android:textSize="20dp"
+            android:layout_marginTop="30dp"
+            />
+
+
+    </LinearLayout>
+
+
+
+</ScrollView>
