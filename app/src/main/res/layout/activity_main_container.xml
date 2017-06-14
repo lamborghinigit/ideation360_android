@@ -1,61 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
+        android:id="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        >
+        android:elevation="6dp"
+        android:fitsSystemWindows="false">
 
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="@dimen/marginrighttophome"
+            android:padding="@dimen/paddingitemdrawersmall">
 
-            <vadevelopment.ideation360.design.HelviticaBold
-                android:id="@+id/centerTitle"
-                style="@style/largeMaxText"
+
+            <ImageView
+                android:id="@+id/homeicon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/ideationString"
+                android:layout_centerVertical="true"
 
-                />
+                android:src="@drawable/homeimg" />
 
+
+            <vadevelopment.ideation360.design.HelviticaBold
+                android:id="@+id/hometoptext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/hometoptext"
+                android:textColor="#000000"
+                android:textSize="@dimen/textbutton" />
+
+            <ImageView
+                android:id="@+id/settingicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/setting" />
         </RelativeLayout>
-        
+
 
     </android.support.v7.widget.Toolbar>
 
-
-
-    <RadioGroup
-        android:weightSum="3"
-        android:orientation="horizontal"
+    <FrameLayout
+        android:id="@+id/homefragment"
         android:layout_width="match_parent"
-        android:background="@color/flairColor"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/radiogroup"
+        android:layout_below="@+id/toolbar"></FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/radiogroup"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/bottomHeight"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:background="@color/flairColor"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
 
         <RelativeLayout
-            android:padding="4dp"
+            android:id="@+id/rl_search"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="0.8"
             android:gravity="center"
-            android:layout_height="match_parent">
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp">
 
-            <RadioButton
+            <ImageView
+                android:id="@+id/searchimg"
                 android:layout_width="wrap_content"
-                android:background="@null"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_horizontal"
-                android:button="@drawable/ic_search"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/ic_search" />
 
 
         </RelativeLayout>
@@ -63,25 +94,27 @@
         <View
             android:layout_width="4px"
             android:layout_height="match_parent"
-            android:background="@color/dividerColor"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            />
+            android:layout_marginBottom="@dimen/paddingitemdrawersmall"
+            android:layout_marginTop="@dimen/paddingitemdrawersmall"
+            android:background="@color/dividerColor" />
 
 
         <RelativeLayout
-            android:padding="4dp"
+            android:id="@+id/rl_addidea"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1.4"
             android:gravity="center"
-            android:layout_height="match_parent">
+            android:padding="8dp">
 
-            <RadioButton
+            <ImageView
+                android:id="@+id/addideaimg"
                 android:layout_width="wrap_content"
-                android:background="@null"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_horizontal"
-                android:button="@drawable/ic_add"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/ic_add" />
 
 
         </RelativeLayout>
@@ -89,30 +122,33 @@
         <View
             android:layout_width="4px"
             android:layout_height="match_parent"
-            android:background="@color/dividerColor"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            />
+            android:layout_marginBottom="@dimen/paddingitemdrawersmall"
+            android:layout_marginTop="@dimen/paddingitemdrawersmall"
+            android:background="@color/dividerColor" />
 
         <RelativeLayout
-            android:padding="4dp"
+            android:id="@+id/rl_profile"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="0.8"
             android:gravity="center"
-            android:layout_height="match_parent">
+            android:padding="8dp">
 
-            <RadioButton
+            <ImageView
+                android:id="@+id/myprofileimg"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@null"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_horizontal"
-                android:button="@drawable/ic_profile"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/ic_profile" />
 
 
         </RelativeLayout>
 
 
-    </RadioGroup>
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -1,76 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
+    android:layout_height="match_parent"
+    android:padding="@dimen/screenpadding"
+    android:scrollbars="@null"
+    android:layout_marginTop="@dimen/smalltext"
+    android:layout_marginLeft="@dimen/smalltext"
+    android:layout_marginRight="@dimen/smalltext"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp"
-        android:paddingTop="20dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-
-           <Spinner
-               android:id="@+id/firstSpinner"
-               android:visibility="invisible"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content">
-
-           </Spinner>
-
-
-           <vadevelopment.ideation360.design.HelviticaRegular
-               android:layout_width="match_parent"
-               style="@style/largeText"
-               android:drawableRight="@drawable/ic_down_arrow"
-               android:padding="10dp"
-               android:gravity="center_vertical"
-
-               />
-
-
-       </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@android:color/black"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
 
         <RelativeLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Spinner
-                android:id="@+id/secondSpinner"
-                android:visibility="invisible"
+                android:id="@+id/firstSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="invisible">
 
             </Spinner>
 
 
             <vadevelopment.ideation360.design.HelviticaRegular
-                android:layout_width="match_parent"
                 style="@style/largeText"
+                android:layout_width="match_parent"
                 android:drawableRight="@drawable/ic_down_arrow"
-                android:padding="10dp"
                 android:gravity="center_vertical"
-                />
+                android:padding="@dimen/smalltext" />
+
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@android:color/black" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <Spinner
+                android:id="@+id/secondSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible">
+
+            </Spinner>
+
+
+            <vadevelopment.ideation360.design.HelviticaRegular
+                style="@style/largeText"
+                android:layout_width="match_parent"
+                android:drawableRight="@drawable/ic_down_arrow"
+                android:gravity="center_vertical"
+                android:padding="@dimen/smalltext" />
 
 
         </RelativeLayout>
@@ -78,96 +74,133 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2px"
-            android:background="@android:color/black"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            />
+            android:background="@android:color/black" />
 
 
-        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+        <!--<vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
             style="@style/editTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/ideaTitle"
             android:layout_marginTop="15dp"
             android:gravity="left"
-            />
+            />-->
+
+        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_height"
+            android:layout_marginTop="@dimen/mediumtext"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:hint="@string/emailText"
+            android:paddingLeft="@dimen/smalltext"
+            android:text="@string/ideaTitle"
+            android:textColor="#868686"
+            android:textColorHint="#868686"
+            android:textSize="@dimen/mediumtext" />
+
+        <View
+            android:id="@+id/viewtwo"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"></View>
 
 
-        <vadevelopment.ideation360.design.HelviticaRegular
+        <!--<vadevelopment.ideation360.design.HelviticaRegular
             style="@style/largeText"
             android:text="@string/descText"
             android:layout_marginTop="30dp"
-            />
+            />-->
 
-
+        <vadevelopment.ideation360.design.HelviticaRegular
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/paddingitemdrawersmall"
+            android:layout_marginTop="@dimen/margintop_signupbtn"
+            android:text="@string/descText"
+            android:textColor="#000000"
+            android:textSize="@dimen/textbutton" />
 
         <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
-            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/minHeight"
+            android:layout_marginTop="@dimen/screenpadding"
             android:background="@drawable/drawable_square_box"
-            />
-
-
-
+            android:minHeight="@dimen/minHeight" />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp"
-            >
+            android:layout_marginTop="@dimen/margintop_signupbtn"
+            android:orientation="horizontal">
 
             <LinearLayout
 
-                android:gravity="center"
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/paddingitemdrawersmall"
+                android:gravity="center"
+                android:orientation="vertical">
 
 
                 <vadevelopment.ideation360.design.HelviticaRegular
-                    style="@style/largeText"
+                    android:id="@+id/addphoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/addPhoto"
-                    />
+                    android:textColor="#000000"
+                    android:textSize="@dimen/textbutton" />
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingitemdrawersmall"
+                    android:src="@drawable/ameraaddidea" />
 
-                <ImageButton
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/drawable_yellow_circle"
-                   android:src="@mipmap/ic_camera"
-                    />
+                <!--    <ImageButton
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/drawable_yellow_circle"
+                        android:src="@mipmap/ic_camera" />-->
 
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/paddingitemdrawersmall"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <vadevelopment.ideation360.design.HelviticaRegular
-                    style="@style/largeText"
+                    android:id="@+id/addvoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/addVoice"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/textbutton" />
 
-                    />
 
-                <ImageButton
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/drawable_yellow_circle"
-                    android:src="@mipmap/ic_myc"
-                    />
-
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/paddingitemdrawersmall"
+                    android:src="@drawable/addvoice" />
+                <!--        <ImageButton
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/drawable_yellow_circle"
+                            android:src="@mipmap/ic_myc" />-->
 
 
             </LinearLayout>
@@ -175,31 +208,50 @@
         </RelativeLayout>
 
 
-        <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+       <!-- <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
             android:id="@+id/loginApp"
-            android:layout_marginTop="30dp"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="30dp"
             android:background="@drawable/dr_rounded_black"
             android:text="@string/postText"
-            android:textSize="20dp"
             android:textColor="@android:color/white"
-            />
-
+            android:textSize="20dp" />-->
+        <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/buttonheight"
+            android:background="@drawable/dr_rounded_black"
+            android:layout_marginTop="@dimen/margintop_loginbtn"
+            android:gravity="center"
+            android:text="@string/postText"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/textbutton" />
 
         <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+            android:id="@+id/signup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/buttonheight"
+            android:layout_marginTop="@dimen/margintop"
+            android:layout_marginBottom="@dimen/margintop"
+            android:background="@drawable/dr_rounded_yellow"
+            android:gravity="center"
+            android:text="@string/saveText"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textbutton" />
+
+
+        <!--<vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:background="@drawable/dr_rounded_yellow"
             android:text="@string/saveText"
-            android:textSize="20dp"
-            android:layout_marginTop="30dp"
-            />
+            android:textSize="20dp" />-->
 
 
     </LinearLayout>
-
 
 
 </ScrollView>

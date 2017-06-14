@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/screenpadding">
+
+    <vadevelopment.ideation360.design.HelviticaRegular
+        android:id="@+id/profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/smalltext"
+        android:text="@string/profile"
+        android:textColor="#000000"
+        android:textSize="@dimen/textbutton" />
+
+    <vadevelopment.ideation360.design.HelviticaRegular
+        android:id="@+id/savedideas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/smalltext"
+        android:text="@string/savedideas"
+        android:textColor="#000000"
+        android:textSize="@dimen/textbutton" />
+
+    <vadevelopment.ideation360.design.HelviticaRegular
+        android:id="@+id/compaigns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/smalltext"
+        android:text="@string/campaigns"
+        android:textColor="#000000"
+        android:textSize="@dimen/textbutton" />
+
+    <vadevelopment.ideation360.design.HelviticaRegular
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/smalltext"
+        android:text="@string/about"
+        android:textColor="#000000"
+        android:textSize="@dimen/textbutton" />
+
+    <vadevelopment.ideation360.design.HelviticaRegular
+        android:id="@+id/changelanguage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/smalltext"
+        android:text="@string/changelanguage"
+        android:textColor="#000000"
+        android:textSize="@dimen/textbutton" />
+
+    <vadevelopment.ideation360.design.HelviticaRegular
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/smalltext"
+        android:text="@string/logout"
+        android:textColor="#000000"
+        android:textSize="@dimen/textbutton" />
+
+</LinearLayout>

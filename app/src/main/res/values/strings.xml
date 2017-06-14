@@ -29,21 +29,43 @@
     <string name="compName">My Company\'s Name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    
-    
-    
+
+
     <string name="ideationString">ideation360</string>
-    
-    
+
+
     <!--addFragment-->
-    
+
+    <string name="addidea">Add Idea</string>
     <string name="ideaTitle">Idea Title</string>
     <string name="descText">Description</string>
-    
     <string name="addPhoto">Add photo</string>
     <string name="addVoice">Add voice</string>
-    
     <string name="postText">POST IDEA</string>
-
     <string name="saveText">SAVE DRAFT</string>
+
+    <string name="hometoptext">ideation360</string>
+    <string name="myidea">My ideas</string>
+    <string name="myprofile">My profile</string>
+    <string name="notifications">Notifications</string>
+    <string name="settings">Settings</string>
+    <string name="newnoti">New</string>
+    <string name="seennoti">Seen</string>
+    <string name="profile">Profile</string>
+    <string name="savedideas">Saved Ideas</string>
+    <string name="campaigns">Campaigns</string>
+    <string name="about">About</string>
+    <string name="changelanguage">Change Language</string>
+    <string name="logout">Logout</string>
+    <string name="account">Account</string>
+    <string name="emailtext"><u>a@gmail.com</u></string>
+    <string name="updatephoto">UPDATE PHOTO</string>
+    <string name="abouttop">About</string>
+    <string name="whowe">Who we are</string>
+    <string name="searchet_value">type what are you looking for...</string>
+
+    <string name="abouttext">We are a group of passionate people who loves innovation! That is why we started ideation360. Our vision is to be the world’s leading platform for ideation.\n\nIf change is the new normal then speed is the new black and because of this the way of working with innovation is rapidly changing. With ideation360 we want to enable organisations to create breakthrough innovations by using all of their  employees, customers and partners creativity. Because we believe this is the only sustainable way to not only keep up with the phase of change but to use it to your advantage.</string>
+    <string name="ideas"><u>IDEAS</u></string>
+    <string name="people">people</string>
+    <string name="search">Search</string>
 </resources>

@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_weight=".12"
         android:background="#ffffff"
-        android:padding="15dp">
+        android:padding="@dimen/mediumtext">
 
         <!--<ImageButton
             android:layout_width="wrap_content"

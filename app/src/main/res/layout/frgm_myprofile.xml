@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/screenpadding"
+    android:paddingRight="@dimen/screenpadding"
+    android:paddingTop="@dimen/screenpadding"
+    android:layout_marginTop="@dimen/smalltext"
+    android:layout_marginLeft="@dimen/smalltext"
+    android:layout_marginRight="@dimen/smalltext"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight=".3">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/myprofileimg"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_weight=".7">
+
+            <vadevelopment.ideation360.design.HelviticaRegular
+                android:id="@+id/addphoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 ideas"
+                android:textColor="#000000"
+                android:textSize="@dimen/mediumtext" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/smalltext"
+                android:layout_marginRight="@dimen/smalltext"
+                android:layout_marginTop="@dimen/paddingitemdrawersmall"
+                android:layout_marginBottom="@dimen/paddingitemdrawersmall"
+                android:background="#000000"></View>
+            <vadevelopment.ideation360.design.HelviticaRegular
+                android:id="@+id/compaign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 compaign"
+                android:textColor="#000000"
+                android:textSize="@dimen/mediumtext" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <vadevelopment.ideation360.design.HelviticaBold
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/screenpadding"
+        android:text="Sam kumar"
+        android:textColor="#000000"
+        android:textSize="@dimen/largetext" />
+
+    <vadevelopment.ideation360.design.HelviticaRegular
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="a@gmail.com"
+        android:paddingTop="@dimen/screenpadding"
+        android:textColor="#000000"
+        android:textSize="@dimen/mediumtext" />
+
+    <vadevelopment.ideation360.design.HelviticaBold
+        android:id="@+id/myidea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/screenpadding"
+        android:text="@string/myidea"
+        android:textColor="#000000"
+        android:textSize="@dimen/textbutton" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="@dimen/screenpadding"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fadeScrollbars="false"
+        android:scrollX="0px"
+        android:scrollY="0px"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarSize="@dimen/paddingitemdrawersmall"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarThumbVertical="@null"
+        android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
+</LinearLayout>

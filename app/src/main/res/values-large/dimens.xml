@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="bottomHeight">70dp</dimen>
+    <dimen name="bottomHeight">80dp</dimen>
     <dimen name="minHeight">120dp</dimen>
 
     <dimen name="screenpadding">30dp</dimen>
-    <dimen name="largetext">90dp</dimen>
+    <dimen name="largetext">86dp</dimen>
     <dimen name="buttonheight">64dp</dimen>
     <dimen name="et_height">48dp</dimen>
     <dimen name="textbutton">24dp</dimen>
@@ -14,4 +14,6 @@
     <dimen name="mediumtext">21dp</dimen>
     <dimen name="margintop_loginbtn">96dp</dimen>
     <dimen name="margintop_signupbtn">80dp</dimen>
+    <dimen name="paddingitemdrawersmall">10dp</dimen>
+    <dimen name="marginrighttophome">4dp</dimen>
 </resources>
