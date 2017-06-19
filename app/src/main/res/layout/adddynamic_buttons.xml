@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/screenpadding"
+    android:orientation="vertical">
+
+    <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+        android:id="@+id/dynamic_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/buttonheight"
+        android:layout_marginTop="@dimen/screenpadding"
+        android:layout_marginLeft="@dimen/margintop_loginbtn"
+        android:layout_marginRight="@dimen/margintop_loginbtn"
+        android:background="@drawable/dr_rounded_black"
+        android:gravity="center"
+        android:text="@string/login"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/mediumtext" />
+
+</LinearLayout>
