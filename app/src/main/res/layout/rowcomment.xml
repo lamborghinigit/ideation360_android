@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="@dimen/mediumtext">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/profileimg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/smalltext"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <vadevelopment.ideation360.design.HelviticaBold
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/date"
+            android:paddingRight="@dimen/paddingitemdrawersmall"
+            android:text="Tomdsvdvdvv"
+            android:textColor="#000000"
+            android:textSize="@dimen/textbutton" />
+
+        <vadevelopment.ideation360.design.HelviticaRegular
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/maintitle"
+            android:layout_toLeftOf="@+id/date"
+            android:text="my first compaign"
+            android:textColor="#000000"
+            android:textSize="@dimen/mediumtext" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
