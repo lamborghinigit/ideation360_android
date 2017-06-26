@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/smalltext"
+    android:layout_marginRight="@dimen/smalltext"
+    android:layout_marginTop="@dimen/smalltext"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:padding="@dimen/screenpadding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/top_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rl_first"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <vadevelopment.ideation360.design.HelviticaRegular
+                    android:id="@+id/firstspin_maintext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/smalltext"
+                    android:textSize="@dimen/mediumtext"
+                    android:visibility="visible" />
+
+
+            </RelativeLayout>
+
+
+            <View
+                android:id="@+id/line_first"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_below="@+id/rl_first"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@android:color/black" />
+
+
+            <RelativeLayout
+                android:id="@+id/rl_second"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line_first"
+                android:layout_marginTop="10dp">
+
+
+                <vadevelopment.ideation360.design.HelviticaRegular
+                    android:id="@+id/secondspin_maintext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/smalltext"
+                    android:textSize="@dimen/mediumtext"
+                    android:visibility="visible" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/linesecond"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_below="@+id/rl_second"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@android:color/black" />
+
+
+            <View
+                android:id="@+id/viewtwo"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/et_ideatitle"
+                android:background="#000000"></View>
+
+            <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+                android:id="@+id/et_ideatitle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/et_height"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linesecond"
+                android:layout_marginTop="@dimen/mediumtext"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
+                android:hint="@string/ideaTitle"
+                android:inputType="textPersonName"
+                android:paddingLeft="@dimen/smalltext"
+                android:textColor="#868686"
+                android:textColorHint="#868686"
+                android:textSize="@dimen/mediumtext" />
+        </RelativeLayout>
+
+
+        <!--<vadevelopment.ideation360.design.HelviticaRegular
+            style="@style/largeText"
+            android:text="@string/descText"
+            android:layout_marginTop="30dp"
+            />-->
+
+        <vadevelopment.ideation360.design.HelviticaRegular
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/paddingitemdrawersmall"
+            android:layout_marginTop="@dimen/screenpadding"
+            android:paddingTop="@dimen/paddingitemdrawersmall"
+            android:text="@string/descText"
+            android:textColor="#000000"
+            android:textSize="@dimen/mediumtext" />
+
+        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+            android:id="@+id/et_descp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mediumtext"
+            android:background="@drawable/drawable_square_box"
+            android:inputType="textPersonName"
+            android:minHeight="@dimen/minHeight"
+            android:paddingLeft="@dimen/smalltext" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margintop_signupbtn"
+            android:orientation="horizontal">
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/paddingitemdrawersmall"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <vadevelopment.ideation360.design.HelviticaRegular
+                    android:id="@+id/addphoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/addPhoto"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/mediumtext" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/addphoto_img"
+                    android:layout_width="@dimen/imagesize"
+                    android:layout_height="@dimen/imagesize"
+                    android:layout_marginTop="@dimen/paddingitemdrawersmall"
+                    android:src="@drawable/ameraaddidea" />
+
+                <!--    <ImageButton
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/drawable_yellow_circle"
+                        android:src="@mipmap/ic_camera" />-->
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/paddingitemdrawersmall"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <vadevelopment.ideation360.design.HelviticaRegular
+                    android:id="@+id/addvoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/addVoice"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/mediumtext" />
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/record_audio"
+                    android:layout_width="@dimen/imagesize"
+                    android:layout_height="@dimen/imagesize"
+                    android:layout_marginTop="@dimen/paddingitemdrawersmall"
+                    android:src="@drawable/addvoice" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+            android:id="@+id/updateidea"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/buttonheight"
+            android:layout_marginTop="@dimen/margintop_loginbtn"
+            android:background="@drawable/dr_rounded_black"
+            android:gravity="center"
+            android:text="@string/updateidea"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/textbutton" />
+
+    </LinearLayout>
+
+
+</ScrollView>

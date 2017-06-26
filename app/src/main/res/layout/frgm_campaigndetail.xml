@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/screenpadding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/smalltext"
+            android:layout_marginRight="@dimen/smalltext"
+            android:layout_marginTop="@dimen/smalltext"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/screenpadding"
+            android:paddingRight="@dimen/screenpadding"
+            android:paddingTop="@dimen/screenpadding"
+            android:visibility="visible">
+
+            <vadevelopment.ideation360.design.HelviticaBold
+                android:id="@+id/campaign_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ideaTitle"
+                android:textColor="#000000"
+                android:textSize="@dimen/largetext" />
+
+            <vadevelopment.ideation360.design.HelviticaBold
+                android:id="@+id/ideationname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/smalltext"
+                android:text="@string/myfirstideation"
+                android:textColor="#000000"
+                android:textSize="@dimen/textbutton" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mediumtext"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/smalltext"
+                android:paddingTop="@dimen/smalltext">
+
+                <ImageView
+                    android:id="@+id/userimage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/profileimg" />
+
+
+                <vadevelopment.ideation360.design.HelviticaRegular
+                    android:id="@+id/sponser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/date"
+                    android:layout_toRightOf="@+id/userimage"
+                    android:paddingLeft="@dimen/smalltext"
+                    android:paddingRight="@dimen/paddingitemdrawersmall"
+                    android:text="@string/sponser"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/textbutton" />
+
+                <vadevelopment.ideation360.design.HelviticaBold
+                    android:id="@+id/sponsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sponser"
+                    android:layout_toRightOf="@+id/userimage"
+                    android:paddingLeft="@dimen/smalltext"
+                    android:text="sponser name"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/mediumtext" />
+
+
+            </RelativeLayout>
+
+            <vadevelopment.ideation360.design.HelviticaBold
+                android:id="@+id/text_daysleft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/smalltext"
+                android:text="@string/daysleft"
+                android:textColor="#000000"
+                android:textSize="@dimen/textbutton" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/smalltext"
+            android:layout_marginRight="@dimen/smalltext"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/screenpadding"
+            android:paddingRight="@dimen/screenpadding">
+
+            <vadevelopment.ideation360.design.HelviticaBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/smalltext"
+                android:text="@string/descText"
+                android:textColor="#000000"
+                android:textSize="@dimen/textbutton" />
+
+            <vadevelopment.ideation360.design.HelviticaRegular
+                android:id="@+id/text_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/smalltext"
+                android:text="dsdsfgf"
+                android:textColor="#000000"
+                android:textSize="@dimen/textbutton" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/smalltext"
+                android:orientation="horizontal">
+
+
+                <vadevelopment.ideation360.design.HelviticaBold
+                    android:id="@+id/noof_ideas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/onlyyellow"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/largetext" />
+
+                <vadevelopment.ideation360.design.HelviticaBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/textbutton"
+                    android:text="@string/ideasc"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/largetext" />
+
+            </LinearLayout>
+
+            <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+                android:id="@+id/submitidea"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttonheight"
+                android:layout_marginTop="@dimen/screenpadding"
+                android:background="@drawable/dr_rounded_black"
+                android:gravity="center"
+                android:text="@string/submitidea"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textbutton" />
+
+            <vadevelopment.ideation360.design.HelviticaBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/screenpadding"
+                android:text="@string/ideascolon"
+                android:textColor="#000000"
+                android:textSize="@dimen/textbutton" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/smalltext">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
