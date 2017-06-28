@@ -162,6 +162,7 @@ public class CampaignDetailFragment extends Fragment {
                             allidea_ske.setNoof_rating(jinside.getString("NrOfRatings"));
                             allidea_ske.setNoof_comments(jinside.getString("NrOfComments"));
                             allidea_ske.setDate(jinside.getString("PostedDate"));
+                            allidea_ske.setImage("https://app.ideation360.com/api/getprofileimage/" + jinside.getString("IdeatorId"));
                             arraylist.add(allidea_ske);
                         }
                         recyclerView.setAdapter(adapter);
@@ -185,7 +186,7 @@ public class CampaignDetailFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-           //     HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                //     HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
                 HandyObjects.stopProgressDialog();
             }
         }) {

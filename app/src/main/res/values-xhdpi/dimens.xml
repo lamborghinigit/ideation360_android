@@ -16,4 +16,15 @@
     <dimen name="margintop_signupbtn">36dp</dimen>
     <dimen name="paddingitemdrawersmall">6dp</dimen>
     <dimen name="marginrighttophome">13dp</dimen>
+    <dimen name="ratingbarmin">24dip</dimen>
+    <dimen name="imagesize">102dp</dimen>
+    <dimen name="idea_detailimage">198dp</dimen>
+
+    <dimen name="bigratingbar">110px</dimen>
+    <dimen name="listheight">102dp</dimen>
+    <dimen name="homepadding">4dp</dimen>
+    <dimen name="commentpadding">15dp</dimen>
+
+    <dimen name="homeimage">60dp</dimen>
+    <dimen name="accountimage">112dp</dimen>
 </resources>

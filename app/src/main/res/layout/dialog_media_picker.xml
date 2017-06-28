@@ -33,7 +33,7 @@
                 <TextView
                     android:id="@+id/options_camera"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/camera"
                     android:textColor="#000"
@@ -55,7 +55,7 @@
                 <TextView
                     android:id="@+id/options_gallery"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/gallery"
                     android:textColor="#000"

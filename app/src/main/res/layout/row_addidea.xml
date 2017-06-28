@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <vadevelopment.ideation360.design.HelviticaBold
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#2a2a2a"
-        android:gravity="center"
-        android:padding="@dimen/smalltext"
+        android:background="#d4d4d4"
+        android:gravity="left"
+        android:padding="@dimen/mediumtext"
         android:text="dfdf"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         android:textSize="@dimen/mediumtext" />
 
 

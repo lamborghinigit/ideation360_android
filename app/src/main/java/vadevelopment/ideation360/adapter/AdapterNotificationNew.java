@@ -1,6 +1,7 @@
 package vadevelopment.ideation360.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import vadevelopment.ideation360.HomeActivity;
 import vadevelopment.ideation360.R;
 import vadevelopment.ideation360.Skeleton.Comments_Skeleton;
 import vadevelopment.ideation360.Skeleton.NotificationNew_Skeleton;
+import vadevelopment.ideation360.fragments.IdeaDeatilFragment;
 
 /**
  * Created by vibrantappz on 6/24/2017.
@@ -22,10 +25,12 @@ public class AdapterNotificationNew extends RecyclerView.Adapter<AdapterNotifica
 
     private Context context;
     private ArrayList<NotificationNew_Skeleton> arraylist;
+    private HomeActivity homeActivity;
 
     public AdapterNotificationNew(Context context, ArrayList<NotificationNew_Skeleton> arraylist) {
         this.context = context;
         this.arraylist = arraylist;
+        homeActivity = ((HomeActivity) context);
     }
 
     // Create new views (invoked by the layout manager)
@@ -46,17 +51,17 @@ public class AdapterNotificationNew extends RecyclerView.Adapter<AdapterNotifica
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("RATEDIDEA") || arraylist.get(position).getActivityType().equalsIgnoreCase("ratedidea")) {
             viewHolder.discription.setText(arraylist.get(position).getIdeatorName() + " gave your idea" + " " + "'" + arraylist.get(position).getIdeaTitle() + "'" + " stars");
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("IDEACLUSTERED") || arraylist.get(position).getActivityType().equalsIgnoreCase("IdeaClustered")) {
-            viewHolder.discription.setText("Your Idea "  + "'"+arraylist.get(position).getIdeaTitle()+"," + " was added to the cluster");
+            viewHolder.discription.setText("Your Idea " + "'" + arraylist.get(position).getIdeaTitle() + "," + " was added to the cluster");
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("INEXPERIMENT") || arraylist.get(position).getActivityType().equalsIgnoreCase("InExperiment")) {
-            viewHolder.discription.setText("Your Idea " + "'"+arraylist.get(position).getIdeaTitle()+"'" + " is in an experiment");
+            viewHolder.discription.setText("Your Idea " + "'" + arraylist.get(position).getIdeaTitle() + "'" + " is in an experiment");
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("SUCCESSFULEXPERIMENT") || arraylist.get(position).getActivityType().equalsIgnoreCase("SuccessfulExperiment")) {
-            viewHolder.discription.setText("Your Idea " + "'"+arraylist.get(position).getIdeaTitle()+"," + " was in an experiment which validated the hypotheses");
+            viewHolder.discription.setText("Your Idea " + "'" + arraylist.get(position).getIdeaTitle() + "," + " was in an experiment which validated the hypotheses");
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("UNSUCCESSFULEXPERIMENT") || arraylist.get(position).getActivityType().equalsIgnoreCase("UnSuccessfulExperiment")) {
-            viewHolder.discription.setText("Your Idea " + "'"+arraylist.get(position).getIdeaTitle()+"'" + " was in an experiment which validated the hypotheses");
+            viewHolder.discription.setText("Your Idea " + "'" + arraylist.get(position).getIdeaTitle() + "'" + " was in an experiment which validated the hypotheses");
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("INPROJECT") || arraylist.get(position).getActivityType().equalsIgnoreCase("InProject")) {
-            viewHolder.discription.setText("Congrats your Idea " + "'"+arraylist.get(position).getIdeaTitle()+"," + " is now part of a project");
+            viewHolder.discription.setText("Congrats your Idea " + "'" + arraylist.get(position).getIdeaTitle() + "," + " is now part of a project");
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("INFREEZEBOX") || arraylist.get(position).getActivityType().equalsIgnoreCase("InFreezeBox")) {
-            viewHolder.discription.setText("'"+arraylist.get(position).getIdeaTitle()+ "'" + " is now placed in the freeze box");
+            viewHolder.discription.setText("'" + arraylist.get(position).getIdeaTitle() + "'" + " is now placed in the freeze box");
         }
 
         String[] d = arraylist.get(position).getActivityDate().split("T");
@@ -66,7 +71,16 @@ public class AdapterNotificationNew extends RecyclerView.Adapter<AdapterNotifica
         viewHolder.ll_outer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (arraylist.get(position).getActivityType().equalsIgnoreCase("ADDCOMMENT")) {
+                    IdeaDeatilFragment ideadetail_frg = new IdeaDeatilFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("from", "notification");
+                    bundle.putString("IdeaCommentId", arraylist.get(position).getIdeaCommentId());
+                    bundle.putString("ideaid", arraylist.get(position).getIdeaId());
+                    bundle.putString("ideatorid", arraylist.get(position).getIdeatorId());
+                    ideadetail_frg.setArguments(bundle);
+                    homeActivity.replaceFragmentHome(ideadetail_frg);
+                }
             }
         });
     }

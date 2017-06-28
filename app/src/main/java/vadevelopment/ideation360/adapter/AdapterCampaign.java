@@ -19,6 +19,7 @@ import vadevelopment.ideation360.R;
 import vadevelopment.ideation360.Skeleton.Campaign_Skeleton;
 import vadevelopment.ideation360.Skeleton.SavedIdeas_Skeleton;
 import vadevelopment.ideation360.fragments.AddIdeaFragment;
+import vadevelopment.ideation360.fragments.CampaignDetailFragment;
 
 /**
  * Created by vibrantappz on 6/22/2017.
@@ -28,11 +29,15 @@ public class AdapterCampaign extends RecyclerView.Adapter<AdapterCampaign.ViewHo
 
     private Context context;
     private ArrayList<Campaign_Skeleton> arraylist;
+    private FragmentManager fm;
+    private HomeActivity homecontaionr;
 
 
-    public AdapterCampaign(Context context, ArrayList<Campaign_Skeleton> arraylist) {
+    public AdapterCampaign(Context context, ArrayList<Campaign_Skeleton> arraylist, FragmentManager fm) {
         this.context = context;
         this.arraylist = arraylist;
+        this.fm = fm;
+        homecontaionr = ((HomeActivity) context);
     }
 
     // Create new views (invoked by the layout manager)
@@ -46,14 +51,21 @@ public class AdapterCampaign extends RecyclerView.Adapter<AdapterCampaign.ViewHo
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(final AdapterCampaign.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final AdapterCampaign.ViewHolder viewHolder, final int position) {
         viewHolder.campaign_name.setText(arraylist.get(position).getCampaign_name());
         viewHolder.ideas_submited.setText(arraylist.get(position).getIdeas_submitted() + " " + "ideas submitted");
         viewHolder.days_left.setText(arraylist.get(position).getDaysleft() + " " + "days left");
         viewHolder.ll_outer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HandyObjects.showAlert(context, "clkick");
+                //HandyObjects.showAlert(context, "clkick");
+
+                CampaignDetailFragment campdetail_frgm = new CampaignDetailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("dayleft", arraylist.get(position).getDaysleft());
+                bundle.putString("campaignid", arraylist.get(position).getCompaignid());
+                campdetail_frgm.setArguments(bundle);
+                homecontaionr.replaceFragmentHome(campdetail_frgm);
             }
         });
     }

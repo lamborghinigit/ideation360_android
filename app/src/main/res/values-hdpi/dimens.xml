@@ -4,7 +4,7 @@
     <dimen name="bottomHeight">54dp</dimen>
     <dimen name="minHeight">120dp</dimen>
 
-    <dimen name="screenpadding">18dp</dimen>
+    <dimen name="screenpadding">14dp</dimen>
     <dimen name="largetext">42dp</dimen>
     <dimen name="buttonheight">42dp</dimen>
     <dimen name="et_height">36dp</dimen>
@@ -15,5 +15,16 @@
     <dimen name="margintop_loginbtn">38dp</dimen>
     <dimen name="margintop_signupbtn">28dp</dimen>
     <dimen name="paddingitemdrawersmall">4dp</dimen>
-    <dimen name="marginrighttophome">9dp</dimen>
+    <dimen name="marginrighttophome">11dp</dimen>
+    <dimen name="ratingbarmin">26dip</dimen>
+    <dimen name="imagesize">70dp</dimen>
+
+    <dimen name="idea_detailimage">176dp</dimen>
+    <dimen name="bigratingbar">71px</dimen>
+    <dimen name="listheight">90dp</dimen>
+    <dimen name="homepadding">3dp</dimen>
+    <dimen name="commentpadding">13dp</dimen>
+    <dimen name="homeimage">48dp</dimen>
+
+    <dimen name="accountimage">90dp</dimen>
 </resources>

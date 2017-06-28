@@ -1,18 +1,47 @@
 package vadevelopment.ideation360.fragments;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import vadevelopment.ideation360.Appcontroller;
+import vadevelopment.ideation360.HandyObjects;
 import vadevelopment.ideation360.HomeActivity;
 import vadevelopment.ideation360.R;
+import vadevelopment.ideation360.Skeleton.AllIdeas_Skeleton;
 import vadevelopment.ideation360.adapter.AdapterHome;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by vibrantappz on 6/14/2017.
@@ -20,9 +49,16 @@ import vadevelopment.ideation360.adapter.AdapterHome;
 
 public class HomeFragment extends Fragment {
 
+    private static String TAG = "HomeFragment";
     private HomeActivity homeactivity;
     private RecyclerView recyclerView;
     private AdapterHome adapter;
+    private RelativeLayout rl_forblankarray;
+    private String serverstatus;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private ArrayList<AllIdeas_Skeleton> arraylist;
+    private Gson gson = new Gson();
 
     @Nullable
     @Override
@@ -40,15 +76,30 @@ public class HomeFragment extends Fragment {
         homeactivity.homeicon.setImageResource(R.drawable.homeimg);
         homeactivity.settingicon.setImageResource(R.drawable.setting);
         homeactivity.hometoptext.setText(getResources().getString(R.string.hometoptext));
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        editor = preferences.edit();
+        arraylist = new ArrayList<>();
+        rl_forblankarray = (RelativeLayout) view.findViewById(R.id.rl_forblankarray);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new AdapterHome(getContext(), "pro");
+        adapter = new AdapterHome(getContext(), "pro", arraylist, getFragmentManager());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+
+        HomeActivity.arraylist_ideas.clear();
+        HomeActivity.arraylist_campaigns.clear();
+        HomeActivity.arraylist_people.clear();
+        String json = gson.toJson(HomeActivity.arraylist_ideas);
+        editor.putString("MyObject_Ideas", json);
+        editor.commit();
+        String json_camapigns = gson.toJson(HomeActivity.arraylist_campaigns);
+        editor.putString("MyObject_Campaigns", json_camapigns);
+        editor.commit();
+        String json_people = gson.toJson(HomeActivity.arraylist_people);
+        editor.putString("MyObject_people", json_people);
+        editor.commit();
 
 
         homeactivity.settingicon.setOnClickListener(new View.OnClickListener() {
@@ -65,5 +116,81 @@ public class HomeFragment extends Fragment {
                 homeactivity.replaceFragmentHome(homefrg);
             }
         });
+
+        rl_forblankarray.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+
+        if (!HandyObjects.isNetworkAvailable(getActivity())) {
+            HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
+        } else {
+            getIdeas();
+        }
+    }
+
+
+    private void getIdeas() {
+        // Tag used to cancel the request
+        String tag_json_arry = "json_array_req";
+        HandyObjects.startProgressDialog(getActivity());
+        JsonArrayRequest req = new JsonArrayRequest(HandyObjects.CLIENTIDEAS + "/" + preferences.getString("clientid", "") + "/" + preferences.getString("ideatorid", ""), new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.e(TAG, response.toString());
+
+                if (serverstatus.equalsIgnoreCase("200")) {
+                    if (response.length() == 0) {
+                        rl_forblankarray.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.INVISIBLE);
+                    } else {
+                        try {
+                            rl_forblankarray.setVisibility(View.INVISIBLE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject jinside = response.getJSONObject(i);
+                                AllIdeas_Skeleton allidea_ske = new AllIdeas_Skeleton();
+                                allidea_ske.setIdeas_id(jinside.getString("IdeaId"));
+                                allidea_ske.setIdeator_id(jinside.getString("IdeatorId"));
+                                allidea_ske.setMain_title(jinside.getString("Title"));
+                                allidea_ske.setCampaign_title(jinside.getString("CampaignTitle"));
+                                allidea_ske.setRating_meanvalue(jinside.getString("RatingMeanValue"));
+                                allidea_ske.setNoof_rating(jinside.getString("NrOfRatings"));
+                                allidea_ske.setNoof_comments(jinside.getString("NrOfComments"));
+                                allidea_ske.setDate(jinside.getString("PostedDate"));
+                                allidea_ske.setImage("https://app.ideation360.com/api/getprofileimage/" + jinside.getString("IdeatorId"));
+                                arraylist.add(allidea_ske);
+                            }
+                            // Collections.reverse(arraylist);
+                            recyclerView.setAdapter(adapter);
+                        } catch (Exception e) {
+                        }
+                    }
+                    HandyObjects.stopProgressDialog();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+//                HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                HandyObjects.stopProgressDialog();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+                return headers;
+            }
+
+            @Override
+            protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
+                serverstatus = String.valueOf(response.statusCode);
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+// Adding request to request queue
+        Appcontroller.getInstance().addToRequestQueue(req, tag_json_arry);
     }
 }

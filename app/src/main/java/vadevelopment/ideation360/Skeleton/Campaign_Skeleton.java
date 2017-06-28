@@ -9,6 +9,16 @@ public class Campaign_Skeleton {
     String campaign_name;
     String ideas_submitted;
 
+    public String getCompaignid() {
+        return compaignid;
+    }
+
+    public void setCompaignid(String compaignid) {
+        this.compaignid = compaignid;
+    }
+
+    String compaignid;
+
     public String getDaysleft() {
         return daysleft;
     }

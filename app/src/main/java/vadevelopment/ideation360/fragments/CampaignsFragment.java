@@ -63,7 +63,7 @@ public class CampaignsFragment extends Fragment {
 
     private void initViews(View view) {
         homeactivity = (HomeActivity) getActivity();
-        homeactivity.hometoptext.setText(getResources().getString(R.string.settings));
+        homeactivity.hometoptext.setText(getResources().getString(R.string.campaigns));
         homeactivity.homeicon.setImageResource(R.drawable.backarrow);
         homeactivity.settingicon.setVisibility(View.INVISIBLE);
         homeactivity.radiogroup.setVisibility(View.GONE);
@@ -71,7 +71,7 @@ public class CampaignsFragment extends Fragment {
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
         arraylist = new ArrayList<>();
-        adapter = new AdapterCampaign(getContext(), arraylist);
+        adapter = new AdapterCampaign(getContext(), arraylist,getFragmentManager());
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -106,6 +106,7 @@ public class CampaignsFragment extends Fragment {
                         for (int i = 0; i < response.length(); i++) {
                             Campaign_Skeleton camp_ske = new Campaign_Skeleton();
                             JSONObject jobj = response.getJSONObject(i);
+                            camp_ske.setCompaignid(jobj.getString("CampaignId"));
                             camp_ske.setCampaign_name(jobj.getString("Name"));
                             camp_ske.setIdeas_submitted(jobj.getString("NrOfIdeas"));
                             camp_ske.setDaysleft(jobj.getString("NrOfDaysLeft"));
@@ -121,6 +122,8 @@ public class CampaignsFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                HandyObjects.stopProgressDialog();
             }
         }) {
             @Override

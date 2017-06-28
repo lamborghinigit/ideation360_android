@@ -14,14 +14,15 @@
         android:padding="@dimen/screenpadding">
 
         <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
-            android:id="@+id/et_email"
+            android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="@dimen/et_height"
-            android:background="#ffffff"
+            android:background="@android:color/transparent"
             android:gravity="center"
             android:hint="@string/searchet_value"
             android:textColor="#868686"
             android:textColorHint="#868686"
+            android:inputType="textPersonName"
             android:textSize="@dimen/mediumtext" />
 
         <View
@@ -44,7 +45,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="horizontal">
 
             <vadevelopment.ideation360.design.HelviticaBold
@@ -54,7 +54,7 @@
                 android:layout_weight=".33"
                 android:gravity="center"
                 android:padding="@dimen/smalltext"
-                android:text="@string/ideas"
+                android:text="IDEAS"
                 android:textColor="#000000"
                 android:textSize="@dimen/mediumtext" />
 
@@ -64,9 +64,9 @@
                 android:background="#000000" />
 
             <vadevelopment.ideation360.design.HelviticaBold
-                android:id="@+id/capaigns"
+                android:id="@+id/campaigns"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight=".33"
                 android:gravity="center"
                 android:text="@string/campaigns"
@@ -82,7 +82,7 @@
             <vadevelopment.ideation360.design.HelviticaBold
                 android:id="@+id/people"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight=".33"
                 android:gravity="center"
                 android:text="@string/people"
@@ -91,6 +91,11 @@
                 android:textSize="@dimen/mediumtext" />
 
         </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/childcontainor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
 
 
     </LinearLayout>

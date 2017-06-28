@@ -16,6 +16,24 @@
 
 
 
+    <style name="customRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingxml</item>
+        <item name="android:minHeight">50dip</item>
+        <item name="android:maxHeight">60dip</item>
+    </style>
+
+    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/food_rating_bar_full</item>
+        <item name="android:minHeight">@dimen/ratingbarmin</item>
+        <item name="android:maxHeight">@dimen/ratingbarmin</item>
+    </style>
+
+    <style name="bigRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/big_rating_bar_full</item>
+        <item name="android:minHeight">@dimen/bigratingbar</item>
+        <item name="android:maxHeight">@dimen/bigratingbar</item>
+    </style>
+
 
     <style name="MaterialTheme" parent="MaterialThemeSupportBase"/>
     <style name="MaterialThemeSupportBase" parent="Theme.AppCompat.Light.NoActionBar">

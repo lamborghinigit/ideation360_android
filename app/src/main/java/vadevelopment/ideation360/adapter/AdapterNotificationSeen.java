@@ -77,7 +77,7 @@ public class AdapterNotificationSeen extends RecyclerView.Adapter<AdapterNotific
                     bundle.putString("from", "notification");
                     bundle.putString("IdeaCommentId", arraylist.get(position).getIdeaCommentId());
                     bundle.putString("ideaid", arraylist.get(position).getIdeaId());
-                    bundle.putString("ideatorid", arraylist.get(position).getIdeaId());
+                    bundle.putString("ideatorid", arraylist.get(position).getIdeatorId());
                     ideadetail_frg.setArguments(bundle);
                     homeActivity.replaceFragmentHome(ideadetail_frg);
                 }

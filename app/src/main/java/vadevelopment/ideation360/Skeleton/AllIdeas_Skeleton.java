@@ -10,6 +10,16 @@ public class AllIdeas_Skeleton {
     String campaign_title;
     String main_title;
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    String image;
+
     public String getRating_meanvalue() {
         return rating_meanvalue;
     }

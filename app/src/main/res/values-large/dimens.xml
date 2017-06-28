@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="bottomHeight">80dp</dimen>
+    <dimen name="bottomHeight">96dp</dimen>
     <dimen name="minHeight">120dp</dimen>
 
     <dimen name="screenpadding">30dp</dimen>
@@ -11,9 +11,18 @@
     <dimen name="textbutton">24dp</dimen>
     <dimen name="margintop">30dp</dimen>
     <dimen name="smalltext">16dp</dimen>
-    <dimen name="mediumtext">21dp</dimen>
+    <dimen name="mediumtext">22dp</dimen>
     <dimen name="margintop_loginbtn">96dp</dimen>
     <dimen name="margintop_signupbtn">80dp</dimen>
     <dimen name="paddingitemdrawersmall">10dp</dimen>
-    <dimen name="marginrighttophome">4dp</dimen>
+    <dimen name="marginrighttophome">1dp</dimen>
+    <dimen name="ratingbarmin">46dip</dimen>
+    <dimen name="imagesize">128dp</dimen>
+
+    <dimen name="idea_detailimage">240dp</dimen>
+    <dimen name="listheight">120dp</dimen>
+    <dimen name="homepadding">8dp</dimen>
+    <dimen name="commentpadding">30dp</dimen>
+    <dimen name="homeimage">82dp</dimen>
+    <dimen name="accountimage">144dp</dimen>
 </resources>

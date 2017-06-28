@@ -140,6 +140,7 @@ public class Ideas_Fragment extends Fragment {
                                         allidea_ske.setNoof_rating(jinside.getString("NrOfRatings"));
                                         allidea_ske.setNoof_comments(jinside.getString("NrOfComments"));
                                         allidea_ske.setDate(jinside.getString("PostedDate"));
+                                        allidea_ske.setImage("https://app.ideation360.com/api/getprofileimage/" + jinside.getString("IdeatorId"));
                                         HomeActivity.arraylist_ideas.add(allidea_ske);
                                     }
                                     recyclerView.setAdapter(adapter);
@@ -167,8 +168,9 @@ public class Ideas_Fragment extends Fragment {
                                 for (int k = 0; k < jarry_people.length(); k++) {
                                     People_Skeleton people_ske = new People_Skeleton();
                                     JSONObject jobj = jarry_people.getJSONObject(k);
-                                    people_ske.setName(jobj.getString("FirstName")+" "+jobj.getString("LastName"));
+                                    people_ske.setName(jobj.getString("FirstName") + " " + jobj.getString("LastName"));
                                     people_ske.setIdeatorid(jobj.getString("IdeatorId"));
+                                    people_ske.setImage("https://app.ideation360.com/api/getprofileimage/" + jobj.getString("IdeatorId"));
                                     HomeActivity.arraylist_people.add(people_ske);
                                 }
                                 String json_people = gson.toJson(HomeActivity.arraylist_people);

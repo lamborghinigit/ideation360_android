@@ -6,18 +6,56 @@
     android:paddingRight="@dimen/screenpadding"
     android:paddingTop="@dimen/screenpadding">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="@dimen/paddingitemdrawersmall"
-        android:id="@+id/recyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:fadeScrollbars="false"
-        android:scrollX="0px"
-        android:scrollY="0px"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbarSize="@dimen/paddingitemdrawersmall"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rl_forblankarray"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/margintop"
+            android:paddingRight="@dimen/margintop">
+
+            <vadevelopment.ideation360.design.HelviticaBold
+                android:id="@+id/heythere"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/home_emptyarraytext"
+                android:textColor="#000000"
+                android:textSize="@dimen/largetext"
+                android:layout_centerInParent="true"
+                android:lineSpacingMultiplier="1.1"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/down_arrow"
+                android:layout_below="@+id/heythere"
+                android:layout_marginTop="@dimen/margintop_loginbtn"
+                android:layout_centerHorizontal="true"/>
+
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="@dimen/paddingitemdrawersmall"
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fadeScrollbars="false"
+            android:scrollX="0px"
+            android:scrollY="0px"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarSize="@dimen/paddingitemdrawersmall"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>

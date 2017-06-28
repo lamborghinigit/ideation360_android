@@ -7,6 +7,26 @@ package vadevelopment.ideation360.Skeleton;
 public class Comments_Skeleton {
     String ideator_name;
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    String image;
+
+    public String getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(String comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    String comment_id;
+
     public String getComment() {
         return Comment;
     }

@@ -1,7 +1,9 @@
 package vadevelopment.ideation360.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import vadevelopment.ideation360.HomeActivity;
 import vadevelopment.ideation360.LoginRegister_Containor;
 import vadevelopment.ideation360.MainActivity;
 import vadevelopment.ideation360.R;
@@ -23,6 +26,7 @@ public class LoginRegister_Fragment extends Fragment implements View.OnClickList
     private Button login, signup;
     private TextView bottomForgot;
     private LoginRegister_Containor containor;
+    private SharedPreferences preferences;
 
     @Nullable
     @Override
@@ -41,6 +45,22 @@ public class LoginRegister_Fragment extends Fragment implements View.OnClickList
         bottomForgot.setOnClickListener(this);
         containor = (LoginRegister_Containor) getActivity();
         containor.firstLinear.setVisibility(View.INVISIBLE);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        if (preferences.getString("loginwith", "").equalsIgnoreCase("indi")) {
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        } else if (preferences.getString("loginwith", "").equalsIgnoreCase("multi")) {
+            MultipleAssig_Fragment sf = new MultipleAssig_Fragment();
+            containor.replaceWithoutbackFragment(sf);
+        }
+
+       /* if (preferences.getBoolean("login", false)) {
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }*/
     }
 
     @Override

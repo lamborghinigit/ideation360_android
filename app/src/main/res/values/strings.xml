@@ -12,21 +12,21 @@
     <string name="resetPassword">RESET PASSWORD</string>
     <string name="noWorry">No\n Worries</string>
 
-    <string name="forgetPassword">Forgetting a password happens to \n the best of us.Shoot us an email \n and we will help you reset it.</string>
+    <string name="forgetPassword">Forgetting a password happens to \n the best of us. Shoot us an email \n and we will help you reset it.</string>
 
     <string name="registerText">Sign in</string>
 
-    <string name="termsText">  I agree to the terms and condition</string>
+    <string name="termsText"><u>I agree to the terms and conditions</u></string>
     <!--emailText-->
 
     <string name="emailText">email</string>
-    <string name="passwordText">Password</string>
+    <string name="passwordText">password</string>
 
     <!--registerText-->
 
-    <string name="first">First Name</string>
-    <string name="last">Last Name</string>
-    <string name="compName">My Company\'s Name</string>
+    <string name="first">First name</string>
+    <string name="last">Last name</string>
+    <string name="compName">My Company\'s name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
 
@@ -68,4 +68,38 @@
     <string name="ideas"><u>IDEAS</u></string>
     <string name="people">people</string>
     <string name="search">Search</string>
+    <string name="application_network_error">"Internet connection not available"</string>
+    <string name="select_termcondition">Please select term and conditions.</string>
+    <string name="noclient_avalibale">No Client available.</string>
+    <string name="alreadyaccount">An account is already registered with this email.</string>
+    <string name="home_emptyarraytext">Hey there, get started by adding an idea</string>
+    <string name="invalidusername">Invalid username or password</string>
+    <string name="enterusernameorpwd">Please enter username or password first</string>
+    <string name="chooseclient">Choose client</string>
+    <string name="allfieldsmandatory">All fields mandatory</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="cancel">Cancel</string>
+    <string name="enterideatitle">Please enter idea title</string>
+    <string name="myfirstcampaign">My First campaign</string>
+    <string name="myfirstideation">My First ideation</string>
+    <string name="your_rating">Your rating</string>
+    <string name="currnt_averagerating">Current average rating:</string>
+    <string name="comments">Comments:</string>
+    <string name="Writeacomment">Write a comment</string>
+    <string name="idea">Idea</string>
+    <string name="sponser">Sponser</string>
+    <string name="daysleft">days left</string>
+    <string name="ideasc">Ideas</string>
+    <string name="submitidea">Submit Idea</string>
+    <string name="ideascolon">Ideas:</string>
+    <string name="nosponsor_assigned">No sponsor assigned</string>
+    <string name="campaign">Campaign</string>
+    <string name="ideas_underline"><u>Ideas</u></string>
+    <string name="campaigns_underline"><u>Campaigns</u></string>
+    <string name="updateidea">Update Idea</string>
+    <string name="editidea">Edit Idea</string>
+    <string name="pimage_uploadsucc">Image uploaded successfully</string>
+    <string name="servererror">server error</string>
+    <string name="selectimagefirst">Please select an image first</string>
 </resources>

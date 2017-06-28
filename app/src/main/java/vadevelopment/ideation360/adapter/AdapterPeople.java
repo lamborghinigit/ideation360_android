@@ -7,8 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 
 import java.util.ArrayList;
 
@@ -50,6 +56,10 @@ public class AdapterPeople extends RecyclerView.Adapter<AdapterPeople.ViewHolder
     public void onBindViewHolder(final AdapterPeople.ViewHolder viewHolder, final int position) {
 
         viewHolder.name.setText(arraylist.get(position).getName());
+        LazyHeaders.Builder builder = new LazyHeaders.Builder()
+                .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+        GlideUrl glideUrl = new GlideUrl(arraylist.get(position).getImage(), builder.build());
+        Glide.with(context).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(viewHolder.image);
         viewHolder.rl_outer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,10 +77,12 @@ public class AdapterPeople extends RecyclerView.Adapter<AdapterPeople.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView name;
+        private ImageView image;
         public RelativeLayout rl_outer;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
+            image = (ImageView) itemLayoutView.findViewById(R.id.image);
             name = (TextView) itemLayoutView.findViewById(R.id.name);
             rl_outer = (RelativeLayout) itemLayoutView.findViewById(R.id.rl_outer);
         }

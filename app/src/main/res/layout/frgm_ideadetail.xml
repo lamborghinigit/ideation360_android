@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/screenpadding">
+    android:fillViewport="true"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
             android:orientation="vertical"
             android:paddingLeft="@dimen/screenpadding"
             android:paddingRight="@dimen/screenpadding"
-            android:paddingTop="@dimen/screenpadding"
+            android:paddingTop="@dimen/smalltext"
             android:visibility="visible">
 
             <vadevelopment.ideation360.design.HelviticaBold
@@ -52,41 +53,47 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/mediumtext"
                 android:paddingBottom="@dimen/smalltext"
                 android:paddingTop="@dimen/smalltext">
 
-                <ImageView
-                    android:id="@+id/userimage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image"
+                    android:layout_width="@dimen/margintop_loginbtn"
+                    android:layout_height="@dimen/margintop_loginbtn"
                     android:layout_centerVertical="true"
                     android:src="@drawable/profileimg" />
 
-
-                <vadevelopment.ideation360.design.HelviticaBold
-                    android:id="@+id/username"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/date"
-                    android:layout_toRightOf="@+id/userimage"
-                    android:paddingLeft="@dimen/smalltext"
-                    android:paddingRight="@dimen/paddingitemdrawersmall"
-                    android:text="Tom"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/textbutton" />
+                    android:layout_toRightOf="@+id/image">
 
-                <vadevelopment.ideation360.design.HelviticaRegular
-                    android:id="@+id/useremail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/username"
-                    android:layout_toRightOf="@+id/userimage"
-                    android:paddingLeft="@dimen/smalltext"
-                    android:text="my first compaign"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/mediumtext" />
+                    <vadevelopment.ideation360.design.HelviticaBold
+                        android:id="@+id/username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/smalltext"
+                        android:paddingRight="@dimen/paddingitemdrawersmall"
+                        android:text="Tom"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/textbutton" />
+
+                    <vadevelopment.ideation360.design.HelviticaRegular
+                        android:id="@+id/useremail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/username"
+                        android:paddingLeft="@dimen/smalltext"
+                        android:text="my first compaign"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/mediumtext" />
+
+
+                </RelativeLayout>
+
 
                 <vadevelopment.ideation360.design.HelviticaRegular
                     android:id="@+id/date"
@@ -103,11 +110,13 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/fillimage"
             android:layout_width="match_parent"
             android:layout_height="@dimen/idea_detailimage"
             android:layout_marginTop="@dimen/mediumtext"
-            android:background="#2c2c2c"
-            android:visibility="gone" />
+            android:scaleType="fitXY"
+            android:background="#d4d4d4"
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -153,7 +162,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/smalltext"
                 android:numStars="5"
-                android:rating="3.4" />
+                android:rating="0"
+                android:stepSize=".5" />
 
             <vadevelopment.ideation360.design.HelviticaBold
                 android:layout_width="wrap_content"
@@ -174,8 +184,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/compaign"
+                    android:isIndicator="true"
                     android:numStars="5"
-                    android:rating="1" />
+                    android:rating="0" />
 
                 <vadevelopment.ideation360.design.HelviticaRegular
                     android:id="@+id/noof_rating"
@@ -203,33 +214,41 @@
                 android:id="@+id/comments_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/screenpadding"></android.support.v7.widget.RecyclerView>
+                android:paddingTop="@dimen/screenpadding">
+
+            </android.support.v7.widget.RecyclerView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="@dimen/screenpadding">
+                android:paddingBottom="@dimen/mediumtext"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/commentedimage"
+                    android:layout_width="@dimen/margintop_loginbtn"
+                    android:layout_height="@dimen/margintop_loginbtn"
+                    android:layout_marginTop="@dimen/mediumtext"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/profileimg" />
 
                 <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
-                    android:id="@+id/et_companyname"
+                    android:id="@+id/et_comment"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/et_height"
+                    android:layout_marginBottom="@dimen/screenpadding"
+                    android:layout_marginTop="@dimen/screenpadding"
                     android:background="@android:color/transparent"
                     android:gravity="center_vertical"
                     android:hint="@string/Writeacomment"
-                    android:inputType="textPersonName"
+                    android:inputType="textMultiLine"
                     android:paddingLeft="@dimen/screenpadding"
                     android:textColor="#868686"
                     android:textColorHint="#868686"
                     android:textSize="@dimen/mediumtext" />
+
             </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

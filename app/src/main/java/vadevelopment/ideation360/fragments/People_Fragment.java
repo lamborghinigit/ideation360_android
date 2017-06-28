@@ -166,8 +166,9 @@ public class People_Fragment extends Fragment {
                                     for (int k = 0; k < jarry_people.length(); k++) {
                                         People_Skeleton people_ske = new People_Skeleton();
                                         JSONObject jobj = jarry_people.getJSONObject(k);
-                                        people_ske.setName(jobj.getString("FirstName")+" "+jobj.getString("LastName"));
+                                        people_ske.setName(jobj.getString("FirstName") + " " + jobj.getString("LastName"));
                                         people_ske.setIdeatorid(jobj.getString("IdeatorId"));
+                                        people_ske.setImage("https://app.ideation360.com/api/getprofileimage/" + jobj.getString("IdeatorId"));
                                         HomeActivity.arraylist_people.add(people_ske);
                                     }
                                     recyclerView.setAdapter(adapter);
@@ -190,7 +191,7 @@ public class People_Fragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-             //   HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                //   HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
                 HandyObjects.stopProgressDialog();
             }
         }) {

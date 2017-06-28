@@ -64,13 +64,13 @@ public class SavedIdeasFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new AdapterSavedIdeas(getContext(), arrayList);
+        adapter = new AdapterSavedIdeas(getContext(), arrayList, getFragmentManager(), homeactivity);
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
         database = ParseOpenHelper.getInstance(getActivity()).getWritableDatabase();
 
 
-        Cursor cursor = database.query(ParseOpenHelper.TABLE_NAME_SAVEDIDEA, null, null, null, null, null, null);
+        Cursor cursor = database.query(ParseOpenHelper.TABLE_NAME_SAVEDIDEA, null, ParseOpenHelper.IDEATORID_OFIDEA + "=?", new String[]{preferences.getString("ideatorid", "")}, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             SavedIdeas_Skeleton saved_skel = new SavedIdeas_Skeleton();
@@ -79,6 +79,7 @@ public class SavedIdeasFragment extends Fragment {
             saved_skel.setIdea_description(cursor.getString(cursor.getColumnIndex("idea_description")));
             saved_skel.setImage_path(cursor.getString(cursor.getColumnIndex("image_path")));
             saved_skel.setAudio_path(cursor.getString(cursor.getColumnIndex("audio_path")));
+            saved_skel.setIdeationsaved_name(cursor.getString(cursor.getColumnIndex("ideationsaved_name")));
             arrayList.add(saved_skel);
             cursor.moveToNext();
         }

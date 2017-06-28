@@ -2,30 +2,43 @@ package vadevelopment.ideation360.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +46,10 @@ import vadevelopment.ideation360.Appcontroller;
 import vadevelopment.ideation360.HandyObjects;
 import vadevelopment.ideation360.HomeActivity;
 import vadevelopment.ideation360.R;
+import vadevelopment.ideation360.Skeleton.AllIdeas_Skeleton;
+import vadevelopment.ideation360.Skeleton.Campaign_Skeleton;
 import vadevelopment.ideation360.Skeleton.Comments_Skeleton;
+import vadevelopment.ideation360.Skeleton.People_Skeleton;
 import vadevelopment.ideation360.adapter.AdapterComment;
 import vadevelopment.ideation360.adapter.AdapterHome;
 
@@ -47,13 +63,18 @@ public class IdeaDeatilFragment extends Fragment {
     private static String TAG = "IdeaDeatilFragment";
     private HomeActivity homeactivity;
     private TextView text_ideatitle, text_firstcampaign, text_firstideation, text_description, noof_rating, username, useremail, date;
-    private String ideaid, serverstatus;
+    private String ideatorid, ideaid, serverstatus;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private RatingBar ratingBarbig, ratingBarsmall;
     private ArrayList<Comments_Skeleton> comments_arraylist;
+    private ArrayList<String> commnt_list;
     private RecyclerView comments_recyclerview;
     private AdapterComment adapter;
+    public static EditText et_comment;
+    public static NestedScrollView scrollview;
+    ImageView image, commentedimage, fillimage;
+    private Handler handler;
 
     @Nullable
     @Override
@@ -65,6 +86,7 @@ public class IdeaDeatilFragment extends Fragment {
 
     private void initViews(View view) {
         homeactivity = (HomeActivity) getActivity();
+
         homeactivity.hometoptext.setText(getResources().getString(R.string.idea));
         homeactivity.homeicon.setImageResource(R.drawable.backarrow);
         homeactivity.settingicon.setVisibility(View.INVISIBLE);
@@ -83,8 +105,10 @@ public class IdeaDeatilFragment extends Fragment {
             }
         });
 
+        handler = new Handler();
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
+        scrollview = (NestedScrollView) view.findViewById(R.id.scrollview);
         text_ideatitle = (TextView) view.findViewById(R.id.text_ideatitle);
         text_firstcampaign = (TextView) view.findViewById(R.id.text_firstcampaign);
         text_firstideation = (TextView) view.findViewById(R.id.text_firstideation);
@@ -93,38 +117,85 @@ public class IdeaDeatilFragment extends Fragment {
         username = (TextView) view.findViewById(R.id.username);
         useremail = (TextView) view.findViewById(R.id.useremail);
         date = (TextView) view.findViewById(R.id.date);
+        image = (ImageView) view.findViewById(R.id.image);
+        fillimage = (ImageView) view.findViewById(R.id.fillimage);
+        commentedimage = (ImageView) view.findViewById(R.id.commentedimage);
+        et_comment = (EditText) view.findViewById(R.id.et_comment);
         ratingBarbig = (RatingBar) view.findViewById(R.id.ratingBarbig);
         ratingBarsmall = (RatingBar) view.findViewById(R.id.ratingBarsmall);
-        comments_arraylist = new ArrayList<>();
-        adapter = new AdapterComment(getActivity(), comments_arraylist);
+
+
         comments_recyclerview = (RecyclerView) view.findViewById(R.id.comments_recyclerview);
-        comments_recyclerview.setHasFixedSize(true);
+        comments_recyclerview.setVisibility(View.VISIBLE);
+        comments_recyclerview.setHasFixedSize(false);
         comments_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        // mLayoutManager.scrollToPosition(5);
+
         comments_recyclerview.setLayoutManager(mLayoutManager);
         comments_recyclerview.setItemAnimator(new DefaultItemAnimator());
+        comments_recyclerview.setNestedScrollingEnabled(false);
+
 
         if (getArguments() != null) {
             ideaid = getArguments().getString("ideaid");
-            date.setText(getArguments().getString("date"));
+            ideatorid = getArguments().getString("ideatorid");
+            LazyHeaders.Builder builder = new LazyHeaders.Builder()
+                    .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+            GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getprofileimage/" + preferences.getString("ideatorid", ""), builder.build());
+            Glide.with(getActivity()).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(image);
+            Glide.with(getActivity()).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(commentedimage);
         }
+
+        et_comment.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        et_comment.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+        et_comment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if ((keyEvent != null && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    if (!HandyObjects.isNetworkAvailable(getActivity())) {
+                        HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
+                    } else {
+                        SubmitComment(et_comment.getText().toString(), ideaid, ideatorid, getArguments().getString("date"));
+                    }
+                }
+                return false;
+            }
+        });
+
+        homeactivity.settingicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UpdateIdea_Fragment update_frgm = new UpdateIdea_Fragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("idea_id", ideaid);
+                bundle.putString("ideator_id", ideatorid);
+                bundle.putString("ideation_name", text_firstideation.getText().toString());
+                bundle.putString("campaign_name", text_firstcampaign.getText().toString());
+                bundle.putString("idea_title", text_ideatitle.getText().toString());
+                bundle.putString("idea_discrp", text_description.getText().toString());
+                update_frgm.setArguments(bundle);
+                homeactivity.replaceFragmentHome(update_frgm);
+            }
+        });
 
         if (!HandyObjects.isNetworkAvailable(getActivity())) {
             HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
         } else {
-            IdeaDetail_Task();
+            IdeaDetail_Task(ideaid, ideatorid, getArguments().getString("date"));
         }
 
     }
 
-    private void IdeaDetail_Task() {
-        // Tag used to cancel the request
+    private void IdeaDetail_Task(String ideaid, String ideatorid, String datee) {
+        date.setText(datee);
         String tag_json_arry = "json_array_req";
         HandyObjects.startProgressDialog(getActivity());
-        JsonObjectRequest req = new JsonObjectRequest(HandyObjects.IDEADETAIL + "/" + ideaid + "/" + preferences.getString("ideatorid", ""), null, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest req = new JsonObjectRequest(HandyObjects.IDEADETAIL + "/" + ideaid + "/" + ideatorid, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.e(TAG, response.toString());
+                Log.e("IDEa detail", response.toString());
 
                 try {
                     if (serverstatus.equalsIgnoreCase("200")) {
@@ -134,22 +205,55 @@ public class IdeaDeatilFragment extends Fragment {
                         text_description.setText(response.getString("Description"));
                         ratingBarbig.setRating(Float.parseFloat(response.getString("RatingValueByCurrentIdeator")));
                         ratingBarsmall.setRating(Float.parseFloat(response.getString("RatingMeanValue")));
+                        //ratingBarbig.setRating(Float.parseFloat("3.5"));
+                        //ratingBarsmall.setRating(Float.parseFloat("3.5"));
                         noof_rating.setText(response.getString("NrOfRatings"));
-
                         if (response.getString("IsEditable").equalsIgnoreCase("true")) {
                             homeactivity.settingicon.setVisibility(View.VISIBLE);
                             homeactivity.settingicon.setImageResource(R.drawable.editicon);
-                        } else {
                         }
+
+                        JSONArray jarry_media = response.getJSONArray("Media");
+                        if (jarry_media.getJSONObject(0).getString("MediaType").equalsIgnoreCase("Photo")) {
+                            fillimage.setVisibility(View.VISIBLE);
+                            LazyHeaders.Builder builder = new LazyHeaders.Builder()
+                                    .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+                            GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getmedia/" + response.getString("IdeaId") + "/" + jarry_media.getJSONObject(0).getString("IdeaMediaId"), builder.build());
+                            Glide.with(getActivity()).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(fillimage);
+                        } else {
+                            fillimage.setVisibility(View.GONE);
+                        }
+                      /*  if(jarry_media.getJSONObject(0).getString("MediaType").equalsIgnoreCase("Photo")){
+
+                        }
+                        else if(jarry_media.getJSONObject(1).getString("MediaType").equalsIgnoreCase("VoiceMemo")){
+
+                        }*/
+
                         JSONArray jarry = response.getJSONArray("Comments");
+                        comments_arraylist = new ArrayList<>();
+                        commnt_list = new ArrayList<>();
+                        comments_arraylist.clear();
+                        commnt_list.clear();
                         for (int i = 0; i < jarry.length(); i++) {
                             Comments_Skeleton sske = new Comments_Skeleton();
+                            sske.setComment_id(jarry.getJSONObject(i).getString("IdeaCommentId"));
                             sske.setIdeator_name(jarry.getJSONObject(i).getString("IdeatorName"));
+                            sske.setImage("https://app.ideation360.com/api/getprofileimage/" + jarry.getJSONObject(i).getString("IdeatorId"));
                             sske.setComment(jarry.getJSONObject(i).getString("Comment"));
                             comments_arraylist.add(sske);
+                            commnt_list.add(jarry.getJSONObject(i).getString("IdeaCommentId"));
+                        }
+                        Collections.reverse(comments_arraylist);
+                        Collections.reverse(commnt_list);
+                        if (getActivity() != null && getArguments().getString("from").equalsIgnoreCase("notification")) {
+                            int index = commnt_list.indexOf(getArguments().getString("IdeaCommentId"));
+                            adapter = new AdapterComment(getActivity(), comments_arraylist, index, "notification");
+                        } else {
+                            adapter = new AdapterComment(getActivity(), comments_arraylist, 0, "normal");
                         }
                         comments_recyclerview.setAdapter(adapter);
-                        getprofile();
+                        getprofile(jarry_media, response.getString("IdeaId"));
                     }
                 } catch (Exception e) {
                 }
@@ -160,6 +264,8 @@ public class IdeaDeatilFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //   HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                HandyObjects.stopProgressDialog();
             }
         }) {
             @Override
@@ -180,19 +286,33 @@ public class IdeaDeatilFragment extends Fragment {
         Appcontroller.getInstance().addToRequestQueue(req, tag_json_arry);
     }
 
-    private void getprofile() {
+    private void getprofile(final JSONArray jarry, final String ideaid) {
         // Tag used to cancel the request
         String tag_json_arry = "json_array_req";
         //   HandyObjects.startProgressDialog(getActivity());
         JsonObjectRequest req = new JsonObjectRequest(HandyObjects.GETPROFILE + "/" + preferences.getString("ideatorid", ""), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, response.toString());
+                Log.e("getprofile", response.toString());
 
                 try {
                     if (serverstatus.equalsIgnoreCase("200")) {
                         username.setText(response.getString("FirstName") + " " + response.getString("LastName"));
                         useremail.setText(response.getString("Email"));
+
+                        /*if (jarry.getJSONObject(0).getString("MediaType").equalsIgnoreCase("Photo")) {
+                            fillimage.setVisibility(View.VISIBLE);
+                            LazyHeaders.Builder builder = new LazyHeaders.Builder()
+                                    .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+                            GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getmedia/" + ideaid + "/1355", builder.build());
+                            Glide.with(getActivity()).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(fillimage);
+                        } else {
+                            fillimage.setVisibility(View.GONE);
+                        }*/
+                        /*else if(jarry.getJSONObject(1).getString("MediaType").equalsIgnoreCase("VoiceMemo")){
+
+                        }*/
+
                     }
                 } catch (Exception e) {
                 }
@@ -203,6 +323,8 @@ public class IdeaDeatilFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //  HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                HandyObjects.stopProgressDialog();
             }
         }) {
             @Override
@@ -219,8 +341,112 @@ public class IdeaDeatilFragment extends Fragment {
                 return super.parseNetworkResponse(response);
             }
         };
-
 // Adding request to request queue
         Appcontroller.getInstance().addToRequestQueue(req, tag_json_arry);
+    }
+
+
+  /*  private void getImageFromServer() {
+        // Tag used to cancel the request
+        String tag_json_arry = "json_array_req";
+        //   HandyObjects.startProgressDialog(getActivity());
+        JsonObjectRequest req = new JsonObjectRequest(HandyObjects.GET_MEDIA + "2365" + "/1355", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("getImage", response.toString());
+
+                try {
+                    if (serverstatus.equalsIgnoreCase("200")) {
+
+                    }
+                } catch (Exception e) {
+                }
+                //HandyObjects.stopProgressDialog();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //  HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                HandyObjects.stopProgressDialog();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+                return headers;
+            }
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                serverstatus = String.valueOf(response.statusCode);
+                return super.parseNetworkResponse(response);
+            }
+        };
+// Adding request to request queue
+        Appcontroller.getInstance().addToRequestQueue(req, tag_json_arry);
+    }*/
+
+
+    private void SubmitComment(String gettext, final String ideaid, final String ideatorid, final String date) {
+        String tag_json_obj = "json_obj_req";
+        Map<String, String> postParam = new HashMap<String, String>();
+        postParam.put("IdeaId", ideaid);
+        postParam.put("IdeatorId", preferences.getString("ideatorid", ""));
+        postParam.put("Comment", gettext);
+        HandyObjects.startProgressDialog(getActivity());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                HandyObjects.ADDCOMMENT, new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject res) {
+                        Log.e("submitcomment", res.toString());
+                        try {
+                            if (serverstatus.equalsIgnoreCase("200")) {
+                                et_comment.setText("");
+                                HandyObjects.stopProgressDialog();
+                                HandyObjects.showAlert(getActivity(), res.getString("Status"));
+                                IdeaDetail_Task(ideaid, ideatorid, date);
+                            } else if (serverstatus.equalsIgnoreCase("400")) {
+                                HandyObjects.stopProgressDialog();
+                                HandyObjects.showAlert(getActivity(), "Error 400");
+                            }
+
+                        } catch (Exception e) {
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HandyObjects.stopProgressDialog();
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                // HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+            }
+        }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+                return headers;
+            }
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                serverstatus = String.valueOf(response.statusCode);
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        // Adding request to request queue
+        Appcontroller.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 }

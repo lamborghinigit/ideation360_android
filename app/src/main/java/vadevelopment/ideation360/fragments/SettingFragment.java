@@ -1,7 +1,9 @@
 package vadevelopment.ideation360.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +13,6 @@ import android.widget.TextView;
 
 import vadevelopment.ideation360.HomeActivity;
 import vadevelopment.ideation360.LoginRegister_Containor;
-import vadevelopment.ideation360.MainActivity;
 import vadevelopment.ideation360.R;
 
 /**
@@ -22,6 +23,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
 
     private HomeActivity homeactivity;
     private TextView profile,savedideas,compaigns,about,logout;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
     @Nullable
     @Override
@@ -43,10 +46,14 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
         compaigns = (TextView) view.findViewById(R.id.compaigns);
         about = (TextView) view.findViewById(R.id.about);
         logout = (TextView) view.findViewById(R.id.logout);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        editor = preferences.edit();
 
         profile.setOnClickListener(this);
         about.setOnClickListener(this);
         logout.setOnClickListener(this);
+        savedideas.setOnClickListener(this);
+        compaigns.setOnClickListener(this);
         homeactivity.homeicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,14 +70,19 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
                 homeactivity.replaceFragmentHome(af);
                 break;
             case R.id.savedideas:
+                SavedIdeasFragment sf = new SavedIdeasFragment();
+                homeactivity.replaceFragmentHome(sf);
                 break;
             case R.id.compaigns:
+                CampaignsFragment compaignsfrg = new CampaignsFragment();
+                homeactivity.replaceFragmentHome(compaignsfrg);
                 break;
             case R.id.about:
                 AboutFragment aboutfrg = new AboutFragment();
                 homeactivity.replaceFragmentHome(aboutfrg);
                 break;
             case R.id.logout:
+                editor.clear().commit();
                 Intent intent = new Intent(getActivity(), LoginRegister_Containor.class);
                 startActivity(intent);
                 getActivity().finish();

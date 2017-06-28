@@ -15,8 +15,8 @@
             android:gravity="center"
             android:typeface="sans"
             android:layout_centerInParent="true"
-            android:padding="@dimen/smalltext"
-            android:textColor="@android:color/white"
+            android:padding="@dimen/mediumtext"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/mediumtext" />
     </RelativeLayout>
 </RelativeLayout>

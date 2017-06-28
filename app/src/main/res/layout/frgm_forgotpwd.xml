@@ -34,6 +34,7 @@
             android:gravity="center"
             android:hint="@string/emailText"
             android:textColor="#868686"
+            android:inputType="textEmailAddress"
             android:textColorHint="#868686"
             android:layout_marginTop="@dimen/et_height"
             android:textSize="@dimen/mediumtext" />
@@ -45,7 +46,7 @@
             android:background="#000000"></View>
 
         <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
-            android:id="@+id/loginApp"
+            android:id="@+id/restpwd_btn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/buttonheight"
             android:layout_marginTop="@dimen/margintop_loginbtn"
