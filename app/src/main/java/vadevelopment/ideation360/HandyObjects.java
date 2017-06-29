@@ -34,8 +34,9 @@ public class HandyObjects {
     public static final String NOTIFICATION = BASE_URL + "ideatornotifications";
     public static final String UPDATE_PROFILEPICTURE = BASE_URL + "updateprofileimage";
     public static final String UPDATE_MEDIA = BASE_URL + "uploadmedia/";
-
     public static final String GET_MEDIA = BASE_URL + "getmedia/";
+    public static final String RATE_IDEA = BASE_URL + "rateidea";
+
     //https://app.ideation360.com/api/getmedia/2365/1355
     public static ProgressDialog progressDialog;
 

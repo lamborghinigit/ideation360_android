@@ -292,7 +292,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             }
             if (saved_idea.getImage_path() != null && !saved_idea.getImage_path().isEmpty()) {
 
-
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -765,7 +764,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     protected File createImageFile() throws IOException {
         File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation_AddIdeaImage");
         f.mkdir();
-         imageFile = new File(f, "addidea" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
+        imageFile = new File(f, "addidea" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
 
         // Save a file: path for use with ACTION_VIEW intents
         CameraActivity activity = (CameraActivity) getActivity();
@@ -778,7 +777,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOAD_FROMGALLERY && data != null) {
             try {
-               final Uri selectedImageUri = data.getData();
+                final Uri selectedImageUri = data.getData();
              /*   Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
                 addphoto_img.setImageBitmap(bitmap);*/
 
@@ -799,7 +798,8 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                             fos.flush();
                             fos.close();
                             selimage_path = imageFile.getAbsolutePath();
-                        } catch (Exception e){}
+                        } catch (Exception e) {
+                        }
 
                     }
                 });
@@ -923,11 +923,12 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                                         database.delete(ParseOpenHelper.TABLE_NAME_SAVEDIDEA, ParseOpenHelper.IDEA_NAME + "=?", new String[]{saved_idea.getIdea_name()});
                                     }
                                     posted_ideaid = response.getString("IdeaId");
-                                    if(imageFile != null){
+                                    if (imageFile != null) {
                                         new Uploadphoto_Task().execute();
-                                    }
-                                    else if(recoded_file != null){
+                                    } else if (recoded_file != null) {
                                         new UploadRecording_Task().execute();
+                                    } else {
+                                        HandyObjects.stopProgressDialog();
                                     }
 
 
@@ -1020,7 +1021,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                     if (recoded_filepath != null && !recoded_filepath.isEmpty()) {
                         new UploadRecording_Task().execute();
                     } else {
-                       // HandyObjects.showAlert(context, context.getResources().getString(R.string.pimage_uploadsucc));
+                        // HandyObjects.showAlert(context, context.getResources().getString(R.string.pimage_uploadsucc));
                         HandyObjects.stopProgressDialog();
                         HomeFragment hf = new HomeFragment();
                         homeactivity.replaceFragmentHome(hf);
@@ -1075,7 +1076,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             super.onPostExecute(result);
             try {
                 if (uploadphoto_status.equalsIgnoreCase("200")) {
-                  //  HandyObjects.showAlert(context, "recording success");
+                    //  HandyObjects.showAlert(context, "recording success");
                     HandyObjects.stopProgressDialog();
                     HomeFragment hf = new HomeFragment();
                     homeactivity.replaceFragmentHome(hf);

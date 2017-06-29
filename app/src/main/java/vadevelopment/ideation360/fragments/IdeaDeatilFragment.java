@@ -1,7 +1,11 @@
 package vadevelopment.ideation360.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -29,6 +33,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -37,8 +42,20 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,6 +92,7 @@ public class IdeaDeatilFragment extends Fragment {
     public static NestedScrollView scrollview;
     ImageView image, commentedimage, fillimage;
     private Handler handler;
+    MediaPlayer mediaPlayer;
 
     @Nullable
     @Override
@@ -145,7 +163,14 @@ public class IdeaDeatilFragment extends Fragment {
             GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getprofileimage/" + preferences.getString("ideatorid", ""), builder.build());
             Glide.with(getActivity()).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(image);
             Glide.with(getActivity()).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(commentedimage);
+
         }
+        ratingBarbig.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                RateIdea(ideaid, preferences.getString("ideatorid", ""), String.valueOf(Math.round(v)));
+            }
+        });
 
         et_comment.setImeOptions(EditorInfo.IME_ACTION_DONE);
         et_comment.setRawInputType(InputType.TYPE_CLASS_TEXT);
@@ -214,15 +239,25 @@ public class IdeaDeatilFragment extends Fragment {
                         }
 
                         JSONArray jarry_media = response.getJSONArray("Media");
-                        if (jarry_media.getJSONObject(0).getString("MediaType").equalsIgnoreCase("Photo")) {
-                            fillimage.setVisibility(View.VISIBLE);
-                            LazyHeaders.Builder builder = new LazyHeaders.Builder()
-                                    .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
-                            GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getmedia/" + response.getString("IdeaId") + "/" + jarry_media.getJSONObject(0).getString("IdeaMediaId"), builder.build());
-                            Glide.with(getActivity()).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(fillimage);
-                        } else {
+                        if (jarry_media.length() == 0) {
                             fillimage.setVisibility(View.GONE);
+                        } else {
+                            if (jarry_media.getJSONObject(0).getString("MediaType").equalsIgnoreCase("Photo")) {
+                                fillimage.setVisibility(View.VISIBLE);
+                                LazyHeaders.Builder builder = new LazyHeaders.Builder()
+                                        .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+                                GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getmedia/" + response.getString("IdeaId") + "/" + jarry_media.getJSONObject(0).getString("IdeaMediaId"), builder.build());
+                                Glide.with(getActivity()).load(glideUrl).into(fillimage);
+                            } else {
+                                fillimage.setVisibility(View.GONE);
+                            }
+
+                          /*  if (jarry_media.getJSONObject(1).getString("MediaType").equalsIgnoreCase("VoiceMemo")) {
+                                GetMediaTask(response.getString("IdeaId"), jarry_media.getJSONObject(0).getString("IdeaMediaId"));
+                            }*/
                         }
+
+
                       /*  if(jarry_media.getJSONObject(0).getString("MediaType").equalsIgnoreCase("Photo")){
 
                         }
@@ -253,7 +288,7 @@ public class IdeaDeatilFragment extends Fragment {
                             adapter = new AdapterComment(getActivity(), comments_arraylist, 0, "normal");
                         }
                         comments_recyclerview.setAdapter(adapter);
-                        getprofile(jarry_media, response.getString("IdeaId"));
+                         getprofile(jarry_media, response.getString("IdeaId"));
                     }
                 } catch (Exception e) {
                 }
@@ -346,49 +381,92 @@ public class IdeaDeatilFragment extends Fragment {
     }
 
 
-  /*  private void getImageFromServer() {
-        // Tag used to cancel the request
-        String tag_json_arry = "json_array_req";
-        //   HandyObjects.startProgressDialog(getActivity());
-        JsonObjectRequest req = new JsonObjectRequest(HandyObjects.GET_MEDIA + "2365" + "/1355", null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.e("getImage", response.toString());
+    private void GetMediaTask(String ideaid, String mediaid) {
+        String tag_json_obj = "json_obj_req";
+        // startProgressDialog();
+        StringRequest jsonObjReq = new StringRequest(Request.Method.GET, HandyObjects.GET_MEDIA + ideaid + "/" + mediaid, new Response.Listener<String>() {
 
+            @Override
+            public void onResponse(String response) {
+                Log.e("Media_response", response.toString());
                 try {
                     if (serverstatus.equalsIgnoreCase("200")) {
-
+                        mediaPlayer = new MediaPlayer();
+                        //  byte[] bytes = response.getBytes(Charsets.UTF_8);
+                        byte[] bytes = response.getBytes();
+                        playMp3(bytes);
+                    } else {
+                        // showToast(response.toString());
                     }
                 } catch (Exception e) {
-                }
-                //HandyObjects.stopProgressDialog();
 
+                }
+                // stopProgressDialog();
             }
         }, new Response.ErrorListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //  HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
-                HandyObjects.stopProgressDialog();
+                VolleyLog.d("Error", "Error: " + error.getMessage());
+                //  stopProgressDialog();
             }
         }) {
+
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
                 headers.put("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
                 return headers;
             }
 
             @Override
-            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                Map<String, String> responseHeaders = response.headers;
+                //responseHeaders.get("Access-Token");
                 serverstatus = String.valueOf(response.statusCode);
                 return super.parseNetworkResponse(response);
             }
         };
-// Adding request to request queue
-        Appcontroller.getInstance().addToRequestQueue(req, tag_json_arry);
-    }*/
+        // Adding request to request queue
+        Appcontroller.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+
+
+    private void playMp3(byte[] mp3SoundByteArray) {
+        try {
+            // mp3SoundByteArray.g
+            // create temp file that will hold byte array
+            // String s = "Java Code Geeks - Java Examples";
+
+            File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "IdeationGETTT_Recording");
+            f.mkdir();
+            // recoded_file = new File(f, "jhjkhdjkashd.mp3");
+            File recoded_file = new File(f, "recorded" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".mp3");
+            FileOutputStream fos = new FileOutputStream(recoded_file);
+            fos.write(mp3SoundByteArray);
+            fos.flush();
+            fos.close();
+
+            // resetting mediaplayer instance to evade problems
+            mediaPlayer.reset();
+
+            // In case you run into issues with threading consider new instance like:
+            // MediaPlayer mediaPlayer = new MediaPlayer();
+
+            // Tried passing path directly, but kept getting
+            // "Prepare failed.: status=0x1"
+            // so using file descriptor instead
+            FileInputStream fis = new FileInputStream(recoded_file);
+            mediaPlayer.setDataSource(fis.getFD());
+
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException ex) {
+            String s = ex.toString();
+            ex.printStackTrace();
+        }
+    }
 
 
     private void SubmitComment(String gettext, final String ideaid, final String ideatorid, final String date) {
@@ -412,6 +490,66 @@ public class IdeaDeatilFragment extends Fragment {
                                 HandyObjects.stopProgressDialog();
                                 HandyObjects.showAlert(getActivity(), res.getString("Status"));
                                 IdeaDetail_Task(ideaid, ideatorid, date);
+                            } else if (serverstatus.equalsIgnoreCase("400")) {
+                                HandyObjects.stopProgressDialog();
+                                HandyObjects.showAlert(getActivity(), "Error 400");
+                            }
+
+                        } catch (Exception e) {
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HandyObjects.stopProgressDialog();
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                // HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+            }
+        }) {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+                return headers;
+            }
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                serverstatus = String.valueOf(response.statusCode);
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        // Adding request to request queue
+        Appcontroller.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+
+    private void RateIdea(final String ideaid, final String ideatorid, String rated_value) {
+        HandyObjects.stopProgressDialog();
+        String tag_json_obj = "json_obj_req";
+        Map<String, String> postParam = new HashMap<String, String>();
+        postParam.put("IdeaId", ideaid);
+        postParam.put("IdeatorId", ideatorid);
+        postParam.put("Value", rated_value);
+        HandyObjects.startProgressDialog(getActivity());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                HandyObjects.RATE_IDEA, new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject res) {
+                        Log.e("submitcomment", res.toString());
+                        try {
+                            if (serverstatus.equalsIgnoreCase("200")) {
+                                ratingBarbig.setRating(Float.parseFloat(res.getString("RatingValueByCurrentIdeator")));
+                                ratingBarsmall.setRating(Float.parseFloat(res.getString("AverageRating")));
+                                noof_rating.setText(res.getString("NrOfRatings"));
+                                HandyObjects.stopProgressDialog();
                             } else if (serverstatus.equalsIgnoreCase("400")) {
                                 HandyObjects.stopProgressDialog();
                                 HandyObjects.showAlert(getActivity(), "Error 400");
