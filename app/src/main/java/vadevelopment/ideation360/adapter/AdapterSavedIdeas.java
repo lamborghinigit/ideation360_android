@@ -1,15 +1,23 @@
 package vadevelopment.ideation360.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 
 import java.util.ArrayList;
 
@@ -30,6 +38,8 @@ public class AdapterSavedIdeas extends RecyclerView.Adapter<AdapterSavedIdeas.Vi
     String text;
     private FragmentManager fm;
     private HomeActivity homeActivity;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
 
     public AdapterSavedIdeas(Context context, ArrayList<SavedIdeas_Skeleton> arraylist, FragmentManager fm, HomeActivity homeActivity) {
@@ -38,6 +48,8 @@ public class AdapterSavedIdeas extends RecyclerView.Adapter<AdapterSavedIdeas.Vi
         this.arraylist = arraylist;
         this.fm = fm;
         this.homeActivity = homeActivity;
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        editor = preferences.edit();
     }
 
     // Create new views (invoked by the layout manager)
@@ -62,7 +74,10 @@ public class AdapterSavedIdeas extends RecyclerView.Adapter<AdapterSavedIdeas.Vi
         viewHolder.noof_comment.setText("0");
         viewHolder.ratingBar.setRating(Float.parseFloat("0"));
         //viewHolder.date.setText(arraylist.get(position).getAudio_path());
-
+        LazyHeaders.Builder builder = new LazyHeaders.Builder()
+                .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+        GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getprofileimage/" +  preferences.getString("ideatorid", ""), builder.build());
+        Glide.with(context).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(viewHolder.image);
         viewHolder.ll_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +98,7 @@ public class AdapterSavedIdeas extends RecyclerView.Adapter<AdapterSavedIdeas.Vi
         public TextView date, maintitle, compaign, noof_rating, noof_comment;
         public RatingBar ratingBar;
         public LinearLayout ll_main;
+        ImageView image;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
@@ -93,6 +109,7 @@ public class AdapterSavedIdeas extends RecyclerView.Adapter<AdapterSavedIdeas.Vi
             noof_rating = (TextView) itemLayoutView.findViewById(R.id.noof_rating);
             noof_comment = (TextView) itemLayoutView.findViewById(R.id.noof_comment);
             ll_main = (LinearLayout) itemLayoutView.findViewById(R.id.ll_main);
+            image = (ImageView) itemLayoutView.findViewById(R.id.image);
         }
     }
 

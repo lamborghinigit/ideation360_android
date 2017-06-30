@@ -116,7 +116,7 @@ public class MyProfileFragment extends Fragment {
             } else {
                 homeactivity.settingicon.setVisibility(View.GONE);
                 homeactivity.hometoptext.setText(getArguments().getString("name") + "'s" + " Profile");
-                myidea.setText(getArguments().getString("name") + "'s" + " ideas");
+                myidea.setText(getArguments().getString("name") + "'s" + " " + getResources().getString(R.string.myprofile_ideas));
             }
             LazyHeaders.Builder builder = new LazyHeaders.Builder()
                     .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
@@ -139,7 +139,6 @@ public class MyProfileFragment extends Fragment {
         } else {
             getprofile();
         }
-
     }
 
     private void getprofile() {
@@ -214,7 +213,7 @@ public class MyProfileFragment extends Fragment {
                             allidea_ske.setImage("https://app.ideation360.com/api/getprofileimage/" + jinside.getString("IdeatorId"));
                             arraylist.add(allidea_ske);
                         }
-                        myind_idea.setText(String.valueOf(arraylist.size()) + " " + "Ideas");
+                        myind_idea.setText(String.valueOf(arraylist.size()) + " " + getResources().getString(R.string.ideasc));
                         recyclerView.setAdapter(adapter);
 
                     } catch (Exception e) {
@@ -260,7 +259,7 @@ public class MyProfileFragment extends Fragment {
                 Log.d(TAG, response.toString());
                 if (serverstatus.equalsIgnoreCase("200")) {
                     try {
-                        compaign.setText(String.valueOf(response.length()) + " " + "Campaign");
+                        compaign.setText(String.valueOf(response.length()) + " " + getResources().getString(R.string.campaign));
                     } catch (Exception e) {
                     }
                     HandyObjects.stopProgressDialog();

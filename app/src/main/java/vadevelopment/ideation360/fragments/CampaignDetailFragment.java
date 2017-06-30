@@ -136,9 +136,9 @@ public class CampaignDetailFragment extends Fragment {
                         text_description.setText(response.getString("Description"));
                         noof_ideas.setText(response.getString("NrOfIdeas"));
                         if (Integer.parseInt(response.getString("NrOfDaysLeft")) > 1) {
-                            text_daysleft.setText(response.getString("NrOfDaysLeft") + " " + "days left");
+                            text_daysleft.setText(response.getString("NrOfDaysLeft") + " " + getResources().getString(R.string.daysleft));
                         } else {
-                            text_daysleft.setText(response.getString("NrOfDaysLeft") + " " + "day left");
+                            text_daysleft.setText(response.getString("NrOfDaysLeft") + " " + getResources().getString(R.string.dayleft));
                         }
                         if (response.getString("SponsorName") != null && response.getString("SponsorName").isEmpty()) {
                             sponsername.setText(response.getString("SponsorName"));

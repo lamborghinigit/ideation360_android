@@ -53,8 +53,20 @@ public class AdapterCampaign extends RecyclerView.Adapter<AdapterCampaign.ViewHo
     @Override
     public void onBindViewHolder(final AdapterCampaign.ViewHolder viewHolder, final int position) {
         viewHolder.campaign_name.setText(arraylist.get(position).getCampaign_name());
-        viewHolder.ideas_submited.setText(arraylist.get(position).getIdeas_submitted() + " " + "ideas submitted");
-        viewHolder.days_left.setText(arraylist.get(position).getDaysleft() + " " + "days left");
+
+        if (Integer.parseInt(arraylist.get(position).getIdeas_submitted()) > 1) {
+            viewHolder.ideas_submited.setText(arraylist.get(position).getIdeas_submitted() + " " + context.getResources().getString(R.string.ideassubmitted));
+        } else {
+            viewHolder.ideas_submited.setText(arraylist.get(position).getIdeas_submitted() + " " + context.getResources().getString(R.string.ideasubmitted));
+        }
+
+        if (Integer.parseInt(arraylist.get(position).getDaysleft()) > 1) {
+            viewHolder.days_left.setText(arraylist.get(position).getDaysleft() + " " + context.getResources().getString(R.string.daysleft));
+        } else {
+            viewHolder.days_left.setText(arraylist.get(position).getDaysleft() + " " + context.getResources().getString(R.string.dayleft));
+        }
+
+
         viewHolder.ll_outer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

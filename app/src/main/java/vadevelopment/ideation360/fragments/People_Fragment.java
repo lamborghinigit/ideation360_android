@@ -160,7 +160,7 @@ public class People_Fragment extends Fragment {
                                     String json_people = gson.toJson(HomeActivity.arraylist_people);
                                     editor.putString("MyObject_people", json_people);
                                     editor.commit();
-                                    HandyObjects.showAlert(getActivity(), "No result found");
+                                    HandyObjects.showAlert(getActivity(), getResources().getString(R.string.noresultfound));
                                 } else {
                                     HomeActivity.arraylist_people.clear();
                                     for (int k = 0; k < jarry_people.length(); k++) {

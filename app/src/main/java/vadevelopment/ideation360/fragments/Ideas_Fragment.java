@@ -126,7 +126,7 @@ public class Ideas_Fragment extends Fragment {
                                     String json = gson.toJson(HomeActivity.arraylist_ideas);
                                     editor.putString("MyObject_Ideas", json);
                                     editor.commit();
-                                    HandyObjects.showAlert(getActivity(), "No result found");
+                                    HandyObjects.showAlert(getActivity(), getResources().getString(R.string.noresultfound));
                                 } else {
                                     HomeActivity.arraylist_ideas.clear();
                                     for (int i = 0; i < jarry.length(); i++) {

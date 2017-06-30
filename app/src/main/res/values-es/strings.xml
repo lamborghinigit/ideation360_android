@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">Ideation360</string>
+
+    <string name="hiText">Hola</string>
+
+
+    <string name="signUp">REGÍSTRATE</string>
+    <string name="login">INICIO</string>
+    <string name="loginSmall">INICIO</string>
+    <string name="forgotText"><u>contraseña olvidada</u></string>
+
+    <string name="resetPassword">RESTABLECER</string>
+    <string name="noWorry">Sin \nproblemas</string>
+
+    <string name="forgetPassword">El olvidar una contraseña le pasa a todos. Envíanos un correo electrónico y te ayudaremos a restablecerla.</string>
+
+    <string name="registerText">Regístrate</string>
+
+    <string name="termsText"><u>acepto los términos y política de privacidad</u></string>
+    <!--emailText-->
+
+    <string name="emailText">correo electrónico</string>
+    <string name="passwordText">Contraseña</string>
+
+    <!--registerText-->
+
+    <string name="first">Nombre</string>
+    <string name="last">Apellido</string>
+    <string name="compName">El nombre de mi empresa</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+
+
+    <string name="ideationString">ideation360</string>
+
+
+    <!--addFragment-->
+
+    <string name="addidea">Añadir Idea</string>
+    <string name="ideaTitle">Título de la Idea</string>
+    <string name="descText">Descripción</string>
+    <string name="addPhoto">Añadir foto</string>
+    <string name="addVoice">Añadir voz</string>
+    <string name="postText">PUBLICAR IDEA</string>
+    <string name="saveText">GUARDAR BORRADOR</string>
+
+    <string name="hometoptext">ideation360</string>
+    <string name="myidea">Mis ideas</string>
+    <string name="myprofile">Mi Perfil</string>
+    <string name="notifications">Notifications</string>
+    <string name="settings">Settings</string>
+    <string name="newnoti">New</string>
+    <string name="seennoti">Seen</string>
+    <string name="profile">Cuenta</string>
+    <string name="savedideas">Ideas guardadas</string>
+    <string name="campaigns">Campañas</string>
+    <string name="about">Acerca de</string>
+    <string name="changelanguage">Cambiar idioma</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="account">Cuenta</string>
+    <string name="emailtext"><u>a@gmail.com</u></string>
+    <string name="updatephoto">ACTUALIZAR FOTO</string>
+    <string name="abouttop">Acerca de</string>
+    <string name="whowe">Quienes somos</string>
+    <string name="searchet_value">escribe lo que estás buscando</string>
+
+    <string name="abouttext">¡Somos un grupo de personas apasionadas que aman la innovación! Por eso es que fundamos ideation360. Nuestra visión es convertirnos en la plataforma líder en ideación en el mundo.\n\nSi el cambio es lo normal entonces la velocidad está de moda y por eso mismo la forma de trabajar con innovación está cambiando rápidamente. Con Ideation360 queremos habilitar a las organizaciones para que generen innovaciones utilizando la creatividad de sus empleados, clientes y socios. Porque creemos que esta es la única manera sostenible de no sólo mantenerte al día en esta fase de cambio sino también para usarlo en tu ventaja.</string>
+    <string name="ideas"><u>IDEAS</u></string>
+    <string name="people">GENTE</string>
+    <string name="search">Buscar</string>
+    <string name="searchideas">IDEAS</string>
+    <string name="searchcampaigns">CAMPAÑAS</string>KAMPANJER
+    <string name="application_network_error">"Internet connection not available"</string>
+    <string name="select_termcondition">acepto los términos y política de privacidad.</string>
+    <string name="noclient_avalibale">No hay cliente disponible.</string>
+    <string name="alreadyaccount">Ya hay una cuenta registrada en este correo electrónico.</string>
+    <string name="home_emptyarraytext">Hey there, get started by adding an idea</string>
+    <string name="invalidusername">Usuario o contraseña invalido</string>
+    <string name="enterusernameorpwd">Ingrese su nombre de usuario o contraseña primero</string>
+    <string name="chooseclient">Elegir cliente</string>
+    <string name="allfieldsmandatory">Todos los campos son obligatorios</string>
+    <string name="camera">Cámara</string>
+    <string name="gallery">Galería</string>
+    <string name="cancel">Cancelar</string>
+    <string name="enterideatitle">El campo del título de la idea es necesario</string>
+    <string name="myfirstcampaign">My First campaign</string>
+    <string name="myfirstideation">My First ideation</string>
+    <string name="your_rating">Tu calificación</string>
+    <string name="currnt_averagerating">Calificación actual promedio:</string>
+    <string name="comments">Comentarios:</string>
+    <string name="Writeacomment">Escribir un comentario</string>
+    <string name="idea">Idea</string>
+    <string name="sponser">Sponser</string>
+    <string name="dayleft">días restantes</string>
+    <string name="daysleft">días restantes</string>
+    <string name="ideasc">Ideas</string>
+    <string name="submitidea">IDEA ENVIADA</string>
+    <string name="ideascolon">Ideas:</string>
+    <string name="nosponsor_assigned">Sin patrocinador</string>
+    <string name="campaign">Campaña</string>
+    <string name="ideas_underline"><u>Ideas</u></string>
+    <string name="campaigns_underline"><u>Campaigns</u></string>
+    <string name="updateidea">ACTUALIZAR IDEA</string>
+    <string name="editidea">Idea editada</string>
+    <string name="pimage_uploadsucc">Imagen cargada correctamente</string>
+    <string name="servererror">server error</string>
+    <string name="selectimagefirst">Por favor seleccione una imagen primero</string>
+    <string name="spanish">Español</string>
+    <string name="swedish">Sueco</string>
+    <string name="english">Inglés</string>
+
+    <string name="noresultfound">No se han encontrado resultados</string>
+    <string name="ideasavedsuccess">Idea guardada correctamente</string>
+    <string name="ideasubmitted">Idea enviada</string>
+    <string name="ideassubmitted">ideas enviadas</string>
+    <string name="myprofile_ideas">ideas</string>
+    <string name="hascommented">comentó tu idea</string>
+    <string name="gaveyouridea">dio a tu idea</string>
+    <string name="stars">estrellas</string>
+    <string name="YourIdea">Tu idea</string>
+    <string name="wasaddedtothecluster">se agregó al clúster</string>
+    <string name="CongratsyourIdea">Felicidades, tu idea</string>
+    <string name="isinanexperiment">está en un experimento</string>
+    <string name="wasinanexperiment">estuvo en un experimento que validó las hipótesis</string>
+    <string name="isnowpartofaproject">ahora es parte de un proyecto</string>
+    <string name="freezebox">ha sido estacionada</string>
+    <string name="start">comienzo</string>
+    <string name="Stop">detener</string>
+</resources>

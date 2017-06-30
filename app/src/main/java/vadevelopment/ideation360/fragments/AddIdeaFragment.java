@@ -439,8 +439,10 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                             long idd = database.insert("tablesavedidea", null, cv);
                         } catch (Exception e) {
                         }
+                        HandyObjects.showAlert(getActivity(),getResources().getString(R.string.ideasavedsuccess));
                         SavedIdeasFragment sf = new SavedIdeasFragment();
                         homeactivity.replaceFragmentHome(sf);
+
                     }
                 }
 

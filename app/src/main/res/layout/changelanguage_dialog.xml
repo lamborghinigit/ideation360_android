@@ -25,17 +25,17 @@
             <LinearLayout
                 android:id="@+id/dont_show"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_height="0dp"
+                android:layout_weight=".3"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/options_camera"
+                    android:id="@+id/et_english"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/camera"
+                    android:text="@string/english"
                     android:textColor="#000"
                     android:textSize="@dimen/mediumtext" />
             </LinearLayout>
@@ -47,17 +47,39 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_height="0dp"
+                android:layout_weight=".3"
                 android:gravity="center"
-                android:orientation="vertical"  >
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/options_gallery"
+                    android:id="@+id/et_sweden"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/gallery"
+                    android:text="@string/swedish"
+                    android:textColor="#000"
+                    android:textSize="@dimen/mediumtext" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".3"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/et_spanish"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/spanish"
                     android:textColor="#000"
                     android:textSize="@dimen/mediumtext" />
             </LinearLayout>

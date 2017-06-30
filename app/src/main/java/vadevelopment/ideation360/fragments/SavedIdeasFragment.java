@@ -17,6 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
+
 import java.util.ArrayList;
 
 import vadevelopment.ideation360.HomeActivity;
@@ -84,6 +89,7 @@ public class SavedIdeasFragment extends Fragment {
             cursor.moveToNext();
         }
         cursor.close();
+
 
         recyclerView.setAdapter(adapter);
         homeactivity.homeicon.setOnClickListener(new View.OnClickListener() {

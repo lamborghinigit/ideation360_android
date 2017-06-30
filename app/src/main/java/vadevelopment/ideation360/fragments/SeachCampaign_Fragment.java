@@ -144,7 +144,7 @@ public class SeachCampaign_Fragment extends Fragment {
                                 if (jarry_comp.length() == 0) {
                                     HomeActivity.arraylist_campaigns.clear();
                                     recyclerView.setAdapter(adapter);
-                                    HandyObjects.showAlert(getActivity(), "No result found");
+                                    HandyObjects.showAlert(getActivity(), getResources().getString(R.string.noresultfound));
                                     String json_camapigns = gson.toJson(HomeActivity.arraylist_campaigns);
                                     editor.putString("MyObject_Campaigns", json_camapigns);
                                     editor.commit();

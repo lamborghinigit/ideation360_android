@@ -47,21 +47,21 @@ public class AdapterNotificationNew extends RecyclerView.Adapter<AdapterNotifica
     public void onBindViewHolder(final AdapterNotificationNew.ViewHolder viewHolder, final int position) {
 
         if (arraylist.get(position).getActivityType().equalsIgnoreCase("ADDCOMMENT") || arraylist.get(position).getActivityType().equalsIgnoreCase("addcomment")) {
-            viewHolder.discription.setText(arraylist.get(position).getIdeatorName() + " has commented your idea" + " " + "'" + arraylist.get(position).getIdeaTitle() + "'");
+            viewHolder.discription.setText(arraylist.get(position).getIdeatorName() + " " + context.getResources().getString(R.string.hascommented) + " " + "'" + arraylist.get(position).getIdeaTitle() + "'");
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("RATEDIDEA") || arraylist.get(position).getActivityType().equalsIgnoreCase("ratedidea")) {
-            viewHolder.discription.setText(arraylist.get(position).getIdeatorName() + " gave your idea" + " " + "'" + arraylist.get(position).getIdeaTitle() + "'" + " stars");
+            viewHolder.discription.setText(arraylist.get(position).getIdeatorName() + " " + " " + context.getResources().getString(R.string.gaveyouridea) + "'" + arraylist.get(position).getIdeaTitle() + "'" + " " + context.getResources().getString(R.string.stars));
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("IDEACLUSTERED") || arraylist.get(position).getActivityType().equalsIgnoreCase("IdeaClustered")) {
-            viewHolder.discription.setText("Your Idea " + "'" + arraylist.get(position).getIdeaTitle() + "," + " was added to the cluster");
+            viewHolder.discription.setText(context.getResources().getString(R.string.YourIdea) + " '" + arraylist.get(position).getIdeaTitle() + "," + " " + context.getResources().getString(R.string.wasaddedtothecluster));
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("INEXPERIMENT") || arraylist.get(position).getActivityType().equalsIgnoreCase("InExperiment")) {
-            viewHolder.discription.setText("Your Idea " + "'" + arraylist.get(position).getIdeaTitle() + "'" + " is in an experiment");
+            viewHolder.discription.setText(context.getResources().getString(R.string.YourIdea) + " '" + arraylist.get(position).getIdeaTitle() + "" + context.getResources().getString(R.string.isinanexperiment));
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("SUCCESSFULEXPERIMENT") || arraylist.get(position).getActivityType().equalsIgnoreCase("SuccessfulExperiment")) {
-            viewHolder.discription.setText("Your Idea " + "'" + arraylist.get(position).getIdeaTitle() + "," + " was in an experiment which validated the hypotheses");
+            viewHolder.discription.setText(context.getResources().getString(R.string.YourIdea) + " '" + arraylist.get(position).getIdeaTitle() + ", " + context.getResources().getString(R.string.wasinanexperiment));
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("UNSUCCESSFULEXPERIMENT") || arraylist.get(position).getActivityType().equalsIgnoreCase("UnSuccessfulExperiment")) {
-            viewHolder.discription.setText("Your Idea " + "'" + arraylist.get(position).getIdeaTitle() + "'" + " was in an experiment which validated the hypotheses");
+            viewHolder.discription.setText(context.getResources().getString(R.string.YourIdea) + " '" + arraylist.get(position).getIdeaTitle() + "' " + context.getResources().getString(R.string.wasinanexperiment));
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("INPROJECT") || arraylist.get(position).getActivityType().equalsIgnoreCase("InProject")) {
-            viewHolder.discription.setText("Congrats your Idea " + "'" + arraylist.get(position).getIdeaTitle() + "," + " is now part of a project");
+            viewHolder.discription.setText(context.getResources().getString(R.string.CongratsyourIdea) + "'" + arraylist.get(position).getIdeaTitle() + ", " + context.getResources().getString(R.string.isnowpartofaproject));
         } else if (arraylist.get(position).getActivityType().equalsIgnoreCase("INFREEZEBOX") || arraylist.get(position).getActivityType().equalsIgnoreCase("InFreezeBox")) {
-            viewHolder.discription.setText("'" + arraylist.get(position).getIdeaTitle() + "'" + " is now placed in the freeze box");
+            viewHolder.discription.setText("'" + arraylist.get(position).getIdeaTitle() + "' " + context.getResources().getString(R.string.freezebox));
         }
 
         String[] d = arraylist.get(position).getActivityDate().split("T");

@@ -68,6 +68,8 @@
     <string name="ideas"><u>IDEAS</u></string>
     <string name="people">people</string>
     <string name="search">Search</string>
+    <string name="searchideas">IDEAS</string>
+    <string name="searchcampaigns">campaigns</string>
     <string name="application_network_error">"Internet connection not available"</string>
     <string name="select_termcondition">Please select term and conditions.</string>
     <string name="noclient_avalibale">No Client available.</string>
@@ -76,11 +78,11 @@
     <string name="invalidusername">Invalid username or password</string>
     <string name="enterusernameorpwd">Please enter username or password first</string>
     <string name="chooseclient">Choose client</string>
-    <string name="allfieldsmandatory">All fields mandatory</string>
+    <string name="allfieldsmandatory">All fields are required</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
-    <string name="enterideatitle">Please enter idea title</string>
+    <string name="enterideatitle">Idea title field is required</string>
     <string name="myfirstcampaign">My First campaign</string>
     <string name="myfirstideation">My First ideation</string>
     <string name="your_rating">Your rating</string>
@@ -89,6 +91,7 @@
     <string name="Writeacomment">Write a comment</string>
     <string name="idea">Idea</string>
     <string name="sponser">Sponser</string>
+    <string name="dayleft">days left</string>
     <string name="daysleft">days left</string>
     <string name="ideasc">Ideas</string>
     <string name="submitidea">Submit Idea</string>
@@ -102,4 +105,25 @@
     <string name="pimage_uploadsucc">Image uploaded successfully</string>
     <string name="servererror">server error</string>
     <string name="selectimagefirst">Please select an image first</string>
+    <string name="spanish">Spanish</string>
+    <string name="swedish">Swedish</string>
+    <string name="english">English</string>
+
+    <string name="noresultfound">No result found</string>
+    <string name="ideasavedsuccess">Idea saved successfully</string>
+    <string name="ideasubmitted">idea submitted</string>
+    <string name="ideassubmitted">ideas submitted</string>
+    <string name="myprofile_ideas">ideas</string>
+    <string name="hascommented">has commented your idea</string>
+    <string name="gaveyouridea">gave your idea</string>
+    <string name="stars">stars</string>
+    <string name="YourIdea">Your Idea</string>
+    <string name="wasaddedtothecluster">was added to the cluster</string>
+    <string name="CongratsyourIdea">Congrats, your idea</string>
+    <string name="isinanexperiment">is in an experiment</string>
+    <string name="wasinanexperiment">was in an experiment which validated the hypotheses</string>
+    <string name="isnowpartofaproject">is now part of a project</string>
+    <string name="freezebox">is now placed in the freeze box</string>
+    <string name="start">Start</string>
+    <string name="Stop">Stop</string>
 </resources>

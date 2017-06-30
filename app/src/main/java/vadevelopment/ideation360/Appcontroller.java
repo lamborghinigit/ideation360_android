@@ -1,12 +1,16 @@
 package vadevelopment.ideation360;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+
+import java.util.Locale;
 
 /**
  * Created by vibrantappz on 6/15/2017.
@@ -18,13 +22,18 @@ public class Appcontroller extends Application {
 
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
-
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     private static Appcontroller mInstance;
+    private Locale myLocale;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        editor = preferences.edit();
+        changeLang(preferences.getString("Language", ""));
     }
 
     public static synchronized Appcontroller getInstance() {
@@ -39,7 +48,7 @@ public class Appcontroller extends Application {
         return mRequestQueue;
     }
 
-   
+
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         // set the default tag if tag is empty
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
@@ -55,5 +64,15 @@ public class Appcontroller extends Application {
         if (mRequestQueue != null) {
             mRequestQueue.cancelAll(tag);
         }
+    }
+
+    public void changeLang(String lang) {
+        if (lang.equalsIgnoreCase(""))
+            return;
+        myLocale = new Locale(lang);
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 }

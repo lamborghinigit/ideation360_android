@@ -87,14 +87,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         people.setOnClickListener(this);
         Ideas_Fragment idea_frgm = new Ideas_Fragment();
         getChildFragmentManager().beginTransaction().replace(R.id.childcontainor, idea_frgm).commit();
-       /* arraylist_ideas = new ArrayList<>();
-        arraylist_campaigns = new ArrayList<>();
-        String json = gson.toJson(SearchFragment.arraylist_ideas);
-        editor.putString("MyObject_Ideas", json);
-        editor.commit();
-        String json_camapigns = gson.toJson(SearchFragment.arraylist_campaigns);
-        editor.putString("MyObject_Campaigns", json_camapigns);
-        editor.commit();*/
 
         homeactivity.homeicon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,18 +96,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         });
 
         ideas.setPaintFlags(ideas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        //ideas.setText(getActivity().getResources().getString(R.string.ideas_underline));
-
-
-       /* max.setOnEditorActionListener(new OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    Log.i(TAG,"Enter pressed");
-                }
-                return false;
-            }
-        });*/
-
     }
 
     @Override
