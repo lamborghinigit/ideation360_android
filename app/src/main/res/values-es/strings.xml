@@ -126,4 +126,5 @@
     <string name="freezebox">ha sido estacionada</string>
     <string name="start">comienzo</string>
     <string name="Stop">detener</string>
+    <string name="loading">Cargando...</string>
 </resources>

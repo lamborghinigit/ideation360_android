@@ -93,6 +93,7 @@ public class IdeaDeatilFragment extends Fragment {
     ImageView image, commentedimage, fillimage;
     private Handler handler;
     MediaPlayer mediaPlayer;
+    String imageurl="";
 
     @Nullable
     @Override
@@ -154,7 +155,6 @@ public class IdeaDeatilFragment extends Fragment {
         comments_recyclerview.setItemAnimator(new DefaultItemAnimator());
         comments_recyclerview.setNestedScrollingEnabled(false);
 
-
         if (getArguments() != null) {
             ideaid = getArguments().getString("ideaid");
             ideatorid = getArguments().getString("ideatorid");
@@ -200,6 +200,7 @@ public class IdeaDeatilFragment extends Fragment {
                 bundle.putString("campaign_name", text_firstcampaign.getText().toString());
                 bundle.putString("idea_title", text_ideatitle.getText().toString());
                 bundle.putString("idea_discrp", text_description.getText().toString());
+                bundle.putString("idea_imgurl", imageurl);
                 update_frgm.setArguments(bundle);
                 homeactivity.replaceFragmentHome(update_frgm);
             }
@@ -248,6 +249,7 @@ public class IdeaDeatilFragment extends Fragment {
                                         .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
                                 GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getmedia/" + response.getString("IdeaId") + "/" + jarry_media.getJSONObject(0).getString("IdeaMediaId"), builder.build());
                                 Glide.with(getActivity()).load(glideUrl).into(fillimage);
+                                imageurl = "https://app.ideation360.com/api/getmedia/" + response.getString("IdeaId") + "/" + jarry_media.getJSONObject(0).getString("IdeaMediaId");
                             } else {
                                 fillimage.setVisibility(View.GONE);
                             }
@@ -288,7 +290,7 @@ public class IdeaDeatilFragment extends Fragment {
                             adapter = new AdapterComment(getActivity(), comments_arraylist, 0, "normal");
                         }
                         comments_recyclerview.setAdapter(adapter);
-                         getprofile(jarry_media, response.getString("IdeaId"));
+                        getprofile(jarry_media, response.getString("IdeaId"));
                     }
                 } catch (Exception e) {
                 }

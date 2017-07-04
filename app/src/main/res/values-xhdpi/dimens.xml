@@ -27,4 +27,6 @@
 
     <dimen name="homeimage">60dp</dimen>
     <dimen name="accountimage">112dp</dimen>
+
+    <dimen name="marginleftcount">40dp</dimen>
 </resources>

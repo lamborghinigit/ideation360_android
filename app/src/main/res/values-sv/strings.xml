@@ -126,4 +126,5 @@
     <string name="freezebox">har parkerats till vidare</string>
     <string name="start">Start</string>
     <string name="Stop">stanna</string>
+    <string name="loading">Laddar…</string>
 </resources>

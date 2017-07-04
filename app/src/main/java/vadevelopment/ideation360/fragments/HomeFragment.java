@@ -193,4 +193,51 @@ public class HomeFragment extends Fragment {
 // Adding request to request queue
         Appcontroller.getInstance().addToRequestQueue(req, tag_json_arry);
     }
+
+    private void getprofile() {
+        // Tag used to cancel the request
+        String tag_json_arry = "json_array_req";
+        JsonObjectRequest req = new JsonObjectRequest(HandyObjects.GETPROFILE + "/" + preferences.getString("ideatorid", ""), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+
+                try {
+                    if (serverstatus.equalsIgnoreCase("200")) {
+                        if (Integer.parseInt(response.getString("NrOfNewNotifications")) > 0) {
+                            homeactivity.counttext.setText(response.getString("NrOfNewNotifications"));
+                            homeactivity.counttext.setVisibility(View.VISIBLE);
+                        } else {
+                            homeactivity.counttext.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                } catch (Exception e) {
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+                return headers;
+            }
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                serverstatus = String.valueOf(response.statusCode);
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+// Adding request to request queue
+        Appcontroller.getInstance().addToRequestQueue(req, tag_json_arry);
+    }
 }

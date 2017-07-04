@@ -42,7 +42,7 @@ public class HandyObjects {
 
     public static void startProgressDialog(Context con) {
         progressDialog = new ProgressDialog(con);
-        progressDialog.setMessage("Wait...");
+        progressDialog.setMessage(con.getResources().getString(R.string.loading));
         progressDialog.setCanceledOnTouchOutside(false);
         if (progressDialog != null) {
             try {

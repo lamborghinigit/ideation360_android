@@ -148,12 +148,19 @@ public class MyProfileFragment extends Fragment {
         JsonObjectRequest req = new JsonObjectRequest(HandyObjects.GETPROFILE + "/" + ideatorid, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                //  Log.d(TAG, response.toString());
+                  Log.d(TAG, response.toString());
 
                 try {
                     if (serverstatus.equalsIgnoreCase("200")) {
                         name.setText(response.getString("FirstName") + " " + response.getString("LastName"));
                         email.setText(response.getString("Email"));
+                        if(Integer.parseInt(response.getString("NrOfNewNotifications")) > 0){
+                          homeactivity.counttext_top.setText(response.getString("NrOfNewNotifications"));
+                            homeactivity.counttext_top.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            homeactivity.counttext_top.setVisibility(View.INVISIBLE);
+                        }
                         getAllMyideas();
                     }
                 } catch (Exception e) {

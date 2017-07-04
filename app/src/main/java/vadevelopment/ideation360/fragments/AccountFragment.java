@@ -104,7 +104,7 @@ public class AccountFragment extends Fragment {
     private String serverstatus, editprofileserver_status;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
-    private ImageView imageview;
+    private ImageView imageview, editimage;
     private Button updatephoto;
     private Context context;
     static final int REQUEST_TAKE_PHOTO = 11111;
@@ -132,6 +132,7 @@ public class AccountFragment extends Fragment {
         name = (TextView) view.findViewById(R.id.name);
         textemail = (TextView) view.findViewById(R.id.textemail);
         imageview = (ImageView) view.findViewById(R.id.imageview);
+        editimage = (ImageView) view.findViewById(R.id.editimage);
         updatephoto = (Button) view.findViewById(R.id.updatephoto);
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
@@ -145,6 +146,13 @@ public class AccountFragment extends Fragment {
         });
 
         imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                check_RequestPermission();
+            }
+        });
+
+        editimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 check_RequestPermission();
@@ -181,6 +189,13 @@ public class AccountFragment extends Fragment {
                 .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
         GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getprofileimage/" + preferences.getString("ideatorid", ""), builder.build());
         Glide.with(getActivity()).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageview);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                editimage.setVisibility(View.VISIBLE);
+            }
+        }, 1000);
     }
 
     private void getprofile() {
@@ -393,7 +408,7 @@ public class AccountFragment extends Fragment {
                 //performCrop(selectedImageUri);
                 /*Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
                 addphoto_img.setImageBitmap(bitmap);*/
-                final Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+               /* final Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
                 imageview.setImageBitmap(bitmap);
                 File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "IdeationImage");
                 f.mkdir();
@@ -401,19 +416,23 @@ public class AccountFragment extends Fragment {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
                 byte[] bitmapdata = bos.toByteArray();
-                //write the bytes in file
                 FileOutputStream fos = new FileOutputStream(imageFile);
                 fos.write(bitmapdata);
                 fos.flush();
-                fos.close();
+                fos.close();*/
+                beginCrop(selectedImageUri);
 
             } catch (Exception e) {
             }
-        } else if (requestCode == RESULT_CROP) {
+        } else if (requestCode == Crop.REQUEST_CROP) {
+            handleCrop(resultCode, data);
+        }
+
+        /*else if (requestCode == RESULT_CROP) {
             if (resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
                 Bitmap selectedBitmap = extras.getParcelable("data");
-                // Set The Bitmap Data To ImageView
+
                 imageview.setImageBitmap(selectedBitmap);
                 try {
                     File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "IdeationImage");
@@ -422,23 +441,46 @@ public class AccountFragment extends Fragment {
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     selectedBitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
                     byte[] bitmapdata = bos.toByteArray();
-                    //write the bytes in file
                     FileOutputStream fos = new FileOutputStream(imageFile);
                     fos.write(bitmapdata);
                     fos.flush();
                     fos.close();
                 } catch (Exception e) {
                 }
-
-                //   imageview.setScaleType(ImageView.ScaleType.FIT_XY);
             }
-        } else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+        }*/
+        else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             CameraActivity activity = (CameraActivity) getActivity();
-             // performCropCamera(activity.getCurrentPhotoPath());
-            setFullImageFromFilePath(activity.getCurrentPhotoPath(), imageview);
+            beginCrop(activity.getCapturedImageURI());
+            // performCropCamera(activity.getCurrentPhotoPath());
+            // setFullImageFromFilePath(activity.getCurrentPhotoPath(), imageview);
         }
     }
 
+    private void beginCrop(Uri source) {
+       /* File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "IdeationImage");
+        f.mkdir();
+        imageFile = new File(f, "IdeationProfile_Img" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");*/
+        try {
+            File photoFile = createImageFile();
+            Uri destination = Uri.fromFile(photoFile);
+            Crop.of(source, destination).asSquare().start(getActivity(), this);
+        } catch (Exception e) {
+        }
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            try {
+                HandyObjects.showAlert(getActivity(), String.valueOf(Crop.getOutput(result)));
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Crop.getOutput(result));
+                imageview.setImageBitmap(bitmap);
+            } catch (Exception e) {
+            }
+            //   imageview.setImageURI(Crop.getOutput(result));
+        } else if (resultCode == Crop.RESULT_ERROR) {
+        }
+    }
 
     private void setFullImageFromFilePath(String imagePath, ImageView imageView) {
 
@@ -550,6 +592,8 @@ public class AccountFragment extends Fragment {
             super.onPostExecute(result);
             try {
                 if (editprofileserver_status.equalsIgnoreCase("200")) {
+                    Glide.get(context).clearMemory();
+                    Glide.get(context).clearDiskCache();
                     HandyObjects.showAlert(context, context.getResources().getString(R.string.pimage_uploadsucc));
                     HandyObjects.stopProgressDialog();
                 } else {

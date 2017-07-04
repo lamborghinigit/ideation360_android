@@ -126,4 +126,5 @@
     <string name="freezebox">is now placed in the freeze box</string>
     <string name="start">Start</string>
     <string name="Stop">Stop</string>
+    <string name="loading">Loading...</string>
 </resources>

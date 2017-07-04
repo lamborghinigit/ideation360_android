@@ -25,4 +25,5 @@
     <dimen name="commentpadding">30dp</dimen>
     <dimen name="homeimage">82dp</dimen>
     <dimen name="accountimage">144dp</dimen>
+    <dimen name="marginleftcount">70dp</dimen>
 </resources>

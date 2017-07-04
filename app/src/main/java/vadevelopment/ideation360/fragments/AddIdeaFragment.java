@@ -1018,8 +1018,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             super.onPostExecute(result);
             try {
                 if (uploadphoto_status.equalsIgnoreCase("200")) {
-
-
                     if (recoded_filepath != null && !recoded_filepath.isEmpty()) {
                         new UploadRecording_Task().execute();
                     } else {

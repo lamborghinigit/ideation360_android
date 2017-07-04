@@ -76,6 +76,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder> {
             LazyHeaders.Builder builder = new LazyHeaders.Builder()
                     .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
             GlideUrl glideUrl = new GlideUrl(arraylist.get(position).getImage(), builder.build());
+
             Glide.with(context).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(viewHolder.image);
         } catch (Exception e) {

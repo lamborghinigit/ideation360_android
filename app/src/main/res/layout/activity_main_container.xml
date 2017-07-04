@@ -44,10 +44,22 @@
                 android:id="@+id/settingicon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/setting"
-                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_centerVertical="true"
+                android:src="@drawable/setting" />
+
+            <TextView
+                android:id="@+id/counttext_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/red_circle"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="9"
+                android:textColor="#ffffff"
+                android:visibility="invisible"
+                android:textSize="@dimen/smalltext" />
         </RelativeLayout>
 
 
@@ -75,9 +87,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.8"
-            android:gravity="center"
             android:clickable="true"
             android:focusable="true"
+            android:gravity="center"
             android:padding="8dp">
 
             <ImageView
@@ -112,12 +124,12 @@
                 android:id="@+id/addideaimg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_horizontal"
-                android:src="@drawable/ic_add"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:src="@drawable/ic_add" />
 
 
         </RelativeLayout>
@@ -134,13 +146,25 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.8"
-            android:gravity="center"
             android:padding="8dp">
+
+            <TextView
+                android:id="@+id/counttext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/marginleftcount"
+                android:background="@drawable/red_circle"
+                android:gravity="center"
+                android:text="9"
+                android:textColor="#ffffff"
+                android:visibility="invisible"
+                android:textSize="@dimen/smalltext" />
 
             <ImageView
                 android:id="@+id/myprofileimg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:background="@null"
                 android:clickable="true"
                 android:focusable="true"

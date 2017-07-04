@@ -33,7 +33,7 @@ import vadevelopment.ideation360.fragments.SettingFragment;
 
 public class HomeActivity extends CameraActivity implements View.OnClickListener {
 
-    public TextView hometoptext;
+    public TextView hometoptext, counttext,counttext_top;
     public LinearLayout radiogroup;
     public RelativeLayout rl_search, rl_addidea, rl_profile;
     public ImageView homeicon, settingicon, searchimg, addideaimg, myprofileimg;
@@ -62,6 +62,8 @@ public class HomeActivity extends CameraActivity implements View.OnClickListener
         rl_addidea = (RelativeLayout) findViewById(R.id.rl_addidea);
         rl_profile = (RelativeLayout) findViewById(R.id.rl_profile);
         hometoptext = (TextView) findViewById(R.id.hometoptext);
+        counttext = (TextView) findViewById(R.id.counttext);
+        counttext_top = (TextView) findViewById(R.id.counttext_top);
         homeicon = (ImageView) findViewById(R.id.homeicon);
         settingicon = (ImageView) findViewById(R.id.settingicon);
         searchimg = (ImageView) findViewById(R.id.searchimg);
