@@ -95,7 +95,9 @@ public class SeachCampaign_Fragment extends Fragment {
                     if (!HandyObjects.isNetworkAvailable(getActivity())) {
                         HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
                     } else {
-                        SearchAll(SearchFragment.et_search.getText().toString());
+                        if(SearchFragment.et_search.getText().toString().length() == 0){} else {
+                            SearchAll(SearchFragment.et_search.getText().toString());
+                        }
                     }
                 }
                 return false;
@@ -133,7 +135,7 @@ public class SeachCampaign_Fragment extends Fragment {
                                     allidea_ske.setNoof_rating(jinside.getString("NrOfRatings"));
                                     allidea_ske.setNoof_comments(jinside.getString("NrOfComments"));
                                     allidea_ske.setDate(jinside.getString("PostedDate"));
-                                    allidea_ske.setImage("https://app.ideation360.com/api/getprofileimage/"+jinside.getString("IdeatorId"));
+                                    allidea_ske.setImage("https://app.ideation360.com/api/getprofileimage/" + jinside.getString("IdeatorId"));
                                     HomeActivity.arraylist_ideas.add(allidea_ske);
                                 }
                                 String json = gson.toJson(HomeActivity.arraylist_ideas);
@@ -148,8 +150,7 @@ public class SeachCampaign_Fragment extends Fragment {
                                     String json_camapigns = gson.toJson(HomeActivity.arraylist_campaigns);
                                     editor.putString("MyObject_Campaigns", json_camapigns);
                                     editor.commit();
-                                }
-                                else {
+                                } else {
                                     HomeActivity.arraylist_campaigns.clear();
                                     for (int j = 0; j < jarry_comp.length(); j++) {
                                         Campaign_Skeleton camp_ske = new Campaign_Skeleton();
@@ -171,7 +172,7 @@ public class SeachCampaign_Fragment extends Fragment {
                                 for (int k = 0; k < jarry_people.length(); k++) {
                                     People_Skeleton people_ske = new People_Skeleton();
                                     JSONObject jobj = jarry_people.getJSONObject(k);
-                                    people_ske.setName(jobj.getString("FirstName")+" "+jobj.getString("LastName"));
+                                    people_ske.setName(jobj.getString("FirstName") + " " + jobj.getString("LastName"));
                                     people_ske.setIdeatorid(jobj.getString("IdeatorId"));
                                     people_ske.setImage("https://app.ideation360.com/api/getprofileimage/" + jobj.getString("IdeatorId"));
                                     HomeActivity.arraylist_people.add(people_ske);
@@ -180,7 +181,12 @@ public class SeachCampaign_Fragment extends Fragment {
                                 editor.putString("MyObject_people", json_people);
                                 editor.commit();
                             } else if (serverstatus.equalsIgnoreCase("400")) {
-                               // HandyObjects.showAlert(getActivity(), getResources().getString(R.string.alreadyaccount));
+                                // HandyObjects.showAlert(getActivity(), getResources().getString(R.string.alreadyaccount));
+                                HomeActivity.arraylist_campaigns.clear();
+                                recyclerView.setAdapter(adapter);
+                                String json_camapigns = gson.toJson(HomeActivity.arraylist_campaigns);
+                                editor.putString("MyObject_Campaigns", json_camapigns);
+                                editor.commit();
                             }
                             HandyObjects.stopProgressDialog();
                         } catch (Exception e) {
@@ -192,7 +198,12 @@ public class SeachCampaign_Fragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                // HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                HomeActivity.arraylist_campaigns.clear();
+                recyclerView.setAdapter(adapter);
+                String json_camapigns = gson.toJson(HomeActivity.arraylist_campaigns);
+                editor.putString("MyObject_Campaigns", json_camapigns);
+                editor.commit();
                 HandyObjects.stopProgressDialog();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }

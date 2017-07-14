@@ -27,7 +27,6 @@
                 android:id="@+id/text_ideatitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="@string/ideaTitle"
                 android:textColor="#000000"
                 android:textSize="@dimen/largetext" />
@@ -68,7 +67,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/date"
                     android:layout_toRightOf="@+id/image">
 
                     <vadevelopment.ideation360.design.HelviticaBold
@@ -91,19 +89,17 @@
                         android:textColor="#000000"
                         android:textSize="@dimen/mediumtext" />
 
-
+                    <vadevelopment.ideation360.design.HelviticaRegular
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:text="2017.06.12"
+                        android:textColor="#000000"
+                        android:textSize="@dimen/smalltext" />
                 </RelativeLayout>
 
-
-                <vadevelopment.ideation360.design.HelviticaRegular
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:paddingTop="3dp"
-                    android:text="2017.06.12"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/smalltext" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -113,8 +109,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/idea_detailimage"
             android:layout_marginTop="@dimen/mediumtext"
-            android:scaleType="fitXY"
             android:background="#d4d4d4"
+            android:scaleType="centerCrop"
             android:visibility="gone" />
 
         <LinearLayout
@@ -142,6 +138,39 @@
                 android:text="dsdsfgf"
                 android:textColor="#000000"
                 android:textSize="@dimen/textbutton" />
+
+            <LinearLayout
+                android:id="@+id/ll_playrecording"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/smalltext"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/onlyyellow">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/play" />
+
+                </RelativeLayout>
+
+                <vadevelopment.ideation360.design.HelviticaBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/screenpadding"
+                    android:text="@string/playrecording"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/screenpadding" />
+
+
+            </LinearLayout>
 
 
             <vadevelopment.ideation360.design.HelviticaBold
@@ -212,28 +241,28 @@
                 android:id="@+id/comments_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/screenpadding">
+                android:layout_marginTop="@dimen/smalltext">
 
             </android.support.v7.widget.RecyclerView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/mediumtext"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/mediumtext">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/commentedimage"
                     android:layout_width="@dimen/margintop_loginbtn"
                     android:layout_height="@dimen/margintop_loginbtn"
-                    android:layout_marginTop="@dimen/mediumtext"
                     android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/commentpadding"
                     android:src="@drawable/profileimg" />
 
                 <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
                     android:id="@+id/et_comment"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/et_height"
+                    android:layout_height="@dimen/buttonheight"
                     android:layout_marginBottom="@dimen/screenpadding"
                     android:layout_marginTop="@dimen/screenpadding"
                     android:background="@android:color/transparent"
@@ -243,7 +272,8 @@
                     android:paddingLeft="@dimen/screenpadding"
                     android:textColor="#868686"
                     android:textColorHint="#868686"
-                    android:textSize="@dimen/mediumtext" />
+                    android:textSize="@dimen/mediumtext"
+                    android:imeOptions="actionDone"/>
 
             </LinearLayout>
 

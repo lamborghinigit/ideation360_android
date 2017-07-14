@@ -5,25 +5,18 @@
 
 
     <string name="signUp">REGISTRERA</string>
-    <string name="login">LOGGA IN</string>
-    <string name="loginSmall">LOGGA IN</string>
-    <string name="forgotText"><u>contraseña olvidada</u></string>
-
+    <string name="login">Logga in</string>
+    <string name="loginSmall">Logga in</string>
+    <string name="forgotText"><u>glömt lösenord</u></string>
     <string name="resetPassword">SKICKA</string>
     <string name="noWorry">Inga \nproblem</string>
-
     <string name="forgetPassword">Att glömma ett lösenord händer de bästa av oss. Skicka oss ett mail och vi hjälper dig att återställa det.</string>
-
     <string name="registerText">Skapa konto</string>
-
     <string name="termsText"><u>jag samtycker till villkor och integritetspolicy</u></string>
     <!--emailText-->
-
     <string name="emailText">e-post</string>
     <string name="passwordText">lösenord</string>
-
     <!--registerText-->
-
     <string name="first">Förnamn</string>
     <string name="last">Efternamn</string>
     <string name="compName">Mitt företags namn</string>
@@ -61,16 +54,16 @@
     <string name="emailtext"><u>a@gmail.com</u></string>
     <string name="updatephoto">UPPDATERA FOTO</string>
     <string name="abouttop">Om oss</string>
-    <string name="whowe">Who we are</string>
+    <string name="whowe">Vilka är vi</string>
     <string name="searchet_value">skriv vad du letar efter ...</string>
 
-    <string name="abouttext">We are a group of passionate people who loves innovation! That is why we started ideation360. Our vision is to be the world’s leading platform for ideation.\n\nIf change is the new normal then speed is the new black and because of this the way of working with innovation is rapidly changing. With ideation360 we want to enable organisations to create breakthrough innovations by using all of their  employees, customers and partners creativity. Because we believe this is the only sustainable way to not only keep up with the phase of change but to use it to your advantage.</string>
+    <string name="abouttext">Vi är en grupp passionerade människor som älskar innovation! Det är anledningen till att vi startade ideation360. Vår vision är att bli världens ledande plattform för ideation.\n\nOm förändring är det nya normala, då är hastigheten det nya svarta och på grund av detta förändras sättet att arbeta med innovation snabbt. Med ideation360 vill vi göra det möjligt för organisationer att skapa innovationer med hjälp av alla sina anställda, kunder och partners kreativitet. Vi tror att detta är det enda hållbara sättet att inte bara hålla jämna stegs med förändringen, utan att också använda den till sin fördel.</string>
     <string name="ideas"><u>IDEAS</u></string>
     <string name="people">PERSONER</string>
     <string name="search">Sök</string>
     <string name="searchideas">IDÉER</string>
     <string name="searchcampaigns">KAMPANJER</string>
-    <string name="application_network_error">"Internet connection not available"</string>
+    <string name="application_network_error">"Internet-anslutning saknas"</string>
     <string name="select_termcondition">jag samtycker till villkor och integritetspolicy.</string>
     <string name="noclient_avalibale">Ingen klient tillgänglig.</string>
     <string name="alreadyaccount">Ett konto är redan registrerat med denna e-post.</string>
@@ -127,4 +120,9 @@
     <string name="start">Start</string>
     <string name="Stop">stanna</string>
     <string name="loading">Laddar…</string>
+    <string name="termcondition">Term &amp; Conditions</string>
+    <string name="playrecording">Play Recording</string>
+    <string name="cmntadded">Kommentar tillagd</string>
+    <string name="listenrecording">lyssna inspelning</string>
+    <string name="choosetore">Välj att spela in på nytt</string>
 </resources>

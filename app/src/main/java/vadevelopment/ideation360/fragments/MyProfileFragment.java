@@ -1,5 +1,6 @@
 package vadevelopment.ideation360.fragments;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -96,6 +97,7 @@ public class MyProfileFragment extends Fragment {
         homeactivity.homeicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //   ((Activity)getActivity()).getFragmentManager().popBackStack();
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -148,17 +150,16 @@ public class MyProfileFragment extends Fragment {
         JsonObjectRequest req = new JsonObjectRequest(HandyObjects.GETPROFILE + "/" + ideatorid, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                  Log.d(TAG, response.toString());
+                Log.d(TAG, response.toString());
 
                 try {
                     if (serverstatus.equalsIgnoreCase("200")) {
                         name.setText(response.getString("FirstName") + " " + response.getString("LastName"));
                         email.setText(response.getString("Email"));
-                        if(Integer.parseInt(response.getString("NrOfNewNotifications")) > 0){
-                          homeactivity.counttext_top.setText(response.getString("NrOfNewNotifications"));
+                        if (Integer.parseInt(response.getString("NrOfNewNotifications")) > 0) {
+                            homeactivity.counttext_top.setText(response.getString("NrOfNewNotifications"));
                             homeactivity.counttext_top.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             homeactivity.counttext_top.setVisibility(View.INVISIBLE);
                         }
                         getAllMyideas();
@@ -172,7 +173,7 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+//                HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
                 HandyObjects.stopProgressDialog();
             }
         }) {

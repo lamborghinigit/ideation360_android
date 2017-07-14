@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +20,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -30,9 +32,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -41,8 +45,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -50,6 +56,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -117,7 +124,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     private ArrayList<String> campaignid, ideationname_hashset, cname, campaignname_arraylist;
     private Spinner firstSpinner, secondSpinner;
     private TextView firstspin_maintext, secondspin_maintext;
-    private ImageView addphoto_img, record_audio;
+    private ImageView addphoto_img, record_audio, already_recorded;
     static final int REQUEST_TAKE_PHOTO = 11111;
     private Context context;
     private Dialog recording_dialog;
@@ -144,6 +151,10 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     private Adpater_AddIdeaSecond adpater_second;
     private View linesecond, viewtwo;
     private File imageFile;
+    private LinearLayout llroot;
+    private ScrollView scrollview;
+    private boolean isdescrp;
+    private Cursor cursor;
 
 
     @Nullable
@@ -163,17 +174,22 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         homeactivity.radiogroup.setVisibility(View.GONE);
         //  firstSpinner = (Spinner) view.findViewById(R.id.firstSpinner);
         //  secondSpinner = (Spinner) view.findViewById(R.id.secondSpinner);
+        llroot = (LinearLayout) view.findViewById(R.id.llroot);
         savedraft = (Button) view.findViewById(R.id.savedraft);
         postidea = (Button) view.findViewById(R.id.postidea);
         firstspin_maintext = (TextView) view.findViewById(R.id.firstspin_maintext);
         secondspin_maintext = (TextView) view.findViewById(R.id.secondspin_maintext);
         addphoto_img = (ImageView) view.findViewById(R.id.addphoto_img);
         record_audio = (ImageView) view.findViewById(R.id.record_audio);
+        already_recorded = (ImageView) view.findViewById(R.id.already_recorded);
         et_ideatitle = (EditText) view.findViewById(R.id.et_ideatitle);
         et_descp = (EditText) view.findViewById(R.id.et_descp);
         linesecond = (View) view.findViewById(R.id.linesecond);
         viewtwo = (View) view.findViewById(R.id.viewtwo);
+        scrollview = (ScrollView) view.findViewById(R.id.scrollview);
         database = ParseOpenHelper.getInstance(context).getWritableDatabase();
+        et_descp.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        et_descp.setRawInputType(InputType.TYPE_CLASS_TEXT);
 
         first_listview = (ListView) view.findViewById(R.id.first_listview);
         second_listview = (ListView) view.findViewById(R.id.second_listview);
@@ -189,6 +205,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         editor = preferences.edit();
         addphoto_img.setOnClickListener(this);
         record_audio.setOnClickListener(this);
+        already_recorded.setOnClickListener(this);
         savedraft.setOnClickListener(this);
         postidea.setOnClickListener(this);
         adapter_first = new Adapter_AddIdeaFirst(getActivity(), ideationname_hashset);
@@ -274,12 +291,13 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 second_listview.setVisibility(View.INVISIBLE);
                 et_ideatitle.setVisibility(View.VISIBLE);
+                et_ideatitle.requestFocus();
                 viewtwo.setVisibility(View.VISIBLE);
                 secondspin_maintext.setText(campaignname_arraylist.get(i).toString());
             }
         });
 
-        if (getArguments() != null) {
+        if (getArguments() != null && getArguments().getString("from").equalsIgnoreCase("savedidea")) {
             Log.e("withargument", "withargument");
             saved_idea = getArguments().getParcelable("saved_idea");
             et_ideatitle.setText(saved_idea.getIdea_name());
@@ -288,7 +306,9 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
 
             if (recoded_filepath != null && !recoded_filepath.isEmpty()) {
                 recoded_file = new File(recoded_filepath);
-                record_audio.setImageResource(R.drawable.addvoice_gray);
+                //  record_audio.setImageResource(R.drawable.addvoice_gray);
+                record_audio.setVisibility(View.INVISIBLE);
+                already_recorded.setVisibility(View.VISIBLE);
             }
             if (saved_idea.getImage_path() != null && !saved_idea.getImage_path().isEmpty()) {
 
@@ -301,14 +321,49 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
 
                 imageFile = new File(saved_idea.getImage_path());
             }
-        } else {
-            Log.e("noargument", "noargument");
         }
 
+        et_descp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isdescrp == true) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollview.scrollTo(0, 380);
+                        }
+                    }, 240);
+                }
+            }
+        });
+
+        et_descp.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    // code to execute when EditText loses focus
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            String kk = "-320";
+                            scrollview.scrollTo(0, Integer.parseInt(kk));
+                        }
+                    }, 240);
+                    isdescrp = false;
+                } else {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollview.scrollTo(0, 380);
+                        }
+                    }, 240);
+                    isdescrp = true;
+                }
+            }
+        });
     }
 
     private void getAllCampaigns() {
-        // Tag used to cancel the request
         String tag_json_arry = "json_array_req";
         //  HandyObjects.startProgressDialog(getActivity());
         JsonArrayRequest req = new JsonArrayRequest(HandyObjects.MYCAMPAIGNS + "/" + preferences.getString("ideatorid", ""), new Response.Listener<JSONArray>() {
@@ -338,22 +393,29 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                         Collections.reverse(ideationname_hashset);
 
                         first_listview.setAdapter(adapter_first);
-                        if (getArguments() != null) {
+                        if (getArguments() != null && getArguments().getString("from").equalsIgnoreCase("savedidea")) {
                             firstspin_maintext.setText(saved_idea.getIdeationsaved_name());
+                            cursor = database.query(ParseOpenHelper.TABLENAME_GETCAMPAIGN, null, ParseOpenHelper.IDEATION_NAME + "=?", new String[]{saved_idea.getIdeationsaved_name()}, null, null, null);
                             // secondspin_maintext.setText(saved_idea.getCampaign());
+                        } else if (getArguments() != null && getArguments().getString("from").equalsIgnoreCase("compaigndetail")) {
+                            firstspin_maintext.setText(getArguments().getString("ideation_name"));
+                            cursor = database.query(ParseOpenHelper.TABLENAME_GETCAMPAIGN, null, ParseOpenHelper.IDEATION_NAME + "=?", new String[]{getArguments().getString("ideation_name")}, null, null, null);
                         } else {
                             firstspin_maintext.setText(ideationname_hashset.get(0).toString());
+                            cursor = database.query(ParseOpenHelper.TABLENAME_GETCAMPAIGN, null, ParseOpenHelper.IDEATION_NAME + "=?", new String[]{ideationname_hashset.get(0).toString()}, null, null, null);
                         }
 
-                        Cursor cursor = database.query(ParseOpenHelper.TABLENAME_GETCAMPAIGN, null, ParseOpenHelper.IDEATION_NAME + "=?", new String[]{ideationname_hashset.get(0).toString()}, null, null, null);
+
                         cursor.moveToFirst();
                         while (!cursor.isAfterLast()) {
                             campaignname_arraylist.add(cursor.getString(cursor.getColumnIndex("campaign_name")));
                             cursor.moveToNext();
                         }
                         cursor.close();
-                        if (getArguments() != null) {
+                        if (getArguments() != null && getArguments().getString("from").equalsIgnoreCase("savedidea")) {
                             secondspin_maintext.setText(saved_idea.getCampaign());
+                        } else if (getArguments() != null && getArguments().getString("from").equalsIgnoreCase("compaigndetail")) {
+                            secondspin_maintext.setText(getArguments().getString("campaign_name"));
                         } else {
                             secondspin_maintext.setText(campaignname_arraylist.get(0).toString());
                         }
@@ -403,6 +465,9 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                     recording_Dialog();
                 }
                 break;
+            case R.id.already_recorded:
+                alreadyrecorded();
+                break;
             case R.id.savedraft:
                 if (getArguments() != null) {
                     if (et_ideatitle.getText().toString().length() == 0) {
@@ -439,7 +504,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                             long idd = database.insert("tablesavedidea", null, cv);
                         } catch (Exception e) {
                         }
-                        HandyObjects.showAlert(getActivity(),getResources().getString(R.string.ideasavedsuccess));
+                        HandyObjects.showAlert(getActivity(), getResources().getString(R.string.ideasavedsuccess));
                         SavedIdeasFragment sf = new SavedIdeasFragment();
                         homeactivity.replaceFragmentHome(sf);
 
@@ -466,6 +531,64 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
+    private void alreadyrecorded() {
+        final Display display = getActivity().getWindowManager().getDefaultDisplay();
+        int w = display.getWidth();
+        int h = display.getHeight();
+        final Dialog akreadyrecorded = new Dialog(getActivity());
+        akreadyrecorded.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Window window = akreadyrecorded.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+        akreadyrecorded.setContentView(R.layout.dialog_media_picker);
+        LinearLayout approx_lay = (LinearLayout) akreadyrecorded.findViewById(R.id.approx_lay);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(w - 30, (h / 3) - 20);
+        approx_lay.setLayoutParams(params);
+
+        TextView options_camera = (TextView) akreadyrecorded.findViewById(R.id.options_camera);
+        options_camera.setText(getActivity().getResources().getString(R.string.listenrecording));
+        options_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                akreadyrecorded.dismiss();
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction(android.content.Intent.ACTION_VIEW);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    Uri fileUri = FileProvider.getUriForFile(getActivity(),
+                            "com.example.android.fileprovider", recoded_file);
+                    //intent.setDataAndType(Uri.fromFile(recoded_file), "audio/mp3");
+                    intent.setDataAndType(fileUri, "audio/mp3");
+                    startActivity(intent);
+                } catch (Exception e) {
+                }
+
+            }
+        });
+        TextView options_gallery = (TextView) akreadyrecorded.findViewById(R.id.options_gallery);
+        options_gallery.setText(getActivity().getResources().getString(R.string.choosetore));
+        options_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                akreadyrecorded.dismiss();
+                recording_Dialog();
+            }
+        });
+        TextView options_cancel = (TextView) akreadyrecorded.findViewById(R.id.options_cancel);
+        options_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                akreadyrecorded.dismiss();
+            }
+        });
+        akreadyrecorded.show();
+    }
+
+
     private void recording_Dialog() {
         recording_dialog = new Dialog(getActivity());
         recording_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -481,7 +604,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         wlp.gravity = Gravity.CENTER;
         wlp.flags &= ~WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
         window.setAttributes(wlp);
-
 
         recording_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
@@ -523,16 +645,19 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         stop_recording.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timeSwapBuff += timeInMilliseconds;
-                customHandler.removeCallbacks(updateTimerThread);
-                //  rl_recordingtime.setVisibility(View.GONE);
-                stopRecording();
-                recording_dialog.dismiss();
-                //HandyObjects.showAlert(context, recoded_file.getAbsolutePath());
-
-                if (recoded_file.getAbsolutePath() != null || !recoded_file.getAbsolutePath().isEmpty()) {
-                    record_audio.setImageResource(R.drawable.addvoice_gray);
+                try {
+                    timeSwapBuff += timeInMilliseconds;
+                    customHandler.removeCallbacks(updateTimerThread);
+                    stopRecording();
+                    recording_dialog.dismiss();
+                    if (recoded_file.getAbsolutePath() != null || !recoded_file.getAbsolutePath().isEmpty()) {
+                        // record_audio.setImageResource(R.drawable.addvoice_gray);
+                        record_audio.setVisibility(View.INVISIBLE);
+                        already_recorded.setVisibility(View.VISIBLE);
+                    }
+                } catch (Exception e) {
                 }
+
             }
         });
         recording_dialog.show();
@@ -542,7 +667,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(output_formats[currentFormat]);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.HE_AAC);
         recorder.setOutputFile(getFilename());
         recorder.setOnErrorListener(errorListener);
         recorder.setOnInfoListener(infoListener);
@@ -558,12 +683,25 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     }
 
     private String getFilename() {
-        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation_Recording");
+        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation");
         f.mkdir();
-        // recoded_file = new File(f, "jhjkhdjkashd.mp3");
         recoded_file = new File(f, "recorded" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".mp3");
-        //Toast.makeText(ChatActivity.this,recoded_file.getAbsolutePath(),Toast.LENGTH_SHORT).show();
         recoded_filepath = recoded_file.getAbsolutePath();
+        /*try {
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            recoded_file = File.createTempFile(
+                    imageFileName,
+                    ".mp3",
+                    storageDir
+            );
+            recoded_filepath = recoded_file.getAbsolutePath();
+        }
+        catch (Exception e){
+
+        }*/
+
         return (recoded_file.getAbsolutePath());
     }
 
@@ -753,20 +891,33 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri fileUri = Uri.fromFile(photoFile);
+                Uri fileUri = FileProvider.getUriForFile(getActivity(),
+                        "com.example.android.fileprovider", photoFile);
                 activity.setCapturedImageURI(fileUri);
-                activity.setCurrentPhotoPath(fileUri.getPath());
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        activity.getCapturedImageURI());
+                activity.setCurrentPhotoPath(photoFile.getAbsolutePath());
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                    takePictureIntent.setClipData(ClipData.newRawUri("", fileUri));
+                    takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION|Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, activity.getCapturedImageURI());
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
     }
 
     protected File createImageFile() throws IOException {
-        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation_AddIdeaImage");
+        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation");
         f.mkdir();
         imageFile = new File(f, "addidea" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
+      /*  String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        imageFile = File.createTempFile(
+                imageFileName,  *//* prefix *//*
+                ".jpg",         *//* suffix *//*
+                storageDir      *//* directory *//*
+        );
+*/
 
         // Save a file: path for use with ACTION_VIEW intents
         CameraActivity activity = (CameraActivity) getActivity();
@@ -780,31 +931,23 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         if (requestCode == LOAD_FROMGALLERY && data != null) {
             try {
                 final Uri selectedImageUri = data.getData();
-             /*   Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-                addphoto_img.setImageBitmap(bitmap);*/
-
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-                            addphoto_img.setImageBitmap(bitmap);
-                            File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation_AddIdeaImage");
-                            f.mkdir();
-                            imageFile = new File(f, "addidea" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
-                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
-                            byte[] bitmapdata = bos.toByteArray();
-                            FileOutputStream fos = new FileOutputStream(imageFile);
-                            fos.write(bitmapdata);
-                            fos.flush();
-                            fos.close();
-                            selimage_path = imageFile.getAbsolutePath();
-                        } catch (Exception e) {
-                        }
-
-                    }
-                });
+                try {
+                    final Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+                    addphoto_img.setImageBitmap(bitmap);
+                    File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation_AddIdeaImage");
+                    f.mkdir();
+                    imageFile = new File(f, "addidea" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+                    FileOutputStream fos = new FileOutputStream(imageFile);
+                    fos.write(bitmapdata);
+                    fos.flush();
+                    fos.close();
+                    selimage_path = imageFile.getAbsolutePath();
+                } catch (Exception e) {
+                }
+                //addphoto_img.setImageBitmap(bitmap);
                /* CameraActivity activity = (CameraActivity) getActivity();
                 activity.setCurrentPhotoPath(imageFile.getAbsolutePath());
                 setFullImageFromFilePath(activity.getCurrentPhotoPath(), addphoto_img);*/
@@ -931,6 +1074,8 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                                         new UploadRecording_Task().execute();
                                     } else {
                                         HandyObjects.stopProgressDialog();
+                                        HomeFragment hf = new HomeFragment();
+                                        homeactivity.replaceFragmentHome(hf);
                                     }
 
 

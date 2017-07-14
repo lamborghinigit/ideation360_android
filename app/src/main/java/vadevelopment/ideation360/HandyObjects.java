@@ -36,6 +36,7 @@ public class HandyObjects {
     public static final String UPDATE_MEDIA = BASE_URL + "uploadmedia/";
     public static final String GET_MEDIA = BASE_URL + "getmedia/";
     public static final String RATE_IDEA = BASE_URL + "rateidea";
+    public static final String TERM_CONDITION = BASE_URL + "getterms";
 
     //https://app.ideation360.com/api/getmedia/2365/1355
     public static ProgressDialog progressDialog;

@@ -103,32 +103,31 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.ideas:
                 ideas.setPaintFlags(ideas.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                campaigns.setPaintFlags(campaigns.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
-                people.setPaintFlags(people.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
-               // campaigns.setPaintFlags(0);
+                campaigns.setPaintFlags(campaigns.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                people.setPaintFlags(people.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                // campaigns.setPaintFlags(0);
                 Ideas_Fragment idea_frgm = new Ideas_Fragment();
                 getChildFragmentManager().beginTransaction().replace(R.id.childcontainor, idea_frgm).commit();
                 break;
             case R.id.campaigns:
-             //   ideas.setPaintFlags(0);
+                //   ideas.setPaintFlags(0);
                 campaigns.setPaintFlags(campaigns.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                ideas.setPaintFlags(ideas.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
-                people.setPaintFlags(people.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
+                ideas.setPaintFlags(ideas.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                people.setPaintFlags(people.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
 
                 SeachCampaign_Fragment campaign_frgm = new SeachCampaign_Fragment();
                 getChildFragmentManager().beginTransaction().replace(R.id.childcontainor, campaign_frgm).commit();
                 break;
             case R.id.people:
-                ideas.setPaintFlags(ideas.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
+                ideas.setPaintFlags(ideas.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
                 people.setPaintFlags(people.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                campaigns.setPaintFlags(campaigns.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
+                campaigns.setPaintFlags(campaigns.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
 
                 People_Fragment people_frgm = new People_Fragment();
                 getChildFragmentManager().beginTransaction().replace(R.id.childcontainor, people_frgm).commit();
                 break;
         }
     }
-
 
 
 }

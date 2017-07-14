@@ -76,7 +76,7 @@ public class AdapterSavedIdeas extends RecyclerView.Adapter<AdapterSavedIdeas.Vi
         //viewHolder.date.setText(arraylist.get(position).getAudio_path());
         LazyHeaders.Builder builder = new LazyHeaders.Builder()
                 .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
-        GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getprofileimage/" +  preferences.getString("ideatorid", ""), builder.build());
+        GlideUrl glideUrl = new GlideUrl("https://app.ideation360.com/api/getprofileimage/" + preferences.getString("ideatorid", ""), builder.build());
         Glide.with(context).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(viewHolder.image);
         viewHolder.ll_main.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +84,8 @@ public class AdapterSavedIdeas extends RecyclerView.Adapter<AdapterSavedIdeas.Vi
                 AddIdeaFragment addidea_frg = new AddIdeaFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("saved_idea", data);
-              //  bundle.putString("fromsaved_idea", "yup");
+                bundle.putString("from", "savedidea");
+                //  bundle.putString("fromsaved_idea", "yup");
                 addidea_frg.setArguments(bundle);
                 homeActivity.replaceFragmentHome(addidea_frg);
             }

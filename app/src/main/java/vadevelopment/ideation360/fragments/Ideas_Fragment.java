@@ -86,6 +86,7 @@ public class Ideas_Fragment extends Fragment {
             recyclerView.setAdapter(adapter);
         } catch (Exception e) {
         }
+
         SearchFragment.et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -94,7 +95,10 @@ public class Ideas_Fragment extends Fragment {
                     if (!HandyObjects.isNetworkAvailable(getActivity())) {
                         HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
                     } else {
-                        SearchAll(SearchFragment.et_search.getText().toString());
+                        if(SearchFragment.et_search.getText().toString().length() == 0){} else {
+                            SearchAll(SearchFragment.et_search.getText().toString());
+                        }
+
                     }
                 }
                 return false;
@@ -177,7 +181,11 @@ public class Ideas_Fragment extends Fragment {
                                 editor.putString("MyObject_people", json_people);
                                 editor.commit();
                             } else if (serverstatus.equalsIgnoreCase("400")) {
-                                //HandyObjects.showAlert(getActivity(), getResources().getString(R.string.alreadyaccount));
+                                HomeActivity.arraylist_ideas.clear();
+                                recyclerView.setAdapter(adapter);
+                                String json = gson.toJson(HomeActivity.arraylist_ideas);
+                                editor.putString("MyObject_Ideas", json);
+                                editor.commit();
                             }
                             HandyObjects.stopProgressDialog();
                         } catch (Exception e) {
@@ -190,7 +198,12 @@ public class Ideas_Fragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                HomeActivity.arraylist_ideas.clear();
+                recyclerView.setAdapter(adapter);
+                String json = gson.toJson(HomeActivity.arraylist_ideas);
+                editor.putString("MyObject_Ideas", json);
+                editor.commit();
+              //  HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
                 HandyObjects.stopProgressDialog();
             }
         }) {

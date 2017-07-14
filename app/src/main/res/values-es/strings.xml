@@ -70,7 +70,7 @@
     <string name="search">Buscar</string>
     <string name="searchideas">IDEAS</string>
     <string name="searchcampaigns">CAMPAÑAS</string>KAMPANJER
-    <string name="application_network_error">"Internet connection not available"</string>
+    <string name="application_network_error">"Conexión a Internet no está disponible"</string>
     <string name="select_termcondition">acepto los términos y política de privacidad.</string>
     <string name="noclient_avalibale">No hay cliente disponible.</string>
     <string name="alreadyaccount">Ya hay una cuenta registrada en este correo electrónico.</string>
@@ -127,4 +127,9 @@
     <string name="start">comienzo</string>
     <string name="Stop">detener</string>
     <string name="loading">Cargando...</string>
+    <string name="playrecording">juego de grabación</string>
+    <string name="termcondition">Term &amp; Conditions</string>
+    <string name="cmntadded">comentario añadido</string>
+    <string name="listenrecording">escuchar la grabación</string>
+    <string name="choosetore">Optar por volver a grabar</string>
 </resources>

@@ -5,16 +5,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -56,6 +62,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private SharedPreferences.Editor editor;
     private static String TAG = "LoginFragment";
     private SQLiteDatabase database;
+    private NestedScrollView rlmain;
+    Handler handler;
+    private ImageView back;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
 
     @Nullable
     @Override
@@ -71,21 +87,35 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         loginApp = (Button) view.findViewById(R.id.loginApp);
         et_email = (EditText) view.findViewById(R.id.et_email);
         et_pwd = (EditText) view.findViewById(R.id.et_pwd);
+        back = (ImageView) view.findViewById(R.id.back);
         get_email = et_email.getText().toString().trim();
         get_pwd = et_pwd.getText().toString().trim();
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
         database = ParseOpenHelper.getInstance(getActivity()).getWritableDatabase();
-
+        rlmain = (NestedScrollView) view.findViewById(R.id.rlmain);
+        handler = new Handler();
 
         bottomForgot.setOnClickListener(this);
         loginApp.setOnClickListener(this);
-        containor.firstLinear.setVisibility(View.VISIBLE);
+        containor.firstLinear.setVisibility(View.GONE);
 
-        containor.back.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
+        et_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        rlmain.scrollTo(0, 20);
+                    }
+                }, 10);
             }
         });
 
@@ -103,17 +133,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 get_pwd = et_pwd.getText().toString().trim();
 
                 if (get_email.length() == 0) {
-                   // et_email.setError("Field is Empty");
-                   // et_email.requestFocus();
-                    HandyObjects.showAlert(getActivity(),getResources().getString(R.string.enterusernameorpwd));
+                    // et_email.setError("Field is Empty");
+                    // et_email.requestFocus();
+                    HandyObjects.showAlert(getActivity(), getResources().getString(R.string.enterusernameorpwd));
                 } else if (!Patterns.EMAIL_ADDRESS.matcher(get_email).matches()) {
-                  //  et_email.setError("Enter valid Email");
-                    HandyObjects.showAlert(getActivity(),"Invalid email");
+                    //  et_email.setError("Enter valid Email");
+                    HandyObjects.showAlert(getActivity(), "Invalid email");
                     et_email.requestFocus();
                 } else if (get_pwd.length() == 0) {
                     //et_pwd.setError("Field is blank");
-                   // et_pwd.requestFocus();
-                    HandyObjects.showAlert(getActivity(),getResources().getString(R.string.enterusernameorpwd));
+                    // et_pwd.requestFocus();
+                    HandyObjects.showAlert(getActivity(), getResources().getString(R.string.enterusernameorpwd));
                 } else if (!HandyObjects.isNetworkAvailable(getActivity())) {
                     HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
                 } else {
@@ -186,7 +216,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 } catch (Exception e) {
                                 }
                             } else if (serverstatus.equalsIgnoreCase("400")) {
-                               // HandyObjects.showAlert(getActivity(), getResources().getString(R.string.alreadyaccount));
+                                // HandyObjects.showAlert(getActivity(), getResources().getString(R.string.alreadyaccount));
                                 HandyObjects.showAlert(getActivity(), getResources().getString(R.string.invalidusername));
                             }
                             HandyObjects.stopProgressDialog();

@@ -23,7 +23,8 @@
             android:textColor="#868686"
             android:textColorHint="#868686"
             android:inputType="textPersonName"
-            android:textSize="@dimen/mediumtext" />
+            android:textSize="@dimen/mediumtext"
+            android:imeOptions="actionDone"/>
 
         <View
             android:id="@+id/viewone"

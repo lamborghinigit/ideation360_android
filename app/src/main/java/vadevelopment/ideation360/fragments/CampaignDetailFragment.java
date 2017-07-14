@@ -115,7 +115,13 @@ public class CampaignDetailFragment extends Fragment {
         submitidea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                homeactivity.replaceFragmentHome(new AddIdeaFragment());
+                AddIdeaFragment addidea = new AddIdeaFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("from", "compaigndetail");
+                bundle.putString("campaign_name", campaign_name.getText().toString());
+                bundle.putString("ideation_name", ideationname.getText().toString());
+                addidea.setArguments(bundle);
+                homeactivity.replaceFragmentHome(addidea);
             }
         });
 

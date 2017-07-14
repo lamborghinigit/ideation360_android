@@ -5,7 +5,7 @@
     <dimen name="minHeight">120dp</dimen>
 
     <dimen name="screenpadding">20dp</dimen>
-    <dimen name="largetext">50dp</dimen>
+    <dimen name="largetext">52dp</dimen>
     <dimen name="buttonheight">48dp</dimen>
     <dimen name="et_height">37dp</dimen>
     <dimen name="textbutton">18dp</dimen>
@@ -20,7 +20,7 @@
     <dimen name="imagesize">102dp</dimen>
     <dimen name="idea_detailimage">220dp</dimen>
 
-    <dimen name="bigratingbar">110px</dimen>
+    <dimen name="bigratingbar">166px</dimen>
     <dimen name="listheight">102dp</dimen>
     <dimen name="homepadding">4dp</dimen>
     <dimen name="commentpadding">15dp</dimen>

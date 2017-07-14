@@ -25,6 +25,7 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.signature.StringSignature;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -33,6 +34,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import vadevelopment.ideation360.HomeActivity;
 import vadevelopment.ideation360.R;
@@ -76,9 +78,8 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder> {
             LazyHeaders.Builder builder = new LazyHeaders.Builder()
                     .addHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
             GlideUrl glideUrl = new GlideUrl(arraylist.get(position).getImage(), builder.build());
-
-            Glide.with(context).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(viewHolder.image);
+         //   Glide.with(context).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(viewHolder.image);
+            Glide.with(context).load(glideUrl).diskCacheStrategy(DiskCacheStrategy.NONE).into(viewHolder.image);
         } catch (Exception e) {
         }
         if (text.equalsIgnoreCase("profile")) {

@@ -93,7 +93,9 @@ public class People_Fragment extends Fragment {
                     if (!HandyObjects.isNetworkAvailable(getActivity())) {
                         HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
                     } else {
-                        SearchAll(SearchFragment.et_search.getText().toString());
+                        if(SearchFragment.et_search.getText().toString().length() == 0){} else {
+                            SearchAll(SearchFragment.et_search.getText().toString());
+                        }
                     }
                 }
                 return false;
@@ -178,6 +180,11 @@ public class People_Fragment extends Fragment {
                                 }
 
                             } else if (serverstatus.equalsIgnoreCase("400")) {
+                                HomeActivity.arraylist_people.clear();
+                                recyclerView.setAdapter(adapter);
+                                String json_people = gson.toJson(HomeActivity.arraylist_people);
+                                editor.putString("MyObject_people", json_people);
+                                editor.commit();
                                 //HandyObjects.showAlert(getActivity(), getResources().getString(R.string.alreadyaccount));
                             }
                             HandyObjects.stopProgressDialog();
@@ -191,6 +198,11 @@ public class People_Fragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                HomeActivity.arraylist_people.clear();
+                recyclerView.setAdapter(adapter);
+                String json_people = gson.toJson(HomeActivity.arraylist_people);
+                editor.putString("MyObject_people", json_people);
+                editor.commit();
                 //   HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
                 HandyObjects.stopProgressDialog();
             }

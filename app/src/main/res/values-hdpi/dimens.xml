@@ -28,4 +28,5 @@
 
     <dimen name="accountimage">90dp</dimen>
     <dimen name="marginleftcount">30dp</dimen>
+    <dimen name="loginbottom_margintop">120dp</dimen>
 </resources>

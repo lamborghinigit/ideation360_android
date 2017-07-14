@@ -1,8 +1,10 @@
 package vadevelopment.ideation360.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,11 +14,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -24,6 +29,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
+import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -32,10 +40,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,7 +93,7 @@ import vadevelopment.ideation360.R;
  * Created by vibrantappz on 6/24/2017.
  */
 
-public class UpdateIdea_Fragment extends Fragment {
+public class UpdateIdea_Fragment extends Fragment implements View.OnClickListener {
 
     private static String TAG = "UpdateIdea_Fragment";
     private HomeActivity homeactivity;
@@ -93,14 +103,28 @@ public class UpdateIdea_Fragment extends Fragment {
     private static final int REQUEST_CAMERA = 0;
     private static final int LOAD_FROMGALLERY = 1;
     static final int REQUEST_TAKE_PHOTO = 11111;
-    private ImageView addphoto_img;
+    private ImageView addphoto_img, record_audio;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private String campaign_name, ideation_name, idea_title, idea_discrp;
-    private String serverstatus,uploadphoto_status, idea_id, ideator_id;
+    private String serverstatus, uploadphoto_status, idea_id, ideator_id;
     private Context context;
     private File imageFile;
     Handler handler;
+    private Dialog recording_dialog;
+    private TextView recordingtime;
+    private Handler customHandler = new Handler();
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+    private long startTime = 0L;
+    private MediaRecorder recorder = null;
+    private int currentFormat = 0;
+    private int output_formats[] = {MediaRecorder.OutputFormat.MPEG_4, MediaRecorder.OutputFormat.THREE_GPP};
+    private File recoded_file;
+    private String recoded_filepath = "";
+    private ScrollView scrollview;
+    private boolean isdescrp;
 
     @Nullable
     @Override
@@ -125,8 +149,16 @@ public class UpdateIdea_Fragment extends Fragment {
         et_descp = (EditText) view.findViewById(R.id.et_descp);
         updateidea = (Button) view.findViewById(R.id.updateidea);
         addphoto_img = (ImageView) view.findViewById(R.id.addphoto_img);
+        record_audio = (ImageView) view.findViewById(R.id.record_audio);
+        scrollview = (ScrollView) view.findViewById(R.id.scrollview);
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
+        et_descp.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        et_descp.setRawInputType(InputType.TYPE_CLASS_TEXT);
+
+        addphoto_img.setOnClickListener(this);
+        updateidea.setOnClickListener(this);
+        record_audio.setOnClickListener(this);
 
         if (getArguments() != null) {
             idea_id = getArguments().getString("idea_id");
@@ -145,8 +177,10 @@ public class UpdateIdea_Fragment extends Fragment {
                 GlideUrl glideUrl = new GlideUrl(getArguments().getString("idea_imgurl"), builder.build());
                 Glide.with(getActivity()).load(glideUrl).into(addphoto_img);
             }
+            if (!getArguments().getString("audio_url").isEmpty() && getArguments().getString("audio_url") != null) {
+                record_audio.setImageResource(R.drawable.addvoice_gray);
+            }
         }
-
 
         homeactivity.homeicon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,23 +189,45 @@ public class UpdateIdea_Fragment extends Fragment {
             }
         });
 
-        updateidea.setOnClickListener(new View.OnClickListener() {
+        et_descp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!HandyObjects.isNetworkAvailable(getActivity())) {
-                    HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
-                } else {
-                    UpdateIdea();
+                if (isdescrp == true) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollview.scrollTo(0, 380);
+                        }
+                    }, 240);
                 }
             }
         });
 
-        addphoto_img.setOnClickListener(new View.OnClickListener() {
+        et_descp.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                check_RequestPermission();
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    // code to execute when EditText loses focus
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            String kk = "-320";
+                            scrollview.scrollTo(0, Integer.parseInt(kk));
+                        }
+                    }, 240);
+                    isdescrp = false;
+                } else {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollview.scrollTo(0, 380);
+                        }
+                    }, 240);
+                    isdescrp = true;
+                }
             }
         });
+
     }
 
     private void UpdateIdea() {
@@ -194,8 +250,9 @@ public class UpdateIdea_Fragment extends Fragment {
                             if (serverstatus.equalsIgnoreCase("200")) {
                                 if (imageFile != null) {
                                     new Uploadphoto_Task().execute();
-                                }
-                                else {
+                                } else if (recoded_file != null) {
+                                    new UploadRecording_Task().execute();
+                                } else {
                                     HandyObjects.showAlert(getActivity(), res.getString("Status"));
                                     HandyObjects.stopProgressDialog();
                                     getActivity().getSupportFragmentManager().popBackStack();
@@ -260,7 +317,6 @@ public class UpdateIdea_Fragment extends Fragment {
                 AlertDialog alert = builder.create();
                 alert.show();
             } else {
-
                 ActivityCompat.requestPermissions((Activity) context,
                         new String[]{android.Manifest.permission.CAMERA},
                         REQUEST_CAMERA);
@@ -370,21 +426,37 @@ public class UpdateIdea_Fragment extends Fragment {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri fileUri = Uri.fromFile(photoFile);
+                // Uri fileUri = Uri.fromFile(photoFile);
+                Uri fileUri = FileProvider.getUriForFile(getActivity(),
+                        "com.example.android.fileprovider", photoFile);
                 activity.setCapturedImageURI(fileUri);
-                activity.setCurrentPhotoPath(fileUri.getPath());
+               // activity.setCurrentPhotoPath(fileUri.getPath());
+                activity.setCurrentPhotoPath(photoFile.getAbsolutePath());
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                    takePictureIntent.setClipData(ClipData.newRawUri("", fileUri));
+                    takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION|Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         activity.getCapturedImageURI());
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+
             }
         }
     }
 
     protected File createImageFile() throws IOException {
-        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation_AddIdeaImage");
+        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation");
         f.mkdir();
-        imageFile = new File(f, "addidea" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
-
+        imageFile = new File(f, "updateidea" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
+        /*String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        imageFile = File.createTempFile(
+                imageFileName,  *//* prefix *//*
+                ".jpg",         *//* suffix *//*
+                storageDir      *//* directory *//*
+        );
+*/
         // Save a file: path for use with ACTION_VIEW intents
         CameraActivity activity = (CameraActivity) getActivity();
         activity.setCurrentPhotoPath("file:" + imageFile.getAbsolutePath());
@@ -469,6 +541,13 @@ public class UpdateIdea_Fragment extends Fragment {
                 }
                 return;
             }
+            case 10: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    recording_Dialog();
+                } else {
+                    //User denied Permission.
+                }
+            }
         }
     }
 
@@ -498,6 +577,194 @@ public class UpdateIdea_Fragment extends Fragment {
         byte[] dataa = bos.toByteArray();
         imageView.setImageBitmap(bitmap);
     }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.updateidea:
+                if (!HandyObjects.isNetworkAvailable(getActivity())) {
+                    HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
+                } else {
+                    UpdateIdea();
+                }
+                break;
+            case R.id.addphoto_img:
+                check_RequestPermission();
+                break;
+            case R.id.record_audio:
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO},
+                            10);
+                } else {
+                    recording_Dialog();
+                }
+                break;
+        }
+    }
+
+    private void recording_Dialog() {
+        recording_dialog = new Dialog(getActivity());
+        recording_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        recording_dialog.setCanceledOnTouchOutside(false);
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels;
+        int width = dm.widthPixels;
+        recording_dialog.show();
+        Window window = recording_dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        window.setAttributes(wlp);
+
+
+        recording_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
+        View vview = inflater.inflate(R.layout.dialog_recording, null, false);
+        recording_dialog.setContentView(vview);
+
+        TextView start_recording = (TextView) recording_dialog.findViewById(R.id.start_recording);
+        TextView stop_recording = (TextView) recording_dialog.findViewById(R.id.stop_recording);
+        recordingtime = (TextView) recording_dialog.findViewById(R.id.recordingtime);
+        //  txtMsg.setText(getActivity().getResources().getString(R.string.ordernotaccepted));
+        Button btncancel = (Button) recording_dialog.findViewById(R.id.btncancel);
+
+        btncancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != recorder) {
+                    try {
+                        timeSwapBuff += timeInMilliseconds;
+                        customHandler.removeCallbacks(updateTimerThread);
+                        //  rl_recordingtime.setVisibility(View.GONE);
+                        stopRecording();
+                    } catch (Exception e) {
+                    }
+                    //withoutupload_inflate();
+                }
+                recording_dialog.dismiss();
+            }
+        });
+
+        start_recording.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startRecording();
+                startTime = SystemClock.uptimeMillis();
+                customHandler.postDelayed(updateTimerThread, 0);
+            }
+        });
+
+        stop_recording.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timeSwapBuff += timeInMilliseconds;
+                customHandler.removeCallbacks(updateTimerThread);
+                //  rl_recordingtime.setVisibility(View.GONE);
+                stopRecording();
+                recording_dialog.dismiss();
+                //HandyObjects.showAlert(context, recoded_file.getAbsolutePath());
+
+                if (recoded_file.getAbsolutePath() != null || !recoded_file.getAbsolutePath().isEmpty()) {
+                    record_audio.setImageResource(R.drawable.addvoice_gray);
+                }
+            }
+        });
+        recording_dialog.show();
+    }
+
+    private void startRecording() {
+        recorder = new MediaRecorder();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(output_formats[currentFormat]);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        recorder.setOutputFile(getFilename());
+        recorder.setOnErrorListener(errorListener);
+        recorder.setOnInfoListener(infoListener);
+
+        try {
+            recorder.prepare();
+            recorder.start();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getFilename() {
+        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation");
+        f.mkdir();
+        recoded_file = new File(f, "recorded" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".mp3");
+        recoded_filepath = recoded_file.getAbsolutePath();
+        /*try {
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            recoded_file = File.createTempFile(
+                    imageFileName,
+                    ".mp3",
+                    storageDir
+            );
+            recoded_filepath = recoded_file.getAbsolutePath();
+        }
+        catch (Exception e){}*/
+        return (recoded_file.getAbsolutePath());
+    }
+
+    private MediaRecorder.OnErrorListener errorListener = new MediaRecorder.OnErrorListener() {
+        @Override
+        public void onError(MediaRecorder mr, int what, int extra) {
+            // AppLog.logString("Error: " + what + ", " + extra);
+            Toast.makeText(context, "Error:", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private MediaRecorder.OnInfoListener infoListener = new MediaRecorder.OnInfoListener() {
+        @Override
+        public void onInfo(MediaRecorder mr, int what, int extra) {
+            //  AppLog.logString("Warning: " + what + ", " + extra);
+            Toast.makeText(context, "Warning:", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private void stopRecording() {
+        if (null != recorder) {
+            try {
+                recorder.stop();
+                recorder.reset();
+                recorder.release();
+                recorder = null;
+            } catch (Exception e) {
+            }
+            //withoutupload_inflate();
+        }
+    }
+
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+            int secs = (int) (timeInMilliseconds / 1000);
+            // timerwith_milisec.setText(String.valueOf(secs));
+            int mins = secs / 60;
+            secs = secs % 60;
+            int hours = mins / 60;
+            mins = mins % 60;
+            //int milliseconds = (int) (updatedTime % 1000);
+            //+ ":" + String.format("%03d", milliseconds)
+            //    String timer = "" + String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":" + String.format("%02d", secs);
+            String timer = "" + String.format("%02d", mins) + ":" + String.format("%02d", secs);
+            //set yout textview to the String timer here
+            recordingtime.setText(timer);
+            customHandler.postDelayed(this, 10);
+        }
+
+    };
 
     class Uploadphoto_Task extends AsyncTask<String, Void, String> {
         String Response;
@@ -540,7 +807,60 @@ public class UpdateIdea_Fragment extends Fragment {
             super.onPostExecute(result);
             try {
                 if (uploadphoto_status.equalsIgnoreCase("200")) {
-                        HandyObjects.stopProgressDialog();
+                    HandyObjects.stopProgressDialog();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+                    HandyObjects.showAlert(context, context.getResources().getString(R.string.servererror));
+                    HandyObjects.stopProgressDialog();
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    class UploadRecording_Task extends AsyncTask<String, Void, String> {
+        String Response;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //  HandyObjects.startProgressDialog(context);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                MultipartEntity entity = new MultipartEntity(
+                        HttpMultipartMode.BROWSER_COMPATIBLE);
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpContext localContext = new BasicHttpContext();
+                HttpPost httppost = new HttpPost(HandyObjects.UPDATE_MEDIA + getArguments().getString("idea_id") + "/" + preferences.getString("ideatorid", "") + "/2");
+                httppost.setHeader("Authorization", "Basic c2FBcHA6dWpyTE9tNGVy");
+                FileBody bin = new FileBody(recoded_file);
+                entity.addPart("file", bin);
+                httppost.setEntity(entity);
+                HttpResponse response = httpclient.execute(httppost,
+                        localContext);
+                HttpEntity resEntity = response.getEntity();
+                String Response = "";
+                Response = EntityUtils.toString(resEntity);
+                uploadphoto_status = String.valueOf(response.getStatusLine().getStatusCode());
+                Log.e("Uploarecding response", Response);
+                return Response;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            try {
+                if (uploadphoto_status.equalsIgnoreCase("200")) {
+                    HandyObjects.stopProgressDialog();
+
                     getActivity().getSupportFragmentManager().popBackStack();
                 } else {
                     HandyObjects.showAlert(context, context.getResources().getString(R.string.servererror));

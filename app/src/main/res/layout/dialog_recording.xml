@@ -30,6 +30,7 @@
                     android:gravity="center"
                     android:padding="@dimen/paddingitemdrawersmall"
                     android:text="@string/start"
+                    android:background="@drawable/dr_rounded_yellow"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/mediumtext" />
 
@@ -41,6 +42,7 @@
                     android:padding="@dimen/paddingitemdrawersmall"
                     android:text="@string/Stop"
                     android:textColor="@android:color/black"
+                    android:background="@drawable/dr_rounded_yellow"
                     android:textSize="@dimen/mediumtext" />
                 <TextView
                     android:id="@+id/recordingtime"

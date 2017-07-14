@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -25,6 +27,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -377,9 +380,14 @@ public class AccountFragment extends Fragment {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri fileUri = Uri.fromFile(photoFile);
+                Uri fileUri = FileProvider.getUriForFile(getActivity(),
+                        "com.example.android.fileprovider", photoFile);
                 activity.setCapturedImageURI(fileUri);
-                activity.setCurrentPhotoPath(fileUri.getPath());
+                activity.setCurrentPhotoPath(photoFile.getAbsolutePath());
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                    takePictureIntent.setClipData(ClipData.newRawUri("", fileUri));
+                    takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION|Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         activity.getCapturedImageURI());
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -388,10 +396,18 @@ public class AccountFragment extends Fragment {
     }
 
     protected File createImageFile() throws IOException {
-        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "IdeationImage");
+        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "Ideation");
         f.mkdir();
-        imageFile = new File(f, "IdeationProfile_Img" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
-
+        imageFile = new File(f, "profilephoto" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
+       /* String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        imageFile = File.createTempFile(
+                imageFileName,  *//* prefix *//*
+                ".jpg",         *//* suffix *//*
+                storageDir      *//* directory *//*
+        );
+*/
         // Save a file: path for use with ACTION_VIEW intents
         CameraActivity activity = (CameraActivity) getActivity();
         activity.setCurrentPhotoPath("file:" + imageFile.getAbsolutePath());
@@ -404,22 +420,6 @@ public class AccountFragment extends Fragment {
         if (requestCode == LOAD_FROMGALLERY && data != null) {
             try {
                 Uri selectedImageUri = data.getData();
-
-                //performCrop(selectedImageUri);
-                /*Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-                addphoto_img.setImageBitmap(bitmap);*/
-               /* final Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-                imageview.setImageBitmap(bitmap);
-                File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "IdeationImage");
-                f.mkdir();
-                imageFile = new File(f, "IdeationProfile_Img" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
-                byte[] bitmapdata = bos.toByteArray();
-                FileOutputStream fos = new FileOutputStream(imageFile);
-                fos.write(bitmapdata);
-                fos.flush();
-                fos.close();*/
                 beginCrop(selectedImageUri);
 
             } catch (Exception e) {
@@ -472,7 +472,7 @@ public class AccountFragment extends Fragment {
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
             try {
-                HandyObjects.showAlert(getActivity(), String.valueOf(Crop.getOutput(result)));
+                // HandyObjects.showAlert(getActivity(), String.valueOf(Crop.getOutput(result)));
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Crop.getOutput(result));
                 imageview.setImageBitmap(bitmap);
             } catch (Exception e) {
@@ -592,10 +592,10 @@ public class AccountFragment extends Fragment {
             super.onPostExecute(result);
             try {
                 if (editprofileserver_status.equalsIgnoreCase("200")) {
-                    Glide.get(context).clearMemory();
-                    Glide.get(context).clearDiskCache();
                     HandyObjects.showAlert(context, context.getResources().getString(R.string.pimage_uploadsucc));
                     HandyObjects.stopProgressDialog();
+                    Glide.get(context).clearMemory();
+                    Glide.get(context).clearDiskCache();
                 } else {
                     HandyObjects.showAlert(context, context.getResources().getString(R.string.servererror));
                     HandyObjects.stopProgressDialog();

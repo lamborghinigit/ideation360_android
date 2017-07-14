@@ -1,22 +1,36 @@
 package vadevelopment.ideation360.fragments;
 
+import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -91,6 +105,11 @@ public class SignupFragment extends Fragment {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private SQLiteDatabase database;
+    private ImageView back;
+    private ScrollView scrollView;
+    private Handler handler;
+    private TextView checkbox_text;
+    boolean ispwd, isemail, iscompany;
 
     @Nullable
     @Override
@@ -102,6 +121,7 @@ public class SignupFragment extends Fragment {
 
     private void initViews(View view) {
         apiService = ApiClient.getClient().create(ApiInterface.class);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         containor = (LoginRegister_Containor) getActivity();
         containor.firstLinear.setVisibility(View.VISIBLE);
         signup = (Button) view.findViewById(R.id.signup);
@@ -110,18 +130,42 @@ public class SignupFragment extends Fragment {
         et_companyname = (EditText) view.findViewById(R.id.et_companyname);
         et_email = (EditText) view.findViewById(R.id.et_email);
         et_pwd = (EditText) view.findViewById(R.id.et_pwd);
+        back = (ImageView) view.findViewById(R.id.back);
+        scrollView = (ScrollView) view.findViewById(R.id.scrollView);
         checkbox = (CheckBox) view.findViewById(R.id.checkbox);
+        checkbox_text = (TextView) view.findViewById(R.id.checkbox_text);
         database = ParseOpenHelper.getInstance(getActivity()).getWritableDatabase();
 
+        containor.firstLinear.setVisibility(View.GONE);
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
+        handler = new Handler();
 
-        containor.back.setOnClickListener(new View.OnClickListener() {
+
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().popBackStack();
+                try {
+                    View vieww = getActivity().getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(vieww.getWindowToken(), 0);
+                    }
+                } catch (Exception e) {
+                }
+
             }
         });
+
+        checkbox_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                containor.replaceFragment(new TermConditionFragment());
+
+            }
+        });
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +206,101 @@ public class SignupFragment extends Fragment {
                     HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
                 } else {
                     makeJsonObjReq();
+                }
+            }
+        });
+
+        et_companyname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (iscompany == true) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.scrollTo(0, 60);
+                        }
+                    }, 400);
+                }
+            }
+        });
+
+        et_companyname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+
+                if (b == true) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.scrollTo(0, 60);
+                            iscompany = true;
+                        }
+                    }, 400);
+                } else if (b == false) {
+                    iscompany = false;
+                }
+            }
+        });
+
+        et_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isemail == true) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.scrollTo(0, 152);
+                        }
+                    }, 300);
+                }
+            }
+        });
+        et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+
+                if (b == true) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.scrollTo(0, 152);
+                            isemail = true;
+                        }
+                    }, 300);
+                } else if (b == false) {
+                    isemail = false;
+                }
+            }
+        });
+
+        et_pwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ispwd == true) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.scrollTo(0, 184);
+                        }
+                    }, 300);
+                }
+            }
+        });
+
+        et_pwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+
+                if (b == true) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.scrollTo(0, 184);
+                            ispwd = true;
+                        }
+                    }, 300);
+                } else if (b == false) {
+                    ispwd = false;
                 }
             }
         });
@@ -237,7 +376,7 @@ public class SignupFragment extends Fragment {
                 HandyObjects.stopProgressDialog();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 HandyObjects.showAlert(getActivity(), getResources().getString(R.string.alreadyaccount));
-               // HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                // HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
                 HandyObjects.stopProgressDialog();
             }
         }) {

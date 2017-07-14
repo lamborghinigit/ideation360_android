@@ -15,15 +15,16 @@
     <dimen name="margintop_loginbtn">96dp</dimen>
     <dimen name="margintop_signupbtn">80dp</dimen>
     <dimen name="paddingitemdrawersmall">10dp</dimen>
-    <dimen name="marginrighttophome">1dp</dimen>
+    <dimen name="marginrighttophome">4dp</dimen>
     <dimen name="ratingbarmin">46dip</dimen>
     <dimen name="imagesize">128dp</dimen>
 
-    <dimen name="idea_detailimage">240dp</dimen>
+    <dimen name="idea_detailimage">280dp</dimen>
     <dimen name="listheight">120dp</dimen>
     <dimen name="homepadding">8dp</dimen>
     <dimen name="commentpadding">30dp</dimen>
     <dimen name="homeimage">82dp</dimen>
     <dimen name="accountimage">144dp</dimen>
     <dimen name="marginleftcount">70dp</dimen>
+    <dimen name="loginbottom_margintop">200dp</dimen>
 </resources>

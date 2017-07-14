@@ -1,61 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlmain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/screenpadding"
+    android:paddingLeft="@dimen/screenpadding"
+    android:paddingRight="@dimen/screenpadding">
 
-
-    <vadevelopment.ideation360.design.HelviticaBold
-        android:id="@+id/hiText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/smalltext"
-        android:text="@string/loginSmall"
-        android:textColor="#000000"
-        android:textSize="@dimen/largetext"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <vadevelopment.ideation360.design.HelviticaRegular
-        android:id="@+id/bottomForgot"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom|center_horizontal"
-        android:padding="@dimen/screenpadding"
-        android:text="@string/forgotText"
-        android:textAllCaps="false"
-        android:textSize="@dimen/mediumtext"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/smalltext"
+            android:paddingRight="@dimen/smalltext"
+            android:paddingTop="@dimen/ratingbarmin"
+            android:src="@drawable/backarrow" />
+
+        <vadevelopment.ideation360.design.HelviticaBold
+            android:id="@+id/hiText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/smalltext"
+            android:text="@string/loginSmall"
+            android:textColor="#000000"
+            android:textSize="@dimen/largetext" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/screenpadding"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
-
+        android:layout_marginTop="@dimen/homeimage"
+        android:orientation="vertical">
 
         <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="@dimen/et_height"
+            android:layout_marginLeft="@dimen/screenpadding"
+            android:layout_marginRight="@dimen/screenpadding"
             android:background="#ffffff"
             android:gravity="center"
             android:hint="@string/emailText"
+            android:inputType="textEmailAddress"
             android:textColor="#868686"
             android:textColorHint="#868686"
-            android:inputType="textEmailAddress"
             android:textSize="@dimen/mediumtext" />
 
         <View
             android:id="@+id/viewone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/screenpadding"
+            android:layout_marginRight="@dimen/screenpadding"
             android:background="#000000"></View>
 
 
@@ -63,25 +76,31 @@
             android:id="@+id/et_pwd"
             android:layout_width="match_parent"
             android:layout_height="@dimen/et_height"
+            android:layout_marginLeft="@dimen/screenpadding"
+            android:layout_marginRight="@dimen/screenpadding"
             android:layout_marginTop="@dimen/smalltext"
             android:background="#ffffff"
             android:gravity="center"
             android:hint="@string/passwordText"
+            android:inputType="textPassword"
             android:textColor="#868686"
             android:textColorHint="#868686"
-            android:inputType="textPassword"
             android:textSize="@dimen/mediumtext" />
 
         <View
             android:id="@+id/viewtwo"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/screenpadding"
+            android:layout_marginRight="@dimen/screenpadding"
             android:background="#000000"></View>
 
         <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
             android:id="@+id/loginApp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/buttonheight"
+            android:layout_marginLeft="@dimen/screenpadding"
+            android:layout_marginRight="@dimen/screenpadding"
             android:layout_marginTop="@dimen/margintop_loginbtn"
             android:background="@drawable/dr_rounded_black"
             android:gravity="center"
@@ -92,4 +111,20 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+    <vadevelopment.ideation360.design.HelviticaRegular
+        android:id="@+id/bottomForgot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/loginbottom_margintop"
+        android:gravity="bottom|center_horizontal"
+        android:padding="@dimen/screenpadding"
+        android:text="@string/forgotText"
+        android:textAllCaps="false"
+        android:textSize="@dimen/mediumtext" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

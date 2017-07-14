@@ -80,6 +80,14 @@ public class AdapterNotificationNew extends RecyclerView.Adapter<AdapterNotifica
                     bundle.putString("ideatorid", arraylist.get(position).getIdeatorId());
                     ideadetail_frg.setArguments(bundle);
                     homeActivity.replaceFragmentHome(ideadetail_frg);
+                } else {
+                    IdeaDeatilFragment ideadetail_frg = new IdeaDeatilFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("from", "notif");
+                    bundle.putString("ideaid", arraylist.get(position).getIdeaId());
+                    bundle.putString("ideatorid", arraylist.get(position).getIdeatorId());
+                    ideadetail_frg.setArguments(bundle);
+                    homeActivity.replaceFragmentHome(ideadetail_frg);
                 }
             }
         });
