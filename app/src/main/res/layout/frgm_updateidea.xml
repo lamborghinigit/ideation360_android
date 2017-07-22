@@ -7,6 +7,7 @@
     android:layout_marginTop="@dimen/smalltext"
     android:background="#ffffff"
     android:orientation="vertical"
+    android:id="@+id/scrollview"
     android:padding="@dimen/screenpadding">
 
     <LinearLayout

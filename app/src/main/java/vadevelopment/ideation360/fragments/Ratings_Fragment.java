@@ -49,7 +49,7 @@ public class Ratings_Fragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Ratings_Skeleton> rating_arraylist;
     private Rating_Adapter adpater;
-    private String serverstatus,ideaid,ideatorid;
+    private String serverstatus, ideaid, ideatorid;
 
     @Nullable
     @Override
@@ -61,14 +61,14 @@ public class Ratings_Fragment extends Fragment {
 
     private void initViews(View view) {
         homeactivity = (HomeActivity) getActivity();
-        homeactivity.hometoptext.setText(getResources().getString(R.string.savedideas));
+        homeactivity.hometoptext.setText(getResources().getString(R.string.ratings));
         homeactivity.homeicon.setImageResource(R.drawable.backarrow);
         homeactivity.settingicon.setVisibility(View.INVISIBLE);
         homeactivity.radiogroup.setVisibility(View.GONE);
         homeactivity.homeicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //   ((Activity)getActivity()).getFragmentManager().popBackStack();
+                //   ((Activity)getActivity()).getFragmentManager().pop BackStack();
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -81,8 +81,8 @@ public class Ratings_Fragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-      //  rating_arraylist = new ArrayList<>();
-        if(getArguments() != null){
+        //  rating_arraylist = new ArrayList<>();
+        if (getArguments() != null) {
             //rating_arraylist = getArguments().getParcelableArrayList("rating_list");
             /*adpater = new Rating_Adapter(getActivity(),rating_arraylist,getFragmentManager(),homeactivity);
             recyclerView.setAdapter(adpater);*/
@@ -90,7 +90,7 @@ public class Ratings_Fragment extends Fragment {
         if (!HandyObjects.isNetworkAvailable(getActivity())) {
             HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
         } else {
-            if(getArguments() != null){
+            if (getArguments() != null) {
                 ideaid = getArguments().getString("ideaid");
                 ideatorid = getArguments().getString("ideatorid");
                 IdeaDetail_Task(ideaid, ideatorid);
@@ -118,7 +118,7 @@ public class Ratings_Fragment extends Fragment {
                             rske.setValue(jarry.getJSONObject(i).getString("Value"));
                             rating_arraylist.add(rske);
                         }
-                        adpater = new Rating_Adapter(getActivity(),rating_arraylist,getFragmentManager(),homeactivity);
+                        adpater = new Rating_Adapter(getActivity(), rating_arraylist, getFragmentManager(), homeactivity);
                         recyclerView.setAdapter(adpater);
                     }
                 } catch (Exception e) {

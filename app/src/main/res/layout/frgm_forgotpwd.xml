@@ -1,74 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlmain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/screenpadding"
+    android:paddingLeft="@dimen/screenpadding"
+    android:paddingRight="@dimen/screenpadding">
 
 
+    <!-- <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:orientation="vertical"
+         android:padding="@dimen/screenpadding"
+         android:layout_marginLeft="@dimen/screenpadding"
+         android:layout_marginRight="@dimen/screenpadding"
+         android:layout_marginTop="16dp"
+         android:layout_below="@+id/hiText"
+         android:layout_centerHorizontal="true">
+
+         <vadevelopment.ideation360.design.HelviticaRegular
+             android:id="@+id/titleText"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:textSize="@dimen/textbutton"
+             android:gravity="center"
+             android:text="@string/forgetPassword" />
+
+         <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+             android:id="@+id/et_email"
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/et_height"
+             android:background="#ffffff"
+             android:gravity="center"
+             android:hint="@string/emailText"
+             android:textColor="#868686"
+             android:inputType="textEmailAddress"
+             android:textColorHint="#868686"
+             android:layout_marginTop="@dimen/et_height"
+             android:textSize="@dimen/mediumtext" />
+
+         <View
+             android:id="@+id/viewone"
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:background="#000000"></View>
+
+         <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+             android:id="@+id/restpwd_btn"
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/buttonheight"
+             android:layout_marginTop="@dimen/margintop_loginbtn"
+             android:background="@drawable/dr_rounded_black"
+             android:gravity="center"
+             android:text="@string/resetPassword"
+             android:textColor="@android:color/white"
+             android:textSize="@dimen/textbutton" />
+
+     </LinearLayout>
+
+     <vadevelopment.ideation360.design.HelviticaBold
+         android:id="@+id/hiText"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:gravity="center_horizontal"
+         android:padding="@dimen/smalltext"
+         android:text="@string/noWorry"
+         android:textColor="#000000"
+         android:textSize="@dimen/largetext"
+         android:layout_alignParentTop="true"
+         android:layout_alignParentStart="true" />-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/screenpadding"
-        android:layout_marginLeft="@dimen/screenpadding"
-        android:layout_marginRight="@dimen/screenpadding"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/hiText"
-        android:layout_centerHorizontal="true">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <vadevelopment.ideation360.design.HelviticaRegular
-            android:id="@+id/titleText"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/textbutton"
-            android:gravity="center"
-            android:text="@string/forgetPassword" />
+            android:orientation="vertical">
 
-        <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
-            android:id="@+id/et_email"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/et_height"
-            android:background="#ffffff"
-            android:gravity="center"
-            android:hint="@string/emailText"
-            android:textColor="#868686"
-            android:inputType="textEmailAddress"
-            android:textColorHint="#868686"
-            android:layout_marginTop="@dimen/et_height"
-            android:textSize="@dimen/mediumtext" />
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingBottom="@dimen/smalltext"
+                android:paddingRight="@dimen/smalltext"
+                android:paddingTop="@dimen/ratingbarmin"
+                android:src="@drawable/backarrow" />
 
-        <View
-            android:id="@+id/viewone"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000"></View>
+            <vadevelopment.ideation360.design.HelviticaBold
+                android:id="@+id/hiText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/smalltext"
+                android:text="@string/noWorry"
+                android:textColor="#000000"
+                android:textSize="@dimen/largetext"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
 
-        <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
-            android:id="@+id/restpwd_btn"
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/buttonheight"
-            android:layout_marginTop="@dimen/margintop_loginbtn"
-            android:background="@drawable/dr_rounded_black"
-            android:gravity="center"
-            android:text="@string/resetPassword"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/textbutton" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/screenpadding"
+            android:layout_centerHorizontal="true">
+
+            <vadevelopment.ideation360.design.HelviticaRegular
+                android:id="@+id/titleText"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/textbutton"
+                android:gravity="center"
+                android:text="@string/forgetPassword" />
+
+            <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/et_height"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:hint="@string/emailText"
+                android:textColor="#868686"
+                android:inputType="textEmailAddress"
+                android:textColorHint="#868686"
+                android:layout_marginTop="@dimen/et_height"
+                android:textSize="@dimen/mediumtext"
+                android:imeOptions="actionDone"/>
+
+            <View
+                android:id="@+id/viewone"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000"></View>
+
+            <vadevelopment.ideation360.design.AppCompatButtonHelviticaBold
+                android:id="@+id/restpwd_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttonheight"
+                android:layout_marginTop="@dimen/margintop_loginbtn"
+                android:background="@drawable/dr_rounded_black"
+                android:gravity="center"
+                android:text="@string/resetPassword"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textbutton" />
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 
-    <vadevelopment.ideation360.design.HelviticaBold
-        android:id="@+id/hiText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:padding="@dimen/smalltext"
-        android:text="@string/noWorry"
-        android:textColor="#000000"
-        android:textSize="@dimen/largetext"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
 
-
-</RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

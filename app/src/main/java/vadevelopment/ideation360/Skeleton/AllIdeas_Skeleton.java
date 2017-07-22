@@ -10,6 +10,16 @@ public class AllIdeas_Skeleton {
     String campaign_title;
     String main_title;
 
+    public String getDatetimestamp() {
+        return datetimestamp;
+    }
+
+    public void setDatetimestamp(String datetimestamp) {
+        this.datetimestamp = datetimestamp;
+    }
+
+    String datetimestamp;
+
     public String getImage() {
         return image;
     }

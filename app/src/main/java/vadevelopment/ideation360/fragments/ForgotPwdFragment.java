@@ -1,18 +1,24 @@
 package vadevelopment.ideation360.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -47,6 +53,16 @@ public class ForgotPwdFragment extends Fragment {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private static String TAG = "ForgotPwdFragment";
+    private NestedScrollView rlmain;
+    private ImageView back;
+    private Handler handler;
+    private boolean isemail;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
 
     @Nullable
     @Override
@@ -61,13 +77,58 @@ public class ForgotPwdFragment extends Fragment {
         containor.firstLinear.setVisibility(View.VISIBLE);
         et_email = (EditText) view.findViewById(R.id.et_email);
         restpwd_btn = (Button) view.findViewById(R.id.restpwd_btn);
+        back = (ImageView) view.findViewById(R.id.back);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
-        containor.back.setOnClickListener(new View.OnClickListener() {
+        containor.firstLinear.setVisibility(View.GONE);
+        rlmain = (NestedScrollView) view.findViewById(R.id.rlmain);
+        handler = new Handler();
+
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().popBackStack();
+                try {
+                    View vieww = getActivity().getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(vieww.getWindowToken(), 0);
+                    }
+                } catch (Exception e) {
+                }
+            }
+        });
+
+        et_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isemail == true) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            rlmain.scrollTo(0, 100);
+                        }
+                    }, 200);
+                }
+            }
+        });
+
+        et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+
+                if (b == true) {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            rlmain.scrollTo(0, 160);
+                            isemail = true;
+                        }
+                    }, 200);
+                } else if (b == false) {
+                    isemail = false;
+                }
             }
         });
 
@@ -110,7 +171,7 @@ public class ForgotPwdFragment extends Fragment {
                                     et_email.setText("");
                                     HandyObjects.showAlert(getActivity(), response.getString("Message"));
                                 } else {
-                                    HandyObjects.showAlert(getActivity(), response.getString("Message"));
+                                    HandyObjects.showAlert(getActivity(), getActivity().getResources().getString(R.string.noaccount_found));
                                 }
                             } catch (Exception e) {
                             }
@@ -123,7 +184,7 @@ public class ForgotPwdFragment extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                //HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
                 HandyObjects.stopProgressDialog();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }

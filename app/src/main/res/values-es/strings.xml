@@ -51,7 +51,7 @@
     <string name="settings">Settings</string>
     <string name="newnoti">New</string>
     <string name="seennoti">Seen</string>
-    <string name="profile">Cuenta</string>
+    <string name="profile">Perfil</string>
     <string name="savedideas">Ideas guardadas</string>
     <string name="campaigns">Campañas</string>
     <string name="about">Acerca de</string>
@@ -132,4 +132,11 @@
     <string name="cmntadded">comentario añadido</string>
     <string name="listenrecording">escuchar la grabación</string>
     <string name="choosetore">Optar por volver a grabar</string>
+    <string name="noaccount_found">No se encontró ninguna cuenta</string>
+    <string name="allfieldrequire">Todos los campos son obligatorios</string>
+    <string name="pwdshouldbe5">La contraseña debe contener al menos 5 carácteres</string>
+    <string name="wantlogout">¿Quieres cerrar tu sesión?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="ratings">Calificaciones</string>
 </resources>

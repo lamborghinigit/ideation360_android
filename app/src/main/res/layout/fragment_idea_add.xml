@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/scrollview"
     android:layout_marginLeft="@dimen/smalltext"
     android:layout_marginRight="@dimen/smalltext"
     android:layout_marginTop="@dimen/smalltext"
@@ -21,14 +21,16 @@
             android:id="@+id/top_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ListView
-                android:visibility="invisible"
                 android:id="@+id/first_listview"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/imagesize"
-                android:dividerHeight="1dp"
+                android:layout_below="@+id/rl_first"
                 android:divider="@color/blackColor"
-                android:layout_below="@+id/rl_first"></ListView>
+                android:dividerHeight="1dp"
+                android:visibility="invisible"></ListView>
+
             <RelativeLayout
                 android:id="@+id/rl_first"
                 android:layout_width="match_parent"
@@ -58,14 +60,14 @@
                     android:id="@+id/firstspin_maintext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:drawableRight="@drawable/ic_down_arrow"
                     android:gravity="center_vertical"
                     android:padding="@dimen/smalltext"
-                    android:visibility="visible"
                     android:textSize="@dimen/mediumtext"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:visibility="visible" />
 
 
             </RelativeLayout>
@@ -73,28 +75,28 @@
 
             <View
                 android:id="@+id/line_first"
-                android:layout_below="@+id/rl_first"
                 android:layout_width="match_parent"
                 android:layout_height="2px"
+                android:layout_below="@+id/rl_first"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:background="@android:color/black" />
 
 
             <ListView
-                android:visibility="invisible"
                 android:id="@+id/second_listview"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/imagesize"
-                android:dividerHeight="1dp"
+                android:layout_below="@+id/rl_second"
                 android:divider="@color/blackColor"
-                android:layout_below="@+id/rl_second"></ListView>
+                android:dividerHeight="1dp"
+                android:visibility="invisible"></ListView>
 
             <RelativeLayout
                 android:id="@+id/rl_second"
-                android:layout_below="@+id/line_first"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/line_first"
                 android:layout_marginTop="@dimen/screenpadding">
 
                 <!-- <Spinner
@@ -132,9 +134,9 @@
 
             <View
                 android:id="@+id/linesecond"
-                android:layout_below="@+id/rl_second"
                 android:layout_width="match_parent"
                 android:layout_height="2px"
+                android:layout_below="@+id/rl_second"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:background="@android:color/black" />
@@ -153,26 +155,26 @@
                 android:id="@+id/viewtwo"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#000000"
-                android:layout_below="@+id/et_ideatitle"></View>
+                android:layout_below="@+id/et_ideatitle"
+                android:background="#000000"></View>
 
             <vadevelopment.ideation360.design.AppCompatEditextHelviticaRegular
                 android:id="@+id/et_ideatitle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/et_height"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linesecond"
                 android:layout_marginTop="@dimen/ratingbarmin"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:hint="@string/ideaTitle"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
                 android:paddingLeft="@dimen/smalltext"
                 android:textColor="#868686"
                 android:textColorHint="#868686"
-                android:inputType="textPersonName"
-                android:textSize="@dimen/mediumtext"
-                android:layout_below="@+id/linesecond"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:imeOptions="actionNext"/>
+                android:textSize="@dimen/mediumtext" />
         </RelativeLayout>
 
 
@@ -183,9 +185,9 @@
             />-->
 
         <LinearLayout
+            android:id="@+id/llroot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/llroot"
             android:orientation="vertical">
 
             <vadevelopment.ideation360.design.HelviticaRegular
@@ -203,14 +205,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/screenpadding"
                 android:background="@drawable/drawable_square_box"
-                android:paddingLeft="@dimen/smalltext"
+                android:imeOptions="actionDone"
                 android:inputType="textMultiLine"
                 android:minHeight="@dimen/minHeight"
-                android:imeOptions="actionDone"/>
+                android:paddingLeft="@dimen/smalltext" />
 
 
         </LinearLayout>
-
 
 
         <RelativeLayout
@@ -269,24 +270,26 @@
                     android:textColor="#000000"
                     android:textSize="@dimen/mediumtext" />
 
-<RelativeLayout
-    android:layout_width="@dimen/imagesize"
-    android:layout_height="@dimen/imagesize">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/record_audio"
-        android:layout_width="@dimen/imagesize"
-        android:layout_height="@dimen/imagesize"
-        android:layout_marginTop="@dimen/paddingitemdrawersmall"
-        android:src="@drawable/addvoice" />
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/already_recorded"
-        android:layout_width="@dimen/imagesize"
-        android:layout_height="@dimen/imagesize"
-        android:layout_marginTop="@dimen/paddingitemdrawersmall"
-        android:src="@drawable/addvoice_gray"
-        android:visibility="invisible"/>
+                <RelativeLayout
+                    android:layout_width="@dimen/imagesize"
+                    android:layout_height="@dimen/imagesize">
 
-</RelativeLayout>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/record_audio"
+                        android:layout_width="@dimen/imagesize"
+                        android:layout_height="@dimen/imagesize"
+                        android:layout_marginTop="@dimen/paddingitemdrawersmall"
+                        android:src="@drawable/addvoice" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/already_recorded"
+                        android:layout_width="@dimen/imagesize"
+                        android:layout_height="@dimen/imagesize"
+                        android:layout_marginTop="@dimen/paddingitemdrawersmall"
+                        android:src="@drawable/addvoice_gray"
+                        android:visibility="invisible" />
+
+                </RelativeLayout>
 
                 <!--        <ImageButton
                             android:layout_width="100dp"

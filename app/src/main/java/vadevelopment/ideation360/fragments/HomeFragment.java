@@ -29,8 +29,12 @@ import com.google.gson.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,6 +81,7 @@ public class HomeFragment extends Fragment {
         homeactivity.settingicon.setImageResource(R.drawable.setting);
         homeactivity.hometoptext.setText(getResources().getString(R.string.hometoptext));
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        homeactivity.counttext_top.setVisibility(View.INVISIBLE);
         editor = preferences.edit();
         arraylist = new ArrayList<>();
         rl_forblankarray = (RelativeLayout) view.findViewById(R.id.rl_forblankarray);
@@ -155,12 +160,27 @@ public class HomeFragment extends Fragment {
                                 allidea_ske.setRating_meanvalue(jinside.getString("RatingMeanValue"));
                                 allidea_ske.setNoof_rating(jinside.getString("NrOfRatings"));
                                 allidea_ske.setNoof_comments(jinside.getString("NrOfComments"));
-                                allidea_ske.setDate(jinside.getString("PostedDate"));
+                                //  allidea_ske.setDate(jinside.getString("PostedDate"));
+
+                                String[] d = jinside.getString("PostedDate").split("T");
+                                String[] datesplit = d[0].split("-");
+                                //  viewHolder.date.setText(datesplit[0] + "." + datesplit[1] + "." + datesplit[2]);
+                                allidea_ske.setDate(datesplit[0] + "." + datesplit[1] + "." + datesplit[2]);
+                                DateFormat formatter = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
+                                Date date = (Date) formatter.parse(datesplit[0] + "." + datesplit[1] + "." + datesplit[2] + " " + d[1]);
+                                allidea_ske.setDatetimestamp(String.valueOf(date.getTime()));
                                 allidea_ske.setImage("https://app.ideation360.com/api/getprofileimage/" + jinside.getString("IdeatorId"));
                                 arraylist.add(allidea_ske);
                             }
+                            Collections.sort(arraylist, new Comparator<AllIdeas_Skeleton>() {
+                                @Override
+                                public int compare(AllIdeas_Skeleton publicao_skeleton, AllIdeas_Skeleton t1) {
+                                    return t1.getDatetimestamp().compareTo(publicao_skeleton.getDatetimestamp());
+                                }
+                            });
                             // Collections.reverse(arraylist);
                             recyclerView.setAdapter(adapter);
+                            getprofile();
                         } catch (Exception e) {
                         }
                     }
@@ -219,7 +239,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                //HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
             }
         }) {
             @Override

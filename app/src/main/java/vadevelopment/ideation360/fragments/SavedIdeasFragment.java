@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import vadevelopment.ideation360.HomeActivity;
 import vadevelopment.ideation360.LoginRegister_Containor;
@@ -46,6 +48,7 @@ public class SavedIdeasFragment extends Fragment {
     private SharedPreferences.Editor editor;
     private SQLiteDatabase database;
     private ArrayList<SavedIdeas_Skeleton> arrayList;
+    public static boolean onsavedidea;
 
     @Nullable
     @Override
@@ -61,6 +64,10 @@ public class SavedIdeasFragment extends Fragment {
         homeactivity.homeicon.setImageResource(R.drawable.backarrow);
         homeactivity.settingicon.setVisibility(View.INVISIBLE);
         homeactivity.radiogroup.setVisibility(View.GONE);
+        if(getArguments() != null && getArguments().getString("from").equalsIgnoreCase("addidea")) {
+            onsavedidea = true;
+        }
+
 
         arrayList = new ArrayList<>();
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -90,14 +97,33 @@ public class SavedIdeasFragment extends Fragment {
         }
         cursor.close();
 
-
+        Collections.reverse(arrayList);
         recyclerView.setAdapter(adapter);
         homeactivity.homeicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getSupportFragmentManager().popBackStack();
+                if(onsavedidea == true){
+                    getActivity().finish();
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    startActivity(intent);
+                } else {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+
+                //  getActivity().getSupportFragmentManager().popBackStack();
+                //   homeactivity.replaceFragmentHomeWithoutback(new HomeFragment());
+                /*FragmentManager fm = getActivity().getSupportFragmentManager();
+                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                    fm.popBackStack();
+                }
+                homeactivity.replaceFragmentHomeWithoutback(new HomeFragment());*/
             }
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        onsavedidea = false;
+    }
 }

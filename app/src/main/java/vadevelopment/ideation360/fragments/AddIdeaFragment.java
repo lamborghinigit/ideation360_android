@@ -469,6 +469,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                 alreadyrecorded();
                 break;
             case R.id.savedraft:
+
                 if (getArguments() != null) {
                     if (et_ideatitle.getText().toString().length() == 0) {
                         HandyObjects.showAlert(getActivity(), getActivity().getResources().getString(R.string.enterideatitle));
@@ -485,7 +486,10 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                                 ParseOpenHelper.IDEA_NAME + "=?",
                                 new String[]{saved_idea.getIdea_name()});
                         SavedIdeasFragment sf = new SavedIdeasFragment();
-                        homeactivity.replaceFragmentHome(sf);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("from", "addidea");
+                        sf.setArguments(bundle);
+                        homeactivity.replaceFragmentHomeWithoutback(sf);
                     }
 
                 } else {
@@ -506,25 +510,27 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                         }
                         HandyObjects.showAlert(getActivity(), getResources().getString(R.string.ideasavedsuccess));
                         SavedIdeasFragment sf = new SavedIdeasFragment();
-                        homeactivity.replaceFragmentHome(sf);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("from", "addidea");
+                        sf.setArguments(bundle);
+                        homeactivity.replaceFragmentHomeWithoutback(sf);
 
                     }
                 }
-
-
                 break;
 
             case R.id.postidea:
                 get_ideatitle = et_ideatitle.getText().toString();
                 get_ideadescrp = et_descp.getText().toString();
                 if (get_ideatitle.length() == 0) {
-                    HandyObjects.showAlert(getActivity(), getActivity().getResources().getString(R.string.enterideatitle));
+                    HandyObjects.showAlert(getActivity(), getActivity().getResources().getString(R.string.allfieldrequire));
+                } else if (get_ideadescrp.length() == 0) {
+                    HandyObjects.showAlert(getActivity(), getActivity().getResources().getString(R.string.allfieldrequire));
                 } else if (!HandyObjects.isNetworkAvailable(getActivity())) {
                     HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));
                 } else {
                     int position = cname.indexOf(secondspin_maintext.getText().toString());
                     String selcampaign_id = campaignid.get(position);
-                    //  HandyObjects.showAlert(getActivity(), selcampaign_id);
                     AddIdeaTask(selcampaign_id);
                 }
                 break;
@@ -897,7 +903,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                 activity.setCurrentPhotoPath(photoFile.getAbsolutePath());
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
                     takePictureIntent.setClipData(ClipData.newRawUri("", fileUri));
-                    takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION|Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, activity.getCapturedImageURI());
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -1064,7 +1070,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                             final JSONObject response = new JSONObject(res.toString());
                             if (serverstatus.equalsIgnoreCase("200")) {
                                 try {
-                                    if (getArguments() != null) {
+                                    if (getArguments() != null && getArguments().getString("from").equalsIgnoreCase("savedidea")) {
                                         database.delete(ParseOpenHelper.TABLE_NAME_SAVEDIDEA, ParseOpenHelper.IDEA_NAME + "=?", new String[]{saved_idea.getIdea_name()});
                                     }
                                     posted_ideaid = response.getString("IdeaId");

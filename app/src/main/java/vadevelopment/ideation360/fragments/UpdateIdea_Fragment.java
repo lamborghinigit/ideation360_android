@@ -272,7 +272,7 @@ public class UpdateIdea_Fragment extends Fragment implements View.OnClickListene
             public void onErrorResponse(VolleyError error) {
                 HandyObjects.stopProgressDialog();
                 VolleyLog.e(TAG, "Error: " + error.getMessage());
-                HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+             //   HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
             }
         }) {
 

@@ -197,10 +197,12 @@ public class SignupFragment extends Fragment {
                     HandyObjects.showAlert(getActivity(), "Invalid email");
                     et_email.requestFocus();
                 } else if (get_pwd.length() == 0) {
-                   /* et_pwd.setError("Field is blank");
-                    et_pwd.requestFocus();*/
                     HandyObjects.showAlert(getActivity(), getResources().getString(R.string.allfieldsmandatory));
-                } else if (checkbox.isChecked() == false) {
+                }
+                else if (get_pwd.length() < 5) {
+                    HandyObjects.showAlert(getActivity(), getResources().getString(R.string.pwdshouldbe5));
+                }
+                else if (checkbox.isChecked() == false) {
                     HandyObjects.showAlert(getActivity(), getResources().getString(R.string.select_termcondition));
                 } else if (!HandyObjects.isNetworkAvailable(getActivity())) {
                     HandyObjects.showAlert(getActivity(), getResources().getString(R.string.application_network_error));

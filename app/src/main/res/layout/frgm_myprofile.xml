@@ -98,6 +98,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/profileidealeft"
             android:layout_marginTop="@dimen/screenpadding">
 
         </android.support.v7.widget.RecyclerView>

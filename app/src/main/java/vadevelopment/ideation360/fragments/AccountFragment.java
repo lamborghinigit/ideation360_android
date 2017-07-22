@@ -61,6 +61,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.soundcloud.android.crop.Crop;
+import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.model.AspectRatio;
+import com.yalantis.ucrop.view.CropImageView;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -386,10 +389,9 @@ public class AccountFragment extends Fragment {
                 activity.setCurrentPhotoPath(photoFile.getAbsolutePath());
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
                     takePictureIntent.setClipData(ClipData.newRawUri("", fileUri));
-                    takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION|Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        activity.getCapturedImageURI());
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, activity.getCapturedImageURI());
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
@@ -424,47 +426,41 @@ public class AccountFragment extends Fragment {
 
             } catch (Exception e) {
             }
-        } else if (requestCode == Crop.REQUEST_CROP) {
+        } /*else if (requestCode == Crop.REQUEST_CROP) {
             handleCrop(resultCode, data);
-        }
-
-        /*else if (requestCode == RESULT_CROP) {
-            if (resultCode == RESULT_OK) {
-                Bundle extras = data.getExtras();
-                Bitmap selectedBitmap = extras.getParcelable("data");
-
-                imageview.setImageBitmap(selectedBitmap);
-                try {
-                    File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "IdeationImage");
-                    f.mkdir();
-                    imageFile = new File(f, "IdeationProfile_Img" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    selectedBitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
-                    byte[] bitmapdata = bos.toByteArray();
-                    FileOutputStream fos = new FileOutputStream(imageFile);
-                    fos.write(bitmapdata);
-                    fos.flush();
-                    fos.close();
-                } catch (Exception e) {
-                }
-            }
         }*/
-        else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            final Uri resultUri = UCrop.getOutput(data);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), resultUri);
+                imageview.setImageBitmap(bitmap);
+            } catch (Exception e) {
+            }
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            final Throwable cropError = UCrop.getError(data);
+        } else if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             CameraActivity activity = (CameraActivity) getActivity();
             beginCrop(activity.getCapturedImageURI());
-            // performCropCamera(activity.getCurrentPhotoPath());
-            // setFullImageFromFilePath(activity.getCurrentPhotoPath(), imageview);
         }
     }
 
     private void beginCrop(Uri source) {
-       /* File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath().toString() + File.separator + "IdeationImage");
-        f.mkdir();
-        imageFile = new File(f, "IdeationProfile_Img" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".png");*/
         try {
             File photoFile = createImageFile();
             Uri destination = Uri.fromFile(photoFile);
-            Crop.of(source, destination).asSquare().start(getActivity(), this);
+            UCrop.Options options = new UCrop.Options();
+            options.setMaxScaleMultiplier(30);
+            options.setImageToCropBoundsAnimDuration(666);
+            options.setCircleDimmedLayer(true);
+            options.setShowCropFrame(false);
+            options.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+            options.setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+            options.setActiveWidgetColor(ContextCompat.getColor(getActivity(), R.color.blackColor));
+            options.setToolbarWidgetColor(ContextCompat.getColor(getActivity(), R.color.blackColor));
+            UCrop.of(source, destination)
+                    .withAspectRatio(1, 1)
+                    .withMaxResultSize(800, 1200).withOptions(options)
+                    .start(getActivity(), this);
         } catch (Exception e) {
         }
     }
@@ -472,12 +468,10 @@ public class AccountFragment extends Fragment {
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
             try {
-                // HandyObjects.showAlert(getActivity(), String.valueOf(Crop.getOutput(result)));
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Crop.getOutput(result));
                 imageview.setImageBitmap(bitmap);
             } catch (Exception e) {
             }
-            //   imageview.setImageURI(Crop.getOutput(result));
         } else if (resultCode == Crop.RESULT_ERROR) {
         }
     }
@@ -602,73 +596,6 @@ public class AccountFragment extends Fragment {
                 }
             } catch (Exception e) {
             }
-        }
-    }
-
-    private void performCropCamera(String path) {
-        try {
-            //Start Crop Activity
-
-            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            // indicate image type and Uri
-            File f = new File(path);
-            Uri contentUri = Uri.fromFile(f);
-
-            cropIntent.setDataAndType(contentUri, "image/*");
-            // set crop properties
-            cropIntent.putExtra("crop", "true");
-            // indicate aspect of desired crop
-            cropIntent.putExtra("aspectX", 1);
-            cropIntent.putExtra("aspectY", 1);
-            // indicate output X and Y
-            cropIntent.putExtra("outputX", 280);
-            cropIntent.putExtra("outputY", 280);
-
-            // retrieve data on return
-            cropIntent.putExtra("return-data", true);
-            // start the activity - we handle returning in onActivityResult
-            startActivityForResult(cropIntent, RESULT_CROP);
-        }
-        // respond to users whose devices do not support the crop action
-        catch (ActivityNotFoundException anfe) {
-            // display an error message
-            String errorMessage = "your device doesn't support the crop action!";
-            Toast toast = Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
-
-
-    private void performCrop(Uri picUri) {
-        try {
-            //Start Crop Activity
-
-            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            // indicate image type and Uri
-            // File f = new File(picUri);
-            // Uri contentUri = Uri.fromFile(f);
-
-            cropIntent.setDataAndType(picUri, "image/*");
-            // set crop properties
-            cropIntent.putExtra("crop", "true");
-            // indicate aspect of desired crop
-            cropIntent.putExtra("aspectX", 1);
-            cropIntent.putExtra("aspectY", 1);
-            // indicate output X and Y
-            cropIntent.putExtra("outputX", 280);
-            cropIntent.putExtra("outputY", 280);
-
-            // retrieve data on return
-            cropIntent.putExtra("return-data", true);
-            // start the activity - we handle returning in onActivityResult
-            startActivityForResult(cropIntent, RESULT_CROP);
-        }
-        // respond to users whose devices do not support the crop action
-        catch (ActivityNotFoundException anfe) {
-            // display an error message
-            String errorMessage = "your device doesn't support the crop action!";
-            Toast toast = Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT);
-            toast.show();
         }
     }
 }

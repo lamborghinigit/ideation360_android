@@ -125,4 +125,12 @@
     <string name="cmntadded">Kommentar tillagd</string>
     <string name="listenrecording">lyssna inspelning</string>
     <string name="choosetore">Välj att spela in på nytt</string>
+    <string name="noaccount_found">Inget konto hittades</string>
+    <string name="allfieldrequire">Alla fält är obligatoriska</string>
+    <string name="pwdshouldbe5">Lösenordet ska innehålla minst 5 tecken</string>
+    <string name="wantlogout">Vill du logga ut?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+    <string name="ratings">Bedömning</string>
+
 </resources>

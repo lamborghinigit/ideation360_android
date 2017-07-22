@@ -1,6 +1,7 @@
 package vadevelopment.ideation360.fragments;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -104,6 +106,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().popBackStack();
+                try {
+                    View vieww = getActivity().getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(vieww.getWindowToken(), 0);
+                    }
+                } catch (Exception e) {
+                }
             }
         });
 
@@ -113,9 +123,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        rlmain.scrollTo(0, 20);
+                        rlmain.scrollTo(0, 40);
                     }
-                }, 10);
+                }, 100);
             }
         });
 

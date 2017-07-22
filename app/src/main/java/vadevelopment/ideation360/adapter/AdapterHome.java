@@ -92,9 +92,9 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder> {
         viewHolder.compaign.setText(arraylist.get(position).getCampaign_title());
         viewHolder.noof_rating.setText(arraylist.get(position).getNoof_rating());
         viewHolder.noof_comment.setText(arraylist.get(position).getNoof_comments());
-        String[] d = arraylist.get(position).getDate().split("T");
-        String[] datesplit = d[0].split("-");
-        viewHolder.date.setText(datesplit[0] + "." + datesplit[1] + "." + datesplit[2]);
+       /* String[] d = arraylist.get(position).getDate().split("T");
+        String[] datesplit = d[0].split("-");*/
+        viewHolder.date.setText(arraylist.get(position).getDate());
         viewHolder.ratingBar.setRating(Float.parseFloat(arraylist.get(position).getRating_meanvalue()));
 
 
@@ -106,9 +106,9 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.ViewHolder> {
                 bundle.putString("from", "idea");
                 bundle.putString("ideaid", arraylist.get(position).getIdeas_id());
                 bundle.putString("ideatorid", arraylist.get(position).getIdeator_id());
-                String[] d = arraylist.get(position).getDate().split("T");
-                String[] datesplit = d[0].split("-");
-                bundle.putString("date", datesplit[0] + "." + datesplit[1] + "." + datesplit[2]);
+                /*String[] d = arraylist.get(position).getDate().split("T");
+                String[] datesplit = d[0].split("-");*/
+                bundle.putString("date", arraylist.get(position).getDate());
                 id_frg.setArguments(bundle);
                 homecontainor.replaceFragmentHome(id_frg);
             }

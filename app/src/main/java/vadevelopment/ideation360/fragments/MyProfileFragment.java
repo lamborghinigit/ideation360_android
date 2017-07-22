@@ -32,7 +32,12 @@ import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -217,11 +222,24 @@ public class MyProfileFragment extends Fragment {
                             allidea_ske.setRating_meanvalue(jinside.getString("RatingMeanValue"));
                             allidea_ske.setNoof_rating(jinside.getString("NrOfRatings"));
                             allidea_ske.setNoof_comments(jinside.getString("NrOfComments"));
-                            allidea_ske.setDate(jinside.getString("PostedDate"));
+                        //    allidea_ske.setDate(jinside.getString("PostedDate"));
+                            String[] d = jinside.getString("PostedDate").split("T");
+                            String[] datesplit = d[0].split("-");
+                            //  viewHolder.date.setText(datesplit[0] + "." + datesplit[1] + "." + datesplit[2]);
+                            allidea_ske.setDate(datesplit[0] + "." + datesplit[1] + "." + datesplit[2]);
+                            DateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+                            Date date = (Date) formatter.parse(datesplit[0] + "." + datesplit[1] + "." + datesplit[2]);
+                            allidea_ske.setDatetimestamp(String.valueOf(date.getTime()));
                             allidea_ske.setImage("https://app.ideation360.com/api/getprofileimage/" + jinside.getString("IdeatorId"));
                             arraylist.add(allidea_ske);
                         }
                         myind_idea.setText(String.valueOf(arraylist.size()) + " " + getResources().getString(R.string.ideasc));
+                        Collections.sort(arraylist, new Comparator<AllIdeas_Skeleton>() {
+                            @Override
+                            public int compare(AllIdeas_Skeleton publicao_skeleton, AllIdeas_Skeleton t1) {
+                                return t1.getDatetimestamp().compareTo(publicao_skeleton.getDatetimestamp());
+                            }
+                        });
                         recyclerView.setAdapter(adapter);
 
                     } catch (Exception e) {

@@ -30,10 +30,10 @@ import vadevelopment.ideation360.R;
  * Created by vibrantappz on 6/14/2017.
  */
 
-public class SettingFragment extends Fragment implements View.OnClickListener{
+public class SettingFragment extends Fragment implements View.OnClickListener {
 
     private HomeActivity homeactivity;
-    private TextView profile,savedideas,compaigns,about,logout,changelanguage;
+    private TextView profile, savedideas, compaigns, about, logout, changelanguage;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     String lang = "en";
@@ -54,6 +54,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
         homeactivity.homeicon.setImageResource(R.drawable.backarrow);
         homeactivity.settingicon.setVisibility(View.INVISIBLE);
         homeactivity.radiogroup.setVisibility(View.GONE);
+        homeactivity.counttext_top.setVisibility(View.INVISIBLE);
 
         profile = (TextView) view.findViewById(R.id.profile);
         savedideas = (TextView) view.findViewById(R.id.savedideas);
@@ -83,13 +84,16 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.profile:
                 AccountFragment af = new AccountFragment();
                 homeactivity.replaceFragmentHome(af);
                 break;
             case R.id.savedideas:
                 SavedIdeasFragment sf = new SavedIdeasFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("from", "setting");
+                sf.setArguments(bundle);
                 homeactivity.replaceFragmentHome(sf);
                 break;
             case R.id.compaigns:
@@ -101,23 +105,60 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
                 homeactivity.replaceFragmentHome(aboutfrg);
                 break;
             case R.id.logout:
-               // editor.clear().commit();
-                editor.putString("loginwith", "noone");
+          /*      editor.putString("loginwith", "noone");
                 editor.commit();
                 Intent intent = new Intent(getActivity(), LoginRegister_Containor.class);
                 startActivity(intent);
-                getActivity().finish();
+                getActivity().finish();*/
+                displayMediaPickerDialog();
                 break;
             case R.id.changelanguage:
-              /*  lang = "es";
-                changeLang(lang);*/
                 ChangeLanguageDialog();
                 break;
         }
     }
 
-    public void changeLang(String lang)
-    {
+
+    private void displayMediaPickerDialog() {
+        final Display display = getActivity().getWindowManager().getDefaultDisplay();
+        int w = display.getWidth();
+        int h = display.getHeight();
+        final Dialog mediaDialog = new Dialog(getActivity());
+        mediaDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Window window = mediaDialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+        mediaDialog.setContentView(R.layout.dialog_logout);
+        LinearLayout approx_lay = (LinearLayout) mediaDialog.findViewById(R.id.approx_lay);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(w - 80, (h / 4) - 20);
+        approx_lay.setLayoutParams(params);
+
+        TextView yes = (TextView) mediaDialog.findViewById(R.id.yes);
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaDialog.dismiss();
+                editor.putString("loginwith", "noone");
+                editor.commit();
+                Intent intent = new Intent(getActivity(), LoginRegister_Containor.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        TextView no = (TextView) mediaDialog.findViewById(R.id.no);
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaDialog.dismiss();
+            }
+        });
+        mediaDialog.show();
+    }
+
+    public void changeLang(String lang) {
         if (lang.equalsIgnoreCase(""))
             return;
         myLocale = new Locale(lang);
@@ -128,14 +169,14 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
         getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
         updateTexts();
     }
-    public void saveLocale(String lang)
-    {
+
+    public void saveLocale(String lang) {
         String langPref = "Language";
         editor.putString(langPref, lang);
         editor.commit();
     }
 
-    private void updateTexts(){
+    private void updateTexts() {
         profile.setText(R.string.profile);
         savedideas.setText(R.string.savedideas);
         compaigns.setText(R.string.campaigns);

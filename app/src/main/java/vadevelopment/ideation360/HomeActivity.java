@@ -1,5 +1,6 @@
 package vadevelopment.ideation360;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,6 +25,7 @@ import vadevelopment.ideation360.Skeleton.People_Skeleton;
 import vadevelopment.ideation360.fragments.AddIdeaFragment;
 import vadevelopment.ideation360.fragments.HomeFragment;
 import vadevelopment.ideation360.fragments.MyProfileFragment;
+import vadevelopment.ideation360.fragments.SavedIdeasFragment;
 import vadevelopment.ideation360.fragments.SearchFragment;
 import vadevelopment.ideation360.fragments.SettingFragment;
 
@@ -33,7 +35,7 @@ import vadevelopment.ideation360.fragments.SettingFragment;
 
 public class HomeActivity extends CameraActivity implements View.OnClickListener {
 
-    public TextView hometoptext, counttext,counttext_top;
+    public TextView hometoptext, counttext, counttext_top;
     public LinearLayout radiogroup;
     public RelativeLayout rl_search, rl_addidea, rl_profile;
     public ImageView homeicon, settingicon, searchimg, addideaimg, myprofileimg;
@@ -97,6 +99,10 @@ public class HomeActivity extends CameraActivity implements View.OnClickListener
         getSupportFragmentManager().beginTransaction().replace(R.id.homefragment, fm).addToBackStack(null).commit();
     }
 
+    public void replaceFragmentHomeWithoutback(Fragment fm) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.homefragment, fm).commit();
+    }
+
     public void replaceChilFragmentHome(Fragment fm, FragmentManager fmm) {
         fmm.beginTransaction().replace(R.id.homefragment, fm).addToBackStack(null).commit();
     }
@@ -147,6 +153,22 @@ public class HomeActivity extends CameraActivity implements View.OnClickListener
                 MyProfileFragment myprofile_img = new MyProfileFragment();
                 replaceFragmentHome(myprofile_img);
                 break;
+
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (SavedIdeasFragment.onsavedidea == true) {
+           /* FragmentManager fm = getSupportFragmentManager();
+            for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                fm.popBackStack();
+            }*/
+            //replaceFragmentHomeWithoutback(new HomeFragment());
+            finish();
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
 
         }
     }

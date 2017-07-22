@@ -12,6 +12,7 @@
     <dimen name="margintop">20dp</dimen>
     <dimen name="smalltext">12dp</dimen>
     <dimen name="mediumtext">15dp</dimen>
+    <dimen name="profileidealeft">-15dp</dimen>
     <dimen name="margintop_loginbtn">50dp</dimen>
     <dimen name="margintop_signupbtn">36dp</dimen>
     <dimen name="paddingitemdrawersmall">6dp</dimen>
@@ -28,6 +29,6 @@
     <dimen name="homeimage">60dp</dimen>
     <dimen name="accountimage">112dp</dimen>
 
-    <dimen name="marginleftcount">40dp</dimen>
+    <dimen name="marginleftcount">52dp</dimen>
     <dimen name="loginbottom_margintop">116dp</dimen>
 </resources>

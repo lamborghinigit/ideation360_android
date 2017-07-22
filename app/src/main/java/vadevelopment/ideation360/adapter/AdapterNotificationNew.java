@@ -102,7 +102,7 @@ public class AdapterNotificationNew extends RecyclerView.Adapter<AdapterNotifica
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             discription = (TextView) itemLayoutView.findViewById(R.id.discription);
-            date = (TextView) itemLayoutView.findViewById(R.id.comment);
+            date = (TextView) itemLayoutView.findViewById(R.id.date);
             ll_outer = (LinearLayout) itemLayoutView.findViewById(R.id.ll_outer);
         }
     }

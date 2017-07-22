@@ -132,4 +132,11 @@
     <string name="cmntadded">Comment Added</string>
     <string name="listenrecording">Listen recording</string>
     <string name="choosetore">Choose to re-record</string>
+    <string name="noaccount_found">No account found</string>
+    <string name="allfieldrequire">All fields are required</string>
+    <string name="pwdshouldbe5">Password should contain at least 5 character</string>
+    <string name="wantlogout">Want to logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ratings">Ratings</string>Calificaciones
 </resources>

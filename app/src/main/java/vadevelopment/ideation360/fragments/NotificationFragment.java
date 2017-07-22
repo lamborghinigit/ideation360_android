@@ -69,6 +69,7 @@ public class NotificationFragment extends Fragment {
         homeactivity.homeicon.setImageResource(R.drawable.backarrow);
         homeactivity.settingicon.setVisibility(View.INVISIBLE);
         homeactivity.radiogroup.setVisibility(View.GONE);
+        homeactivity.counttext_top.setVisibility(View.INVISIBLE);
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
         notinew_arraylist = new ArrayList<>();
@@ -151,7 +152,7 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-              //  HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
+                //  HandyObjects.showAlert(getActivity(), "Error with " + error.networkResponse.statusCode + " status code");
                 HandyObjects.stopProgressDialog();
             }
         }) {

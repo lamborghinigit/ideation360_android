@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +72,7 @@ public class CampaignsFragment extends Fragment {
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
         arraylist = new ArrayList<>();
-        adapter = new AdapterCampaign(getContext(), arraylist,getFragmentManager());
+        adapter = new AdapterCampaign(getContext(), arraylist, getFragmentManager());
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -112,6 +113,7 @@ public class CampaignsFragment extends Fragment {
                             camp_ske.setDaysleft(jobj.getString("NrOfDaysLeft"));
                             arraylist.add(camp_ske);
                         }
+                        Collections.reverse(arraylist);
                         recyclerView.setAdapter(adapter);
                     } catch (Exception e) {
                     }
